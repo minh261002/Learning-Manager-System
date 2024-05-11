@@ -24,4 +24,9 @@ class InstructorController extends Controller
         $provinces = $this->province->getAll();
         return view('instructor.pages.profile', compact('provinces'));
     }
+
+    public function updateProfile(Request $request)
+    {
+
+    }
 }

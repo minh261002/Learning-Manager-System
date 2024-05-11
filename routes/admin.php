@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/dashboard', function () {
-    echo 'Admin Page';
-});
+
+Route::get('dashboard', [AdminController::class, 'index'])->name('dashboard');

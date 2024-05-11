@@ -23,4 +23,6 @@ class UserController extends Controller
         $provinces = $this->province->getAll();
         return view('user.pages.profile', compact('provinces'));
     }
+
+
 }

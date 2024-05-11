@@ -8,7 +8,8 @@
             <div class="card-body shadow-sm">
                 <div class="setting-body">
                     <h3 class="fs-17 font-weight-semi-bold pb-4">Thông Tin Cá Nhân</h3>
-                    <form method="post" action="" class="row pt-40px MultiFile-intercepted" enctype="multipart/form-data">
+                    <form method="post" action="{{ route('instructor.profile.update') }}"
+                        class="row pt-40px MultiFile-intercepted" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="col-12  mb-4 media media-card align-items-center">
@@ -112,6 +113,13 @@
                             </div>
                         </div><!-- end input-box -->
 
+                        <div class="input-box col-12 mb-4">
+                            <label for="bio">TIểu Sử</label>
+                            <textarea name="bio" id="bio" class="form-control form--control" rows="3">{{ Auth::user()?->bio }}</textarea>
+                            @error('bio')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
 
                         <div class="input-box col-lg-12 py-2">
                             <button class="btn theme-btn">Lưu Thay Đổi</button>
@@ -196,6 +204,12 @@
                 }
             });
         });
+
+        ClassicEditor
+            .create(document.querySelector('#bio'))
+            .catch(error => {
+                console.error(error);
+            });
     </script>
 
     <script src="{{ asset('js/location.js') }}"></script>
