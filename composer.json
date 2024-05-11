@@ -2,12 +2,22 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "keywords": [
+        "laravel",
+        "framework"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "cviebrock/eloquent-sluggable": "^11.0",
+        "intervention/image-laravel": "^1.2",
+        "james-heinrich/getid3": "^1.9",
         "laravel/framework": "^11.0",
-        "laravel/tinker": "^2.9"
+        "laravel/socialite": "^5.14",
+        "laravel/tinker": "^2.9",
+        "league/flysystem-aws-s3-v3": "^3.27",
+        "owen-oj/laravel-getid3": "*",
+        "php-flasher/flasher-notyf-laravel": "^2.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -23,7 +33,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/Helpers/GlobalHepers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

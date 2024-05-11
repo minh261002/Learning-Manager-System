@@ -15,7 +15,7 @@
                 <div class="col-lg-6 mb-4 mx-auto">
                     <h3 class="card-title text-center fs-36 lh-35 pb-4">Đăng Nhập</h3>
                     <div class="section-block"></div>
-                    <form method="post" class="pt-4" method="POST">
+                    <form method="post" class="pt-4" method="POST" {{ route('login.post') }}>
                         @csrf
                         <div class="input-box">
                             <label class="label-text">Email</label>

@@ -15,7 +15,7 @@
                 <div class="col-lg-6 mb-4 mx-auto">
                     <h3 class="card-title text-center fs-24 lh-35 pb-4">Đăng Ký</h3>
                     <div class="section-block"></div>
-                    <form method="post" action="" class="pt-4">
+                    <form method="post" action="{{ route('register.post') }}" class="pt-4">
                         @csrf
                         <div class="input-box">
                             <label class="label-text">Họ Và Tên</label>
@@ -108,6 +108,21 @@
                             </div>
                         </div><!-- end input-box -->
 
+                        <div class="input-box">
+                            <label class="label-text">Mục Đích</label>
+                            <div class="form-group">
+                                <select class="form-control form--control pr-3" name="role">
+                                    <option value="1">Tôi Muốn Tham Gia Khoá Học</option>
+                                    <option value="2">Tôi Muốn Tham Gia Giảng Dạy</option>
+                                </select>
+                                <span class="la la-user input-icon"></span>
+                            </div>
+                            @error('name')
+                                <span class="text-danger my-2">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
                         <div class="btn-box">
                             <div class="d-flex align-items-center justify-content-end pb-4">
 

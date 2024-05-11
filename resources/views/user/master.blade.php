@@ -34,12 +34,12 @@
 <body>
 
     <!--====================================== START HEADER AREA ======================================-->
-    @include('instructor.components.header')
+    @include('user.components.header')
     <!--====================================== END HEADER AREA ======================================-->
 
     <!-- ================================ START DASHBOARD AREA ================================= -->
     <section class="dashboard-area">
-        @include('instructor.components.sidebar')
+        @include('user.components.sidebar')
 
         @yield('content')
     </section>
