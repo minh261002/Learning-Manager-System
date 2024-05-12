@@ -11,7 +11,6 @@ class District extends Model
 
     protected $guarded = [];
 
-
     public function province()
     {
         return $this->belongsTo(Province::class, 'province_code', 'code');
@@ -20,5 +19,10 @@ class District extends Model
     public function ward()
     {
         return $this->hasMany(Ward::class, 'district_code', 'code');
+    }
+
+    public function getByProvince($provinceCode)
+    {
+        return District::where('province_code', $provinceCode)->get();
     }
 }

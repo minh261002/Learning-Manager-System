@@ -115,7 +115,7 @@ class CategoryController extends Controller
     {
         try {
             $category = $this->category->findOrFail($id);
-
+            $this->deleteFile($category->image);
             $category->delete();
 
             Notify::success('Xóa danh mục thành công');

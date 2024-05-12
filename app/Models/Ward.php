@@ -17,4 +17,9 @@ class Ward extends Model
         return $this->belongsTo(District::class, 'district_code', 'code');
     }
 
+    public function getByDistrict($districtCode)
+    {
+        return Ward::where('district_code', $districtCode)->get();
+    }
+
 }
