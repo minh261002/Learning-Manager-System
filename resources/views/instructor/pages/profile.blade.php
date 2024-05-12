@@ -77,11 +77,12 @@
 
                         <div class="input-box col-lg-4 mb-4">
                             <label class="label-text">Tỉnh / Thành Phố</label>
-                            <select class="form-control form--control" name="province" style="padding-left: 12px !important"
-                                id="province">
+                            <select class="form-control form--control select2" name="province"
+                                style="padding-left: 12px !important" id="province">
                                 <option value="">Chọn Tỉnh / Thành Phố</option>
                                 @foreach ($provinces as $province)
-                                    <option value="{{ $province->code }}">
+                                    <option value="{{ $province->code }}"
+                                        {{ Auth::user()?->province_id == $province->code ? 'selected' : '' }}>
                                         {{ $province->name }}</option>
                                 @endforeach
                             </select>
@@ -89,18 +90,34 @@
 
                         <div class="input-box col-lg-4 mb-4">
                             <label class="label-text">Quận / Huyện</label>
-                            <select class="form-control form--control" name="district" id="district"
+                            <select class="form-control form--control select2" name="district" id="district"
                                 style="padding-left: 12px !important">
                                 <option value="">Chọn Quận / Huyện</option>
+
+                                @if ($districts)
+                                    @foreach ($districts as $district)
+                                        <option value="{{ $district->code }}"
+                                            {{ Auth::user()?->district_id == $district->code ? 'selected' : '' }}>
+                                            {{ $district->name }}</option>
+                                    @endforeach
+                                @endif
                             </select>
                         </div><!-- end input-box -->
 
 
                         <div class="input-box col-lg-4 mb-4">
                             <label class="label-text">Phường / Xã</label>
-                            <select class="form-control form--control" name="ward" style="padding-left: 12px !important"
-                                id="ward">
+                            <select class="form-control form--control select2" name="ward"
+                                style="padding-left: 12px !important" id="ward">
                                 <option value="">Chọn Phường / Xã</option>
+
+                                @if ($wards)
+                                    @foreach ($wards as $ward)
+                                        <option value="{{ $ward->code }}"
+                                            {{ Auth::user()?->ward_id == $ward->code ? 'selected' : '' }}>
+                                            {{ $ward->name }}</option>
+                                    @endforeach
+                                @endif
                             </select>
                         </div><!-- end input-box -->
 
@@ -134,24 +151,22 @@
             <div class="card-body shadow-sm">
                 <div class="setting-body">
                     <h3 class="fs-17 font-weight-semi-bold pb-4">Cập Nhật Mật Khẩu</h3>
-                    <form method="post" class="row pt-40px MultiFile-intercepted" action="">
+                    <form method="post" action="{{ route('instructor.change.password') }}"
+                        class="row pt-40px MultiFile-intercepted" action="">
                         @csrf
                         @method('PUT')
 
-                        @if (Auth::user()->password !== null)
-                            <div class="input-box col-12 col-md-6">
-                                <label class="label-text">Mật Khẩu Hiện Tại</label>
-                                <div class="form-group">
-                                    <input class="form-control form--control" type="password" name="current_password">
-                                    <span class="la la-lock input-icon"></span>
-                                </div>
-                                @error('current_password')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                        <div class="input-box col-12 col-md-6">
+                            <label class="label-text">Mật Khẩu Hiện Tại</label>
+                            <div class="form-group">
+                                <input class="form-control form--control" type="password" name="current_password">
+                                <span class="la la-lock input-icon"></span>
                             </div>
-                            <div class="col-12 col-md-6"></div>
-                        @endif
-
+                            @error('current_password')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="col-12 col-md-6"></div>
 
                         <div class="input-box col-12 col-md-6">
                             <label class="label-text">Mật Khẩu Mới</label>
@@ -210,6 +225,8 @@
             .catch(error => {
                 console.error(error);
             });
+
+        $('.select2').select2();
     </script>
 
     <script src="{{ asset('js/location.js') }}"></script>

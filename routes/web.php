@@ -28,6 +28,8 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
     Route::get('/dashboard', [UserController::class, 'index'])->name('dashboard');
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+    Route::put('/profile', [UserController::class, 'updateProfile'])->name('profile.update');
+    Route::put('/change-password', [UserController::class, 'changePassword'])->name('change.password');
 });
 
 //location ajax
