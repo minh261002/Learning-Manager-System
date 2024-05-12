@@ -16,10 +16,20 @@
     <link rel="stylesheet" href="{{ asset('admin/assets/modules/weather-icon/css/weather-icons.min.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/assets/modules/weather-icon/css/weather-icons-wind.min.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/assets/modules/summernote/summernote-bs4.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/assets/modules/select2/dist/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/assets/modules/jquery-selectric/selectric.css') }}">
 
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('admin/assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/assets/css/components.css') }}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!--Data Tables -->
+    <link rel="stylesheet" href="{{ asset('admin/assets/modules/datatables/datatables.min.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('admin/assets/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css') }}">
+
     <!-- Start GA -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
     <script>
@@ -76,12 +86,70 @@
     <script src="{{ asset('admin/assets/modules/summernote/summernote-bs4.js') }}"></script>
     <script src="{{ asset('admin/assets/modules/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
 
+    <!--select2-->
+    <script src="{{ asset('admin/assets/modules/select2/dist/js/select2.full.min.js') }}"></script>
+
     <!-- Page Specific JS File -->
     <script src="{{ asset('admin/assets/js/page/index-0.js') }}"></script>
 
     <!-- Template JS File -->
     <script src="{{ asset('admin/assets/js/scripts.js') }}"></script>
     <script src="{{ asset('admin/assets/js/custom.js') }}"></script>
+
+    <script src="{{ asset('admin/assets/modules/datatables/datatables.min.js') }}"></script>
+    <script src="{{ asset('admin/assets/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js') }}">
+    </script>
+    <script src="{{ asset('admin/assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js') }}"></script>
+    <script src="{{ asset('admin/assets/modules/jquery-ui/jquery-ui.min.js') }}"></script>
+
+    <script src="{{ asset('admin/assets/js/page/modules-datatables.js') }}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="{{ asset('admin/assets/modules/upload-preview/assets/js/jquery.uploadPreview.min.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#table').DataTable({
+                'language': {
+                    'url': '{{ asset('lang/vi-vn.json') }}'
+                },
+            });
+        })
+
+        $('body').on('click', '.delete-item', function(e) {
+            e.preventDefault();
+            let url = $(this).attr('href');
+            Swal.fire({
+                title: 'Bạn có chắc chắn muốn xóa?',
+                text: "Dữ liệu bị xóa sẽ không thể khôi phục lại được!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Đồng ý',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: url,
+                        method: 'DELETE',
+                        data: {
+                            '_token': '{{ csrf_token() }}'
+                        },
+                        success: function(res) {
+                            if (res.status == 'success') {
+                                location.reload();
+                            } else {
+                                location.reload();
+                                console.log(res.error)
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 
     @stack('scripts')
 </body>

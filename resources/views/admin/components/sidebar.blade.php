@@ -18,7 +18,16 @@
 
             <li class="menu-header">Starter</li>
 
+            <li
+                class="{{ adminSetSidebarActive(['admin.categories.index', 'admin.categories.create', 'admin.categories.edit']) }}">
+                <a class="nav-link " href="{{ route('admin.categories.index') }}"><i
+                        class="fa-solid fa-layer-group"></i></i>
+                    <span>Quản Lý Danh Mục</span>
+                </a>
+            </li>
 
+            <li><a class="nav-link" href="{{ route('admin.categories.index') }}"><i class="fa-solid fa-user-group"></i>
+                    <span>Quản Lý Người Dùng</span></a></li>
 
 
             {{-- <li><a class="nav-link" href="blank.html"><i class="far fa-square"></i> <span>Blank
