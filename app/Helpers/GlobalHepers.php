@@ -58,3 +58,10 @@ function formatTime($time)
 
     return sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
 }
+
+function formatDate($date)
+{
+    $date = new DateTime($date);
+    $date->setTimezone(new DateTimeZone('Asia/Ho_Chi_Minh'));
+    return $date->format('H:i:s \N\g\à\y d/m/Y');
+}

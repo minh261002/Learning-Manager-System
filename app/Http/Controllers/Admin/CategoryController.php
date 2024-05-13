@@ -11,12 +11,14 @@ use App\Models\Category;
 class CategoryController extends Controller
 {
     use FileUploadTrait;
+
     public $category;
 
     function __construct()
     {
         $this->category = new Category();
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -47,6 +49,7 @@ class CategoryController extends Controller
         if ($imagePath) {
             $category->image = $imagePath;
         }
+
         $category->slug = createSlug(Category::class, $request->name);
 
         $category->name = $request->name;
@@ -115,7 +118,11 @@ class CategoryController extends Controller
     {
         try {
             $category = $this->category->findOrFail($id);
-            $this->deleteFile($category->image);
+
+            if($category->image){
+                $this->deleteFile($category->image);
+            }
+
             $category->delete();
 
             Notify::success('Xóa danh mục thành công');

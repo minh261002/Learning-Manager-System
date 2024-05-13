@@ -32,6 +32,9 @@
 
     <!-- Start GA -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
+
+    <link rel="stylesheet" href="{{ asset('admin/assets/modules/switchery/switchery.min.css') }}">
+
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -107,6 +110,8 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="{{ asset('admin/assets/modules/upload-preview/assets/js/jquery.uploadPreview.min.js') }}"></script>
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
 
     <script>
         $(document).ready(function() {
