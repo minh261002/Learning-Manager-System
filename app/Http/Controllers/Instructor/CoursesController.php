@@ -8,17 +8,24 @@ use App\Services\Notify;
 use App\Traits\FileUploadTrait;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\CourseSection;
+use App\Models\CourseLecture;
 
 class CoursesController extends Controller
 {
     use FileUploadTrait;
     protected Category $category;
     protected Course $course;
+    protected CourseSection $section;
+    protected CourseLecture $lecture;
 
-    public function __construct(Category $category, Course $course)
+
+    public function __construct(Category $category, Course $course, CourseSection $section, CourseLecture $lecture)
     {
         $this->category = $category;
         $this->course = $course;
+        $this->section = $section;
+        $this->lecture = $lecture;
     }
 
     /**
@@ -81,7 +88,9 @@ class CoursesController extends Controller
     public function show(string $slug)
     {
         $course = $this->course->getCourseBySlug($slug);
-        return view('instructor.pages.courses.show', compact('course'));
+        $sections = $this->section->getAllSections();
+        $lectures = $this->lecture->getAllLectures();
+        return view('instructor.pages.courses.show', compact('course', 'sections', 'lectures'));
     }
 
     /**
@@ -153,6 +162,43 @@ class CoursesController extends Controller
         } catch (\Exception $e) {
             Notify::error('Xóa khóa học thất bại');
             return response()->json(['status' => 'success']);
+        }
+    }
+
+    public function addCourseSection(Request $request)
+    {
+        $section = new CourseSection();
+
+        $section->course_id = $request->course_id;
+        $section->title = $request->name;
+        $section->save();
+
+        Notify::success('Thêm mục mới thành công');
+        return redirect()->back();
+    }
+
+    public function updateCourseSection(Request $request, string $id)
+    {
+        $section = $this->section->findOrFail($id);
+
+        $section->title = $request->name;
+        $section->save();
+
+        Notify::success('Cập nhật mục thành công');
+        return redirect()->back();
+    }
+
+    public function deleteCourseSection(Request $request, string $id)
+    {
+        try {
+            $section = $this->section->findOrFail($id);
+            $section->delete();
+
+            Notify::success('Xóa mục thành công');
+            return response()->json(['status' => 'success']);
+        } catch (\Exception $e) {
+            Notify::error('Xóa mục thất bại');
+            return response()->json(['status' => 'error']);
         }
     }
 }

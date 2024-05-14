@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->string('video');
             $table->integer('duration')->default(0);
             $table->string('attachment')->nullable();
+            $table->integer('preview')->default(0);
             $table->timestamps();
         });
     }

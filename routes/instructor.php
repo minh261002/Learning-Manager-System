@@ -11,4 +11,8 @@ Route::put('profile', [InstructorController::class, 'updateProfile'])->name('pro
 
 Route::put('change-password', [InstructorController::class, 'changePassword'])->name('change.password');
 
+//courses
 Route::resource('courses', CoursesController::class);
+Route::post('course/section', [CoursesController::class, 'addCourseSection'])->name('course.section');
+Route::put('course/section/{section}', [CoursesController::class, 'updateCourseSection'])->name('course.section.update');
+Route::delete('course/section/{section}', [CoursesController::class, 'deleteCourseSection'])->name('course.section.delete');

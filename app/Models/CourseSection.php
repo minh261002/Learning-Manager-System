@@ -8,4 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class CourseSection extends Model
 {
     use HasFactory;
+
+    protected $guarded = [];
+
+    public function getAllSections()
+    {
+        return $this->all();
+    }
+
+    public function lectures()
+    {
+        return $this->hasMany(CourseLecture::class);
+    }
 }
