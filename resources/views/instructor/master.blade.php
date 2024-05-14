@@ -32,6 +32,10 @@
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
+    <!--Data Tables -->
+    <link rel="stylesheet" href="{{ asset('admin/assets/modules/datatables/datatables.min.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('admin/assets/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css') }}">
 </head>
 
 <body>
@@ -74,7 +78,59 @@
 
     <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script src="{{ asset('admin/assets/modules/datatables/datatables.min.js') }}"></script>
+    <script src="{{ asset('admin/assets/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js') }}">
+    </script>
+    <script src="{{ asset('admin/assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js') }}"></script>
+    <script src="{{ asset('admin/assets/modules/jquery-ui/jquery-ui.min.js') }}"></script>
+
+    <script src="{{ asset('admin/assets/js/page/modules-datatables.js') }}"></script>
+
+    <script>
+        //datatable
+        $('#table').DataTable({
+            'language': {
+                'url': '{{ asset('lang/vi-vn.json') }}'
+            },
+        });
+
+        $('body').on('click', '.delete-item', function(e) {
+            e.preventDefault();
+            let url = $(this).attr('href');
+            Swal.fire({
+                title: 'Bạn có chắc chắn muốn xóa?',
+                text: "Dữ liệu bị xóa sẽ không thể khôi phục lại được!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Đồng ý',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: url,
+                        method: 'DELETE',
+                        data: {
+                            '_token': '{{ csrf_token() }}'
+                        },
+                        success: function(res) {
+                            if (res.status == 'success') {
+                                location.reload();
+                            } else {
+                                location.reload();
+                                console.log(res.error)
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 
     @stack('scripts')
 </body>

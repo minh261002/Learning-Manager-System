@@ -3757,6 +3757,10 @@ div.datedropper .picker .pick-lg-b li {
     border-radius: 5px;
 }
 
+.pl-15px {
+    padding-left: 15px !important;
+}
+
 .form--control:focus {
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
