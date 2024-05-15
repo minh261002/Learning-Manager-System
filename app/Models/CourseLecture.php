@@ -15,4 +15,9 @@ class CourseLecture extends Model
     {
         return $this->all();
     }
+
+    public function section()
+    {
+        return $this->belongsTo(CourseSection::class);
+    }
 }

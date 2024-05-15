@@ -31,7 +31,8 @@
                         </div>
 
                         <div class="col-12 col-md-6 mb-4">
-                            <video id="previewVideo" class="d-block mb-4" width="100%" controls></video>
+                            <video id="previewVideo" class="d-block mb-4" width="100%" height="320px" controls></video>
+
                             <div class="media-body file-upload-wrap file-upload-wrap-2">
                                 <div class="MultiFile-wrap" id="MultiFile2">
                                     <input type="file" name="video"
@@ -40,13 +41,13 @@
                                     <div class="MultiFile-list" id="MultiFile2_list"></div>
                                 </div>
                                 <span class="file-upload-text"><i class="la la-video mr-2"></i>Chọn Video</span>
-                            </div><!-- file-upload-wrap -->
+                            </div>
                         </div>
 
                         <div class="col-12 col-md-6 mb-4">
                             <label for="name">Tên Khoá Học</label>
-                            <input type="text" class="form-control form--control pl-15px" id="name" name="name"
-                                value="{{ old('name') }}">
+                            <input type="text" class="form-control form--control pl-15px    " id="name"
+                                name="name" value="{{ old('name') }}">
 
                             @error('name')
                                 <span class="text-danger">{{ $message }}</span>
@@ -65,7 +66,7 @@
 
                         <div class="col-12 mb-4">
                             <label for="title">Tiêu Đề</label>
-                            <textarea name="title" id="title" class="form-control">{{ old('title') }}</textarea>
+                            <textarea name="title" id="title" class="form-control form--control pl-15px">{{ old('title') }}</textarea>
                             @error('title')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror

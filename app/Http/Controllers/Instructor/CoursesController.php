@@ -33,7 +33,7 @@ class CoursesController extends Controller
      */
     public function index()
     {
-        $courses = $this->course->getAllCourses();
+        $courses = $this->course->getCourseByInstructor(auth()->id());
         return view('instructor.pages.courses.index', compact('courses'));
     }
 
@@ -165,6 +165,21 @@ class CoursesController extends Controller
         }
     }
 
+    public function changeCourseStatus(Request $request)
+    {
+        try {
+            $course = $this->course->findOrFail($request->course_id);
+            $course->status = $request->status;
+            $course->save();
+
+            Notify::success('Thay đổi trạng thái khóa học thành công');
+            return response()->json(['status' => 'success']);
+        } catch (\Exception $e) {
+            Notify::error('Đã có lỗi xảy ra');
+            return response()->json(['status' => 'error']);
+        }
+    }
+
     public function addCourseSection(Request $request)
     {
         $section = new CourseSection();
@@ -200,5 +215,31 @@ class CoursesController extends Controller
             Notify::error('Xóa mục thất bại');
             return response()->json(['status' => 'error']);
         }
+    }
+
+    public function addCourseLecture(Request $request)
+    {
+
+        $lecture = new CourseLecture();
+
+        $videoResult = $this->uploadVideo($request, 'video', null, 'lectures');
+        $videoUrl = is_array($videoResult) && isset($videoResult['url']) ? $videoResult['url'] : null;
+        $videoDuration = is_array($videoResult) && isset($videoResult['duration']) ? $videoResult['duration'] : null;
+        $fileAttachment = $this->uploadFileAttachment($request, 'attachment', null, 'lectures');
+
+        $lecture->course_section_id = $request->course_section_id;
+        $lecture->title = $request->name;
+        $lecture->video = $videoUrl;
+        $lecture->duration = $videoDuration;
+
+        if ($fileAttachment) {
+            $lecture->attachment = $fileAttachment;
+        }
+
+        $lecture->save();
+
+        Notify::success('Thêm bài giảng mới thành công');
+        return redirect()->back();
+
     }
 }

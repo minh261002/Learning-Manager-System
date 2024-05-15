@@ -47,7 +47,7 @@
 
                         <div class="col-12 col-md-6 mb-4">
                             <label for="name">Tên Khoá Học</label>
-                            <input type="text" class="form-control form--control" id="name" name="name"
+                            <input type="text" class="form-control form--control pl-15px" id="name" name="name"
                                 value="{{ $course->name }}">
 
                             @error('name')
@@ -67,7 +67,7 @@
 
                         <div class="col-12 mb-4">
                             <label for="title">Tiêu Đề</label>
-                            <textarea name="title" id="title" class="form-control">{{ $course->title }}</textarea>
+                            <textarea name="title" id="title" class="form-control form--control pl-15px">{{ $course->title }}</textarea>
                             @error('title')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -84,7 +84,7 @@
 
                         <div class="col-12 col-md-6 mb-4">
                             <label for="price">Giá</label>
-                            <input type="text" class="form-control form--control" id="price" name="price"
+                            <input type="text" class="form-control form--control pl-15px" id="price" name="price"
                                 value="{{ $course->price }}">
                             @error('price')
                                 <span class="text-danger">{{ $message }}</span>
@@ -93,7 +93,7 @@
 
                         <div class="col-12 col-md-6 mb-4">
                             <label for="discount">Giảm Giá (%)</label>
-                            <input type="text" class="form-control form--control" id="discount" name="discount"
+                            <input type="text" class="form-control form--control pl-15px" id="discount" name="discount"
                                 value="{{ $course->discount }}">
                             @error('discount')
                                 <span class="text-danger">{{ $message }}</span>

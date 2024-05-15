@@ -42,7 +42,7 @@ trait FileUploadTrait
             $url = Storage::disk('s3')->putFileAs($path, $video, $videoName, 'public');
             $videoUrl = Storage::disk('s3')->url($url);
 
-            ini_set('max_execution_time', 500);
+            ini_set('max_execution_time', 1000000);
             $localPath = tempnam(sys_get_temp_dir(), 'getID3');
             file_put_contents($localPath, file_get_contents($videoUrl));
 
@@ -55,6 +55,28 @@ trait FileUploadTrait
                     'url' => $videoUrl,
                     'duration' => $videoDuration
                 ];
+        }
+
+        return NULL;
+    }
+
+    function uploadFileAttachment(Request $request, $inputName, $oldPath = NULL, $path)
+    {
+        if ($request->hasFile($inputName)) {
+
+            $file = $request->{$inputName};
+
+            $ext = $file->getClientOriginalExtension();
+            $fileName = 'file_' . Str::random(10) . '.' . $ext;
+
+            if ($oldPath) {
+                $this->deleteFile($oldPath);
+            }
+
+            $url = Storage::disk('s3')->putFileAs($path, $file, $fileName, 'public');
+            $fileUrl = Storage::disk('s3')->url($url);
+
+            return $fileUrl;
         }
 
         return NULL;

@@ -86,6 +86,7 @@ class AuthController extends Controller
         auth()->login($user);
 
         if ($user->role == 'instructor') {
+            Notify::success('Đăng Ký Thành Công');
             return redirect()->route('instructor.dashboard');
         }
 

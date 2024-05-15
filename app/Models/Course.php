@@ -40,4 +40,9 @@ class Course extends Model
     {
         return Course::where('slug', $slug)->first();
     }
+
+    public function getCourseByInstructor($instructorId)
+    {
+        return Course::where('instructor_id', $instructorId)->get();
+    }
 }

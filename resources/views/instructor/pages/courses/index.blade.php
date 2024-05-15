@@ -20,7 +20,6 @@
                                     <th>Ảnh</th>
                                     <th>Tên Khoá Học</th>
                                     <th>Giá</th>
-                                    <th>Giảm Giá</th>
                                     <th>Ngày Tạo</th>
                                     <th>Trạng Thái</th>
                                     <th>Thao Tác</th>
@@ -35,10 +34,30 @@
                                                 class="img-fluid" style="width: 100px; height: 50px; object-fit: cover">
                                         </td>
                                         <td>{{ $course->name }}</td>
-                                        <td>{{ number_format($course->price, 0, ',', '.') }} VNĐ</td>
-                                        <td>{{ $course->discount }} %</td>
+                                        <td>
+                                            @if ($course->price == 0)
+                                                Miễn Phí
+                                            @elseif ($course->discount > 0)
+                                                <span class="text-danger font-weight-bold">
+                                                    {{ number_format($course->price - ($course->price * $course->discount) / 100, 0, ',', '.') }}đ
+                                                </span>
+                                                <span class="text-muted d-block">
+                                                    <del>{{ number_format($course->price, 0, ',', '.') }}đ</del>
+                                                </span>
+                                            @else
+                                                <span class="text-danger font-weight-bold">
+                                                    {{ number_format($course->price, 0, ',', '.') }}đ
+                                                </span>
+                                            @endif
+                                        </td>
+
                                         <td>{{ $course->created_at->format('d/m/Y') }}</td>
                                         <td>
+                                            <label class="switch">
+                                                <input type="checkbox" class="change-status" data-id="{{ $course->id }}"
+                                                    {{ $course->status == 1 ? 'checked' : '' }}>
+                                                <span class="slider round"></span>
+                                            </label>
                                         </td>
                                         <td>
                                             <a href="{{ route('instructor.courses.show', $course->slug) }}"
@@ -64,3 +83,50 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('.change-status').change(function() {
+                var status = $(this).prop('checked') == true ? 1 : 0;
+                var course_id = $(this).data('id');
+
+                Swal.fire({
+                    title: 'Thông báo!',
+                    text: 'Xác nhận thay đổi trạng thái?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Đồng Ý',
+                    cancelButtonText: 'Hủy',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: 'GET',
+                            dataType: 'json',
+                            url: '{{ route('instructor.course.change.status') }}',
+                            data: {
+                                'status': status,
+                                'course_id': course_id,
+                            },
+                            success: function(data) {
+                                if (data.status == 'success') {
+                                    location.reload();
+                                } else {
+                                    console.log(data)
+                                }
+                            },
+                            error: function(data) {
+                                console.log(data);
+                            }
+                        });
+                    } else {
+                        //reset checkbox
+                        $(this).prop('checked', !status);
+                    }
+                });
+            });
+        });
+    </script>
+@endpush
