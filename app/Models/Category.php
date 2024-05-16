@@ -33,7 +33,8 @@ class Category extends Model
     //     return $query->orderBy($order, $direction)->get();
     // }
 
-    public function getAll(){
+    public function getAll()
+    {
         return Category::all();
     }
 
@@ -44,6 +45,16 @@ class Category extends Model
                 'source' => 'name'
             ]
         ];
+    }
+
+    public function courses()
+    {
+        return $this->hasMany(Course::class);
+    }
+
+    public function getCategoryBySlug($slug)
+    {
+        return Category::where('slug', $slug)->first();
     }
 
 }

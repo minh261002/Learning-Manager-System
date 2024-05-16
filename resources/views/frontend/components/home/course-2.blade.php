@@ -2,12 +2,12 @@
     <div class="course-wrapper">
         <div class="container">
             <div class="section-heading text-center">
-                <h5 class="ribbon ribbon-lg mb-2">Learn on your schedule</h5>
-                <h2 class="section__title">Students are viewing</h2>
+                <h5 class="ribbon ribbon-lg mb-2">Chọn Khoá Học</h5>
+                <h2 class="section__title">Khoá Học Được Đánh Giá Cao</h2>
                 <span class="section-divider"></span>
             </div><!-- end section-heading -->
             <div class="course-carousel owl-action-styled owl--action-styled mt-30px">
-                <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_3">
+                {{-- <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_3">
                     <div class="card-image">
                         <a href="course-details.html" class="d-block">
                             <img class="card-img-top" src="{{ asset('frontend/images/img8.jpg') }}"
@@ -206,7 +206,8 @@
                                 title="Add to Wishlist"><i class="la la-heart-o"></i></div>
                         </div>
                     </div><!-- end card-body -->
-                </div><!-- end card -->
+                </div><!-- end card --> --}}
+                Comming soon
             </div><!-- end tab-content -->
         </div><!-- end container -->
     </div><!-- end course-wrapper -->

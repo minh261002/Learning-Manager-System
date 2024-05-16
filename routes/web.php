@@ -9,8 +9,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [FrontendController::class, 'index'])->name('home');
 Route::get('/courses', [FrontendController::class, 'courses'])->name('courses');
-Route::get('/course/aa', [FrontendController::class, 'course_detail'])->name('course.detail');
+Route::get('/course/{slug}', [FrontendController::class, 'course_detail'])->name('course.detail');
 Route::get('/teachers', [FrontendController::class, 'teachers'])->name('teacher.show');
+Route::get('/cart', [FrontendController::class, 'cart'])->name('cart');
+Route::get('/checkout', [FrontendController::class, 'checkout'])->name('checkout');
 
 //auth routes
 Route::get('/login', [AuthController::class, 'login'])->name('login');

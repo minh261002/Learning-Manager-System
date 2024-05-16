@@ -1,6 +1,6 @@
-{{-- @php
+@php
     $categories = \App\Models\Category::all();
-@endphp --}}
+@endphp
 
 <header class="header-menu-area bg-white border shadow-sm">
     <div class="header-top pr-150px pl-150px border-bottom border-bottom-gray py-1">
@@ -114,19 +114,22 @@
                         <div class="menu-wrapper">
                             <div class="menu-category">
                                 <ul>
-                                    {{-- <li>
-                                        <a href="#">Danh Mục <i class="la la-angle-down fs-12"></i></a>
+                                    <li>
+                                        <a href="{{ route('courses') }}">Danh Mục <i
+                                                class="la la-angle-down fs-12"></i></a>
                                         <ul class="cat-dropdown-menu">
                                             @foreach ($categories as $category)
                                                 @if ($category->parent_id == null)
                                                     <li>
-                                                        <a href="">{{ $category->name }}
+                                                        <a
+                                                            href="{{ route('courses', array_merge(request()->query(), ['category' => $category->slug])) }}">{{ $category->name }}
                                                             <i class="la la-angle-right"></i></a>
                                                         <ul class="sub-menu">
                                                             @foreach ($categories as $subCategory)
                                                                 @if ($subCategory->parent_id == $category->id)
                                                                     <li>
-                                                                        <a href="">{{ $subCategory->name }}</a>
+                                                                        <a
+                                                                            href="{{ route('courses', array_merge(request()->query(), ['category' => $subCategory->slug])) }}">{{ $subCategory->name }}</a>
                                                                     </li>
                                                                 @endif
                                                             @endforeach
@@ -135,7 +138,7 @@
                                                 @endif
                                             @endforeach
                                         </ul>
-                                    </li> --}}
+                                    </li>
                                 </ul>
 
                             </div><!-- end menu-category -->
@@ -154,7 +157,7 @@
                                         <a href="{{ route('home') }}">Trang Chủ</a>
                                     </li>
                                     <li>
-                                        <a href="">Khoá Học</a>
+                                        <a href="{{ route('courses') }}">Khoá Học</a>
                                     </li>
 
                                     <li>
@@ -205,7 +208,7 @@
                                                 </div>
                                             </li>
                                             <li>
-                                                <a href="" class="btn theme-btn w-100">Got to
+                                                <a href="{{ route('cart') }}" class="btn theme-btn w-100">Got to
                                                     cart <i class="la la-arrow-right icon ml-1"></i></a>
                                             </li>
                                         </ul>

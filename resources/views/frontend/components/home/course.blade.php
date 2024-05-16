@@ -1,11 +1,11 @@
 <section class="course-area pb-120px">
     <div class="container">
         <div class="section-heading text-center">
-            <h5 class="ribbon ribbon-lg mb-2">Choose your desired courses</h5>
-            <h2 class="section__title">The world's largest selection of courses</h2>
+            <h5 class="ribbon ribbon-lg mb-2">Chọn Khoá Học</h5>
+            <h2 class="section__title">Khoá Học Nổi Bật</h2>
             <span class="section-divider"></span>
         </div><!-- end section-heading -->
-        <ul class="nav nav-tabs generic-tab justify-content-center pb-4" id="myTab" role="tablist">
+        {{-- <ul class="nav nav-tabs generic-tab justify-content-center pb-4" id="myTab" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" id="business-tab" data-toggle="tab" href="#business" role="tab"
                     aria-controls="business" aria-selected="true">Business</a>
@@ -26,11 +26,23 @@
                 <a class="nav-link" id="marketing-tab" data-toggle="tab" href="#marketing" role="tab"
                     aria-controls="marketing" aria-selected="false">Marketing</a>
             </li>
+        </ul> --}}
+        <ul class="nav nav-tabs generic-tab justify-content-center pb-4" id="myTab" role="tablist">
+
+            @foreach ($categories as $category)
+                <li class="nav-item">
+                    <a class="nav-link {{ $loop->first ? 'active' : '' }}" id="{{ $category->slug }}-tab"
+                        data-toggle="tab" href="#{{ $category->slug }}" role="tab"
+                        aria-controls="{{ $category->slug }}"
+                        aria-selected="{{ $loop->first ? 'true' : 'false' }}">{{ $category->name }}</a>
+                </li>
+            @endforeach
         </ul>
     </div><!-- end container -->
+
     <div class="card-content-wrapper bg-gray pt-50px pb-120px">
         <div class="container">
-            <div class="tab-content" id="myTabContent">
+            {{-- <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="business" role="tabpanel" aria-labelledby="business-tab">
                     <div class="row">
                         <div class="col-lg-4 responsive-column-half">
@@ -1096,11 +1108,12 @@
                         </div><!-- end col-lg-4 -->
                     </div><!-- end row -->
                 </div><!-- end tab-pane -->
-            </div><!-- end tab-content -->
-            <div class="more-btn-box mt-4 text-center">
+            </div> --}}
+            Comming Soon
+            {{-- <div class="more-btn-box mt-4 text-center">
                 <a href="course-grid.html" class="btn theme-btn">Browse all Courses <i
                         class="la la-arrow-right icon ml-1"></i></a>
-            </div><!-- end more-btn-box -->
+            </div><!-- end more-btn-box --> --}}
         </div><!-- end container -->
-    </div><!-- end card-content-wrapper -->
+    </div>
 </section>

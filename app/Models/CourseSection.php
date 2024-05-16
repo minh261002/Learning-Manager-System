@@ -20,4 +20,9 @@ class CourseSection extends Model
     {
         return $this->hasMany(CourseLecture::class);
     }
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
+    }
 }

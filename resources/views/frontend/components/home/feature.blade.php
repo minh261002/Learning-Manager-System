@@ -55,8 +55,13 @@
                             </g>
                         </svg>
                     </div>
-                    <h3 class="info__title">Expert Teachers</h3>
-                    <p class="info__text">Timply dummy text of the printing and typesetting industry. Lorem Ipsum
+                    <h3 class="info__title">
+                        Học Tập Hiệu Quả
+                    </h3>
+                    <p class="info__text">
+                        <!--Viết đoạn văn mô tả -->
+                        Trải nghiệm học tập hiệu quả với nền tảng đa dạng các khóa học, bạn có thể nâng cao kiến thức và
+                        kỹ năng của mình mọi lúc, mọi nơi.
                     </p>
                 </div><!-- end info-box -->
             </div><!-- end col-lg-3 -->
@@ -78,8 +83,13 @@
                                 d="m28.709 72a1 1 0 0 1 -.736-1.677l16.092-17.515a1 1 0 0 1 1.473 1.354l-16.093 17.515a1 1 0 0 1 -.736.323z" />
                         </svg>
                     </div>
-                    <h3 class="info__title">Easy Communication</h3>
-                    <p class="info__text">Timply dummy text of the printing and typesetting industry. Lorem Ipsum
+                    <h3 class="info__title">
+                        Học Tập Mọi Lúc Mọi Nơi
+                    </h3>
+                    <p class="info__text">
+                        Học tập mọi lúc, mọi nơi với nền tảng học trực tuyến, bạn có thể học tập mọi lúc, mọi nơi mà
+                        không
+                        cần phải lo lắng về thời gian và không gian.
                     </p>
                 </div><!-- end info-box -->
             </div><!-- end col-lg-3 -->
@@ -105,8 +115,14 @@
                                 d="m66.406 49.5h-5.687a1 1 0 0 1 -.978-1.211l.736-3.411a3.156 3.156 0 0 1 6.171 0l.736 3.411a1 1 0 0 1 -.978 1.211zm-4.448-2h3.209l-.474-2.2a1.157 1.157 0 0 0 -2.261 0z" />
                         </svg>
                     </div>
-                    <h3 class="info__title">Get Certificates</h3>
-                    <p class="info__text">Timply dummy text of the printing and typesetting industry. Lorem Ipsum
+                    <h3 class="info__title">
+                        Nhận Chứng Chỉ
+                    </h3>
+                    <p class="info__text">
+                        <!--Viết đoạn văn mô tả -->
+                        Sau khi hoàn thành khóa học, bạn sẽ nhận được chứng chỉ từ chúng tôi, giúp bạn có thể chứng minh
+                        được
+                        kiến thức và kỹ năng của mình.
                     </p>
                 </div><!-- end info-box -->
             </div><!-- end col-lg-3 -->

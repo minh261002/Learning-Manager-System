@@ -20,4 +20,9 @@ class CourseLecture extends Model
     {
         return $this->belongsTo(CourseSection::class);
     }
+
+    public function getTotalDuration($sectionId)
+    {
+        return $this->where('section_id', $sectionId)->sum('duration');
+    }
 }

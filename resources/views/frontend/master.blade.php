@@ -76,6 +76,8 @@
     <script src="{{ asset('frontend/js/tooltipster.bundle.min.js') }}"></script>
     <script src="{{ asset('frontend/js/jquery.lazy.min.js') }}"></script>
     <script src="{{ asset('frontend/js/main.js') }}"></script>
+
+    @stack('scripts')
 </body>
 
 </html>

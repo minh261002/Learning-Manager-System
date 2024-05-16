@@ -22,6 +22,11 @@ class Course extends Model
         return $this->belongsTo(User::class, 'instructor_id');
     }
 
+    public function section()
+    {
+        return $this->hasMany(CourseSection::class);
+    }
+
     public function sluggable(): array
     {
         return [
@@ -33,7 +38,12 @@ class Course extends Model
 
     public function getAllCourses()
     {
-        return Course::orderBy('id', 'desc')->get();
+        return Course::orderBy('id', 'desc')->paginate(10);
+    }
+
+    public function getPaginate($perPage)
+    {
+        return Course::orderBy('id', 'desc')->paginate($perPage);
     }
 
     public function getCourseBySlug($slug)
