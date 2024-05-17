@@ -73,6 +73,43 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <script>
+        $('body').on('click', '.delete-item', function(e) {
+            e.preventDefault();
+            let url = $(this).attr('href');
+            Swal.fire({
+                title: 'Bạn có chắc chắn muốn xóa?',
+                text: "Dữ liệu bị xóa sẽ không thể khôi phục lại được!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Đồng ý',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: url,
+                        method: 'DELETE',
+                        data: {
+                            '_token': '{{ csrf_token() }}'
+                        },
+                        success: function(res) {
+                            if (res.status == 'success') {
+                                location.reload();
+                            } else {
+                                location.reload();
+                                console.log(res.error)
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
     @stack('scripts')
 </body>
 

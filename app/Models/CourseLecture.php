@@ -18,7 +18,7 @@ class CourseLecture extends Model
 
     public function section()
     {
-        return $this->belongsTo(CourseSection::class);
+        return $this->belongsTo(CourseSection::class, 'section_id');
     }
 
     public function getTotalDuration($sectionId)

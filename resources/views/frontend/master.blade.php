@@ -77,6 +77,47 @@
     <script src="{{ asset('frontend/js/jquery.lazy.min.js') }}"></script>
     <script src="{{ asset('frontend/js/main.js') }}"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous">
+    </script>
+
+    <script>
+        $('body').on('click', '.delete-item', function(e) {
+            e.preventDefault();
+            let url = $(this).attr('href');
+            Swal.fire({
+                title: 'Bạn có chắc chắn muốn xóa?',
+                text: "Dữ liệu bị xóa sẽ không thể khôi phục lại được!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Đồng ý',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: url,
+                        method: 'DELETE',
+                        data: {
+                            '_token': '{{ csrf_token() }}'
+                        },
+                        success: function(res) {
+                            if (res.status == 'success') {
+                                location.reload();
+                            } else {
+                                location.reload();
+                                console.log(res.error)
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
     @stack('scripts')
 </body>
 

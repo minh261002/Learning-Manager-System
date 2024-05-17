@@ -5,6 +5,7 @@ use App\Http\Controllers\Frontend\AuthController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\LocationController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\User\WishListController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [FrontendController::class, 'index'])->name('home');
@@ -32,6 +33,10 @@ Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
     Route::put('/profile', [UserController::class, 'updateProfile'])->name('profile.update');
     Route::put('/change-password', [UserController::class, 'changePassword'])->name('change.password');
+
+    Route::resource('wishlist', WishListController::class)->only(['index', 'store', 'destroy']);
+
+    Route::get('/wishlist', [WishListController::class, 'index'])->name('whishlist');
 });
 
 //location ajax

@@ -38,97 +38,6 @@
 
                         <div class="card card-item">
                             <div class="card-body">
-                                <h3 class="card-title fs-18 pb-2">Đánh Giá</h3>
-                                <div class="divider"><span></span></div>
-                                <div class="custom-control custom-radio mb-1 fs-15">
-                                    <input type="radio" class="custom-control-input" id="fiveStarRating"
-                                        name="radio-stacked" required>
-                                    <label class="custom-control-label custom--control-label" for="fiveStarRating">
-                                        <span class="rating-wrap d-flex align-items-center">
-                                            <span class="review-stars">
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                            </span>
-                                            <span class="rating-total pl-1"><span class="mr-1 text-black">5.0</span></span>
-                                        </span>
-                                    </label>
-                                </div>
-                                <div class="custom-control custom-radio mb-1 fs-15">
-                                    <input type="radio" class="custom-control-input" id="fourStarRating"
-                                        name="radio-stacked" required>
-                                    <label class="custom-control-label custom--control-label" for="fourStarRating">
-                                        <span class="rating-wrap d-flex align-items-center">
-                                            <span class="review-stars">
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star text-secondary"></span>
-                                            </span>
-                                            <span class="rating-total pl-1"><span class="mr-1 text-black">4.5 &
-                                                    up</span>(10,230)</span>
-                                        </span>
-                                    </label>
-                                </div>
-                                <div class="custom-control custom-radio mb-1 fs-15">
-                                    <input type="radio" class="custom-control-input" id="threeStarRating"
-                                        name="radio-stacked" required>
-                                    <label class="custom-control-label custom--control-label" for="threeStarRating">
-                                        <span class="rating-wrap d-flex align-items-center">
-                                            <span class="review-stars">
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                            </span>
-                                            <span class="rating-total pl-1"><span class="mr-1 text-black">3.0 &
-                                                    up</span>(7,230)</span>
-                                        </span>
-                                    </label>
-                                </div>
-                                <div class="custom-control custom-radio mb-1 fs-15">
-                                    <input type="radio" class="custom-control-input" id="twoStarRating"
-                                        name="radio-stacked" required>
-                                    <label class="custom-control-label custom--control-label" for="twoStarRating">
-                                        <span class="rating-wrap d-flex align-items-center">
-                                            <span class="review-stars">
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                            </span>
-                                            <span class="rating-total pl-1"><span class="mr-1 text-black">2.0 &
-                                                    up</span>(5,230)</span>
-                                        </span>
-                                    </label>
-                                </div>
-                                <div class="custom-control custom-radio mb-1 fs-15">
-                                    <input type="radio" class="custom-control-input" id="oneStarRating"
-                                        name="radio-stacked" required>
-                                    <label class="custom-control-label custom--control-label" for="oneStarRating">
-                                        <span class="rating-wrap d-flex align-items-center">
-                                            <span class="review-stars">
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                            </span>
-                                            <span class="rating-total pl-1"><span class="mr-1 text-black">1.0 &
-                                                    up</span>(3,230)</span>
-                                        </span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div><!-- end card -->
-
-                        <div class="card card-item">
-                            <div class="card-body">
                                 <h3 class="card-title fs-18 pb-2">Danh Mục</h3>
                                 <div class="divider"><span></span></div>
                                 @foreach ($categories as $category)
@@ -141,78 +50,6 @@
                                         </label>
                                     </div><!-- end custom-control -->
                                 @endforeach
-                                {{-- <div class="custom-control custom-checkbox mb-1 fs-15">
-                                    <input type="checkbox" class="custom-control-input" id="catCheckbox" required>
-                                    <label class="custom-control-label custom--control-label text-black"
-                                        for="catCheckbox">
-                                        Business<span class="ml-1 text-gray">(12,300)</span>
-                                    </label>
-                                </div><!-- end custom-control -->
-                                <div class="custom-control custom-checkbox mb-1 fs-15">
-                                    <input type="checkbox" class="custom-control-input" id="catCheckbox2" required>
-                                    <label class="custom-control-label custom--control-label text-black"
-                                        for="catCheckbox2">
-                                        UI & UX<span class="ml-1 text-gray">(12,300)</span>
-                                    </label>
-                                </div><!-- end custom-control -->
-                                <div class="custom-control custom-checkbox mb-1 fs-15">
-                                    <input type="checkbox" class="custom-control-input" id="catCheckbox3" required>
-                                    <label class="custom-control-label custom--control-label text-black"
-                                        for="catCheckbox3">
-                                        Animation<span class="ml-1 text-gray">(12,300)</span>
-                                    </label>
-                                </div><!-- end custom-control -->
-                                <div class="custom-control custom-checkbox mb-1 fs-15">
-                                    <input type="checkbox" class="custom-control-input" id="catCheckbox4" required>
-                                    <label class="custom-control-label custom--control-label text-black"
-                                        for="catCheckbox4">
-                                        Game Design<span class="ml-1 text-gray">(12,300)</span>
-                                    </label>
-                                </div><!-- end custom-control -->
-                                <div class="collapse" id="collapseMore">
-                                    <div class="custom-control custom-checkbox mb-1 fs-15">
-                                        <input type="checkbox" class="custom-control-input" id="catCheckbox5" required>
-                                        <label class="custom-control-label custom--control-label text-black"
-                                            for="catCheckbox5">
-                                            Graphic Design<span class="ml-1 text-gray">(12,300)</span>
-                                        </label>
-                                    </div><!-- end custom-control -->
-                                    <div class="custom-control custom-checkbox mb-1 fs-15">
-                                        <input type="checkbox" class="custom-control-input" id="catCheckbox6" required>
-                                        <label class="custom-control-label custom--control-label text-black"
-                                            for="catCheckbox6">
-                                            Typography<span class="ml-1 text-gray">(12,300)</span>
-                                        </label>
-                                    </div><!-- end custom-control -->
-                                    <div class="custom-control custom-checkbox mb-1 fs-15">
-                                        <input type="checkbox" class="custom-control-input" id="catCheckbox7" required>
-                                        <label class="custom-control-label custom--control-label text-black"
-                                            for="catCheckbox7">
-                                            Web Development<span class="ml-1 text-gray">(12,300)</span>
-                                        </label>
-                                    </div><!-- end custom-control -->
-                                    <div class="custom-control custom-checkbox mb-1 fs-15">
-                                        <input type="checkbox" class="custom-control-input" id="catCheckbox8" required>
-                                        <label class="custom-control-label custom--control-label text-black"
-                                            for="catCheckbox8">
-                                            Photography<span class="ml-1 text-gray">(12,300)</span>
-                                        </label>
-                                    </div><!-- end custom-control -->
-                                    <div class="custom-control custom-checkbox mb-1 fs-15">
-                                        <input type="checkbox" class="custom-control-input" id="catCheckbox9" required>
-                                        <label class="custom-control-label custom--control-label text-black"
-                                            for="catCheckbox9">
-                                            Finance<span class="ml-1 text-gray">(12,300)</span>
-                                        </label>
-                                    </div><!-- end custom-control -->
-                                </div><!-- end collapse -->
-                                <a class="collapse-btn collapse--btn fs-15" data-toggle="collapse" href="#collapseMore"
-                                    role="button" aria-expanded="false" aria-controls="collapseMore">
-                                    <span class="collapse-btn-hide">Show more<i
-                                            class="la la-angle-down ml-1 fs-14"></i></span>
-                                    <span class="collapse-btn-show">Show less<i
-                                            class="la la-angle-up ml-1 fs-14"></i></span>
-                                </a> --}}
                             </div>
                         </div><!-- end card -->
 
@@ -223,8 +60,7 @@
                                 <div class="divider"><span></span></div>
                                 <div class="custom-control custom-checkbox mb-1 fs-15">
                                     <input type="checkbox" class="custom-control-input" id="langCheckbox" required>
-                                    <label class="custom-control-label custom--control-label text-black"
-                                        for="langCheckbox">
+                                    <label class="custom-control-label custom--control-label text-black" for="langCheckbox">
                                         Tiếng Việt
                                     </label>
                                 </div><!-- end custom-control -->
@@ -253,10 +89,14 @@
                                                 src="{{ asset('frontend/images/img-loading.png') }}"
                                                 data-src="{{ $course->image }}" alt="Card image cap">
                                         </a>
-                                        {{-- <div class="course-badge-labels">
-                                            <div class="course-badge">Bestseller</div>
-                                            <div class="course-badge blue">-39%</div>
-                                        </div> --}}
+                                        <div class="course-badge-labels">
+                                            {{-- <div class="course-badge"></div> --}}
+                                            @if ($course->discount > 0)
+                                                <div class="course-badge red">
+                                                    -{{ $course->discount }}%
+                                                </div>
+                                            @endif
+                                        </div>
                                     </div><!-- end card-image -->
                                     <div class="card-body">
                                         <h5 class="card-title">
@@ -297,8 +137,20 @@
                                                 @endif
                                             </p>
 
-                                            <div class="icon-element icon-element-sm shadow-sm cursor-pointer"
-                                                title="Add to Wishlist"><i class="la la-heart-o"></i></div>
+                                            @auth
+                                                <div class="icon-element icon-element-sm shadow-sm cursor-pointer"
+                                                    id="{{ $course->id }}" title="Yêu Thích"
+                                                    onclick="addToWishLish(this.id)">
+                                                    <i class="la la-heart-o"></i>
+                                                </div>
+                                            @endauth
+
+                                            @guest
+                                                <div class="icon-element icon-element-sm shadow-sm" style="cursor:not-allowed"
+                                                    title="Bạn Cần Đăng Nhập">
+                                                    <i class="la la-heart-o"></i>
+                                                </div>
+                                            @endguest
                                         </div>
                                     </div><!-- end card-body -->
                                 </div><!-- end card -->
@@ -318,25 +170,21 @@
                                             <ul
                                                 class="generic-list-item generic-list-item-bullet generic-list-item--bullet d-flex align-items-center fs-14">
                                                 <li>
-                                                    @php
-                                                        $totalDuration = $course->section
-                                                            ->flatMap(function ($section) {
-                                                                return $section->lectures->pluck('duration');
-                                                            })
-                                                            ->sum();
-                                                    @endphp
-                                                    {{ formatTime($totalDuration) }} giờ
+
                                                 </li>
                                             </ul>
                                             <p class="card-text pt-1 fs-14 lh-22">
                                                 {!! $course->title !!}
                                             </p>
 
+                                            <div class=" card-text pt-1 fs-14">
+                                                {!! $course->outcomes !!}
+                                            </div>
+
                                             <div class="d-flex justify-content-between align-items-center mt-5">
                                                 <a href="#" class="btn theme-btn flex-grow-1 mr-3"><i
                                                         class="la la-shopping-cart mr-1 fs-18"></i> Thêm Vào Giỏ Hàng</a>
-                                                <div class="icon-element icon-element-sm shadow-sm cursor-pointer"
-                                                    title="Add to Wishlist"><i class="la la-heart-o"></i></div>
+
                                             </div>
                                         </div>
                                     </div><!-- end card -->
@@ -374,5 +222,19 @@
 @endsection
 
 @push('scripts')
-    <script></script>
+    <script>
+        function addToWishLish(id) {
+            $.ajax({
+                url: "{{ route('wishlist.store') }}",
+                type: 'POST',
+                data: {
+                    course_id: id,
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(data) {
+                    location.reload();
+                }
+            });
+        }
+    </script>
 @endpush

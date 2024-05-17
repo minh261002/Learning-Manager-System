@@ -27,6 +27,11 @@ class Course extends Model
         return $this->hasMany(CourseSection::class);
     }
 
+    public function wishlists()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
+
     public function sluggable(): array
     {
         return [

@@ -26,23 +26,8 @@ class FrontendController extends Controller
 
     public function courses()
     {
-        $categories = $this->category->getAll();
-        $slug = request()->query('category');
-        $sort = request()->query('sort', 'asc');
-        $courses = null;
-
-        if ($slug) {
-            $category = $this->category->getCategoryBySlug($slug);
-
-            $categoryIds = $category->children()->pluck('id')->toArray();
-            $categoryIds[] = $category->id;
-
-
-            $courses = $this->course->whereIn('category_id', $categoryIds)->orderBy('created_at', $sort)->paginate(6);
-        } else {
-            $courses = $this->course->orderBy('created_at', $sort)->paginate(6);
-        }
-
+        $courses = $this->course->latest()->get();
+        $categories = $this->category->where('parent_id', null)->get();
         return view('frontend.pages.courses', compact('courses', 'categories'));
     }
 

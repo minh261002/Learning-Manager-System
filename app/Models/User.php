@@ -55,4 +55,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Ward::class, 'ward_code', 'code');
     }
+
+    public function wishlists()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
 }

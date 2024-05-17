@@ -84,9 +84,7 @@ trait FileUploadTrait
 
     function deleteFile($path)
     {
-        if (Storage::disk('s3')->exists($path)) {
-            // unlink($path);
-            Storage::disk('s3')->delete($path);
-        }
+        // unlink($path);
+        Storage::disk('s3')->delete($path);
     }
 }
