@@ -181,10 +181,17 @@
                                                 {!! $course->outcomes !!}
                                             </div>
 
-                                            <div class="d-flex justify-content-between align-items-center mt-5">
-                                                <a href="#" class="btn theme-btn flex-grow-1 mr-3"><i
-                                                        class="la la-shopping-cart mr-1 fs-18"></i> Thêm Vào Giỏ Hàng</a>
 
+                                            <div class="d-flex justify-content-between align-items-center mt-5">
+                                                <button onclick="addToCart({{ $course->id }})"
+                                                    class="btn theme-btn flex-grow-1 mr-3">
+                                                    @if ($course->status == 1)
+                                                        <i class="la la-shopping-cart mr-1 fs-18"></i>
+                                                        Thêm Vào Giỏ Hàng
+                                                    @else
+                                                        Sắp Ra Mắt
+                                                    @endif
+                                                </button>
                                             </div>
                                         </div>
                                     </div><!-- end card -->
@@ -233,6 +240,24 @@
                 },
                 success: function(data) {
                     location.reload();
+                }
+            });
+        }
+
+        function addToCart(id) {
+            $.ajax({
+                url: "{{ route('cart.store') }}",
+                type: 'POST',
+                data: {
+                    course_id: id,
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(data) {
+                    console.log(data)
+                },
+                error: function(data) {
+                    console.log(data);
+                    alert('An error occurred. Please try again.');
                 }
             });
         }

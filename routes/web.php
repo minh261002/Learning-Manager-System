@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Frontend\AuthController;
+use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\LocationController;
 use App\Http\Controllers\User\UserController;
@@ -37,6 +38,8 @@ Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
     Route::resource('wishlist', WishListController::class)->only(['index', 'store', 'destroy']);
 
     Route::get('/wishlist', [WishListController::class, 'index'])->name('whishlist');
+
+    Route::resource('cart', CartController::class);
 });
 
 //location ajax
