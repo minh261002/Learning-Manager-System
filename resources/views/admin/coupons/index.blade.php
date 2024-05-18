@@ -22,6 +22,7 @@
                         <table class="table table-striped" id="table">
                             <thead>
                                 <th>Mã giảm giá</th>
+                                <th>Người Tạo</th>
                                 <th>Giảm giá</th>
                                 <th>Ngày bắt đầu</th>
                                 <th>Ngày kết thúc</th>
@@ -32,6 +33,7 @@
                                 @foreach ($coupons as $coupon)
                                     <tr>
                                         <td>{{ $coupon->name }}</td>
+                                        <td>{{ $coupon->instructor->name }}</td>
                                         <td>{{ $coupon->discount }}%</td>
                                         <td>{{ $coupon->created_at }}</td>
                                         <td>{{ $coupon->expires_at }}</td>

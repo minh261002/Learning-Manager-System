@@ -44,7 +44,14 @@ class CouponController extends Controller
             'expires_at' => 'required',
         ]);
 
-        $this->coupon->create($request->all());
+        // $this->coupon->create($request->all());
+        $coupon = $this->coupon;
+        $coupon->name = $request->name;
+        $coupon->discount = $request->discount;
+        $coupon->expires_at = $request->expires_at;
+        $coupon->instructor_id = auth()->id();
+
+        $coupon->save();
         Notify::success('Thêm mã giảm giá thành công');
         return redirect()->route('admin.coupons.index');
     }
