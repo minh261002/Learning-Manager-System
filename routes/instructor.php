@@ -13,7 +13,6 @@ Route::put('change-password', [InstructorController::class, 'changePassword'])->
 
 //courses
 Route::resource('courses', CoursesController::class);
-Route::get('course/change-status', [CoursesController::class, 'changeCourseStatus'])->name('course.change.status');
 Route::post('course/section', [CoursesController::class, 'addCourseSection'])->name('course.section');
 Route::put('course/section/{section}', [CoursesController::class, 'updateCourseSection'])->name('course.section.update');
 Route::delete('course/section/{section}', [CoursesController::class, 'deleteCourseSection'])->name('course.section.delete');

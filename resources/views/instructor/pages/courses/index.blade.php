@@ -53,11 +53,11 @@
 
                                         <td>{{ $course->created_at->format('d/m/Y') }}</td>
                                         <td>
-                                            <label class="switch">
-                                                <input type="checkbox" class="change-status" data-id="{{ $course->id }}"
-                                                    {{ $course->status == 1 ? 'checked' : '' }}>
-                                                <span class="slider round"></span>
-                                            </label>
+                                            @if ($course->status == 1)
+                                                <span class="badge badge-success">Đã Kích Hoạt</span>
+                                            @else
+                                                <span class="badge badge-danger">Chưa Kích Hoạt</span>
+                                            @endif
                                         </td>
                                         <td>
                                             <a href="{{ route('instructor.courses.show', $course->slug) }}"
@@ -83,50 +83,3 @@
         </div>
     </div>
 @endsection
-
-@push('scripts')
-    <script>
-        $(document).ready(function() {
-            $('.change-status').change(function() {
-                var status = $(this).prop('checked') == true ? 1 : 0;
-                var course_id = $(this).data('id');
-
-                Swal.fire({
-                    title: 'Thông báo!',
-                    text: 'Xác nhận thay đổi trạng thái?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Đồng Ý',
-                    cancelButtonText: 'Hủy',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            type: 'GET',
-                            dataType: 'json',
-                            url: '{{ route('instructor.course.change.status') }}',
-                            data: {
-                                'status': status,
-                                'course_id': course_id,
-                            },
-                            success: function(data) {
-                                if (data.status == 'success') {
-                                    location.reload();
-                                } else {
-                                    console.log(data)
-                                }
-                            },
-                            error: function(data) {
-                                console.log(data);
-                            }
-                        });
-                    } else {
-                        //reset checkbox
-                        $(this).prop('checked', !status);
-                    }
-                });
-            });
-        });
-    </script>
-@endpush

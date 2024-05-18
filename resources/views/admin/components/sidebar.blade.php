@@ -38,6 +38,11 @@
                     <span>Quản Lý Khoá Học</span></a>
             </li>
 
+            <li
+                class="{{ adminSetSidebarActive(['admin.coupons.index', 'admin.coupons.create', 'admin.coupons.edit']) }}">
+                <a class="nav-link" href="{{ route('admin.coupons.index') }}"><i class="fa-solid fa-ticket"></i>
+                    <span>Quản Lý Mã Giảm Giá</span></a>
+            </li>
 
             {{-- <li><a class="nav-link" href="blank.html"><i class="far fa-square"></i> <span>Blank
                         Page</span></a></li> --}}

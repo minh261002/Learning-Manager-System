@@ -35,6 +35,8 @@
 
     <link rel="stylesheet" href="{{ asset('admin/assets/modules/switchery/switchery.min.css') }}">
 
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker.min.css">
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -113,6 +115,8 @@
 
     <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js">
+    </script>
     <script>
         $(document).ready(function() {
             $('#table').DataTable({
@@ -121,6 +125,13 @@
                 },
             });
         })
+
+        $('.datepicker').datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            todayHighlight: true,
+            startDate: new Date()
+        });
 
         $('body').on('click', '.delete-item', function(e) {
             e.preventDefault();

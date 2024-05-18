@@ -165,21 +165,6 @@ class CoursesController extends Controller
         }
     }
 
-    public function changeCourseStatus(Request $request)
-    {
-        try {
-            $course = $this->course->findOrFail($request->course_id);
-            $course->status = $request->status;
-            $course->save();
-
-            Notify::success('Thay đổi trạng thái khóa học thành công');
-            return response()->json(['status' => 'success']);
-        } catch (\Exception $e) {
-            Notify::error('Đã có lỗi xảy ra');
-            return response()->json(['status' => 'error']);
-        }
-    }
-
     public function addCourseSection(Request $request)
     {
         $section = new CourseSection();
