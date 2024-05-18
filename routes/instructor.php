@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Instructor\CouponController;
 use App\Http\Controllers\Instructor\CoursesController;
 use App\Http\Controllers\Instructor\InstructorController;
 use Illuminate\Support\Facades\Route;
@@ -17,3 +18,6 @@ Route::post('course/section', [CoursesController::class, 'addCourseSection'])->n
 Route::put('course/section/{section}', [CoursesController::class, 'updateCourseSection'])->name('course.section.update');
 Route::delete('course/section/{section}', [CoursesController::class, 'deleteCourseSection'])->name('course.section.delete');
 Route::post('course/lecture', [CoursesController::class, 'addCourseLecture'])->name('course.lecture');
+
+//coupons
+Route::resource('coupons', CouponController::class);

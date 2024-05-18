@@ -25,4 +25,9 @@ class Coupon extends Model
     {
         return $this->latest()->get();
     }
+
+    function getCouponsByInstructor_id($instructor_id)
+    {
+        return $this->where('instructor_id', $instructor_id)->latest()->get();
+    }
 }
