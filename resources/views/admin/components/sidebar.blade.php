@@ -32,6 +32,12 @@
                     <span>Quản Lý Người Dùng</span></a>
             </li>
 
+            <li
+                class="{{ adminSetSidebarActive(['admin.courses.index', 'admin.courses.create', 'admin.courses.edit']) }}">
+                <a class="nav-link" href="{{ route('admin.courses.index') }}"><i class="fa-solid fa-graduation-cap"></i>
+                    <span>Quản Lý Khoá Học</span></a>
+            </li>
+
 
             {{-- <li><a class="nav-link" href="blank.html"><i class="far fa-square"></i> <span>Blank
                         Page</span></a></li> --}}
