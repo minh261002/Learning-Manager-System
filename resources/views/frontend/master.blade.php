@@ -44,7 +44,6 @@
     @include('frontend.components.layouts.header')
     <!--====================================== END HEADER AREA ======================================-->
 
-
     @yield('content')
 
     <!--===================================== START SUBSCRIBER AREA ======================================-->
@@ -84,6 +83,8 @@
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous">
     </script>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
         $('body').on('click', '.delete-item', function(e) {
             e.preventDefault();
@@ -112,11 +113,43 @@
                                 location.reload();
                                 console.log(res.error)
                             }
+                        },
+                        error: function(err) {
+                            console.log(err);
                         }
                     });
                 }
             });
         });
+
+        function miniCart() {
+            $.ajax({
+                method: 'GET',
+                url: '{{ route('cart.data') }}',
+                dataType: 'json',
+                success: function(response) {
+                    var miniCart = ""
+                    $.each(response.carts, function(key, value) {
+                        miniCart += `<li class="media media-card">
+                        <a href="" class="media-img">
+                            <img src="${value.options.image}" alt="Cart image">
+                        </a>
+                        <div class="media-body">
+                            <h5><a href="/course/${value.options.slug}"> ${value.name}</a></h5>
+
+                             <span class="d-block fs-14">
+                                ${value.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}VND
+                            </span>
+                        </div>
+                    </li>
+                    `
+                    });
+                    $('#miniCart').html(miniCart);
+                    $("#cartQty").text(response.cartQty);
+                }
+            })
+        }
+        miniCart();
     </script>
     @stack('scripts')
 </body>

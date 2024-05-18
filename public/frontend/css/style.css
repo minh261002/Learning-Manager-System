@@ -6612,6 +6612,7 @@ div.datedropper .picker .pick-lg-b li {
 }
 
 .media-card .media-img img {
+    object-fit: cover;
     width: 100%;
     height: 100%;
     -webkit-border-radius: 8px;

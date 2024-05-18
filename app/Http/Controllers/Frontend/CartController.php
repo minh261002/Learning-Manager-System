@@ -25,7 +25,6 @@ class CartController extends Controller
     {
         $carts = Cart::content();
         $total = Cart::total(0, '', '');
-
         return view('frontend.pages.cart', compact('carts', 'total'));
     }
 
@@ -35,15 +34,17 @@ class CartController extends Controller
     public function store(Request $request)
     {
         $id = $request->input('course_id');
+
         $course = $this->course->findOrFail($id);
 
-        $cartItem = Cart::search(function ($cartItem, $rowId) use ($id) {
-            return $cartItem->id === $id;
-        });
+        $cartItems = Cart::content();
 
-        if ($cartItem->isNotEmpty()) {
-            Notify::error('Khoá học đã có trong giỏ hàng');
-            return response()->json(['error' => 'Khoá học đã có trong giỏ hàng'], 422);
+        // Kiểm tra nếu mục đã tồn tại trong giỏ hàng
+        foreach ($cartItems as $cartItem) {
+            if ($cartItem->id == $id) {
+                Notify::error('Khóa học đã có trong giỏ hàng');
+                return redirect()->back();
+            }
         }
 
         if ($course->discount > 0) {
@@ -55,17 +56,32 @@ class CartController extends Controller
         Cart::add(
             $course->id,
             $course->name,
-            1, // Số lượng là 1 vì là khóa học
+            1, // Số lượng mặc định là 1
             $price,
             0, // Khối lượng mặc định là 0 vì không có trọng lượng
             [
                 'image' => $course->image,
-                'instructor' => $course->instructor->name
+                'instructor' => $course->instructor->name,
+                'slug' => $course->slug
             ]
         )->associate('App\Models\Course');
 
         Notify::success('Thêm vào giỏ hàng thành công');
     }
+
+    public function cartData()
+    {
+        $carts = Cart::content();
+        $total = Cart::total(0, '', '');
+        $cartQty = Cart::count();
+
+        return response()->json([
+            'carts' => $carts,
+            'total' => $total,
+            'cartQty' => $cartQty
+        ]);
+    }
+
 
     /**
      * Display the specified resource.
@@ -96,6 +112,19 @@ class CartController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            Cart::remove($id);
+            Notify::success('Xóa khỏi giỏ hàng thành công');
+            return response()->json(['success' => 'Xóa khỏi giỏ hàng thành công']);
+        } catch (\Exception $e) {
+            Notify::error('Xóa khỏi giỏ hàng thất bại');
+            return response()->json(['error' => 'Xóa khỏi giỏ hàng thất bại'], 422);
+        }
+    }
+
+    public function clear()
+    {
+        Cart::destroy();
+        Notify::success('Xóa toàn bộ giỏ hàng thành công');
     }
 }

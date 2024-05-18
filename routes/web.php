@@ -38,11 +38,12 @@ Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
     Route::resource('wishlist', WishListController::class)->only(['index', 'store', 'destroy']);
 
     Route::get('/wishlist', [WishListController::class, 'index'])->name('whishlist');
-
-    Route::resource('cart', CartController::class);
 });
 
 //location ajax
 Route::get('location/provinces', [LocationController::class, 'getProvinces']);
 Route::get('location/districts/{provinceCode}', [LocationController::class, 'getDistricts']);
 Route::get('location/wards/{districtCode}', [LocationController::class, 'getWards']);
+
+Route::resource('cart', CartController::class);
+Route::get('cart/mini/data', [CartController::class, 'cartData'])->name('cart.data');

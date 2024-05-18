@@ -43,7 +43,7 @@ class Course extends Model
 
     public function getAllCourses()
     {
-        return Course::orderBy('id', 'desc')->paginate(10);
+        return Course::orderBy('id', 'desc');
     }
 
     public function getPaginate($perPage)

@@ -200,6 +200,7 @@
                         @endforeach
 
                     </div><!-- end row -->
+
                     {{-- <div class="text-center pt-3">
                         <nav aria-label="Page navigation example" class="pagination-box">
                             <ul class="pagination justify-content-center">
@@ -253,11 +254,10 @@
                     _token: "{{ csrf_token() }}"
                 },
                 success: function(data) {
-                    console.log(data)
+                    location.reload();
                 },
                 error: function(data) {
                     console.log(data);
-                    alert('An error occurred. Please try again.');
                 }
             });
         }
