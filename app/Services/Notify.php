@@ -30,4 +30,13 @@ class Notify
             ->position('y', 'top')
             ->info($message);
     }
+
+    public static function warning($message)
+    {
+        notyf()
+            ->dismissible(true)
+            ->position('x', 'right')
+            ->position('y', 'top')
+            ->warning($message);
+    }
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Frontend\AuthController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\LocationController;
 use App\Http\Controllers\User\UserController;
@@ -13,8 +14,6 @@ Route::get('/', [FrontendController::class, 'index'])->name('home');
 Route::get('/courses', [FrontendController::class, 'courses'])->name('courses');
 Route::get('/course/{slug}', [FrontendController::class, 'course_detail'])->name('course.detail');
 Route::get('/teachers', [FrontendController::class, 'teachers'])->name('teacher.show');
-Route::get('/cart', [FrontendController::class, 'cart'])->name('cart');
-Route::get('/checkout', [FrontendController::class, 'checkout'])->name('checkout');
 
 //auth routes
 Route::get('/login', [AuthController::class, 'login'])->name('login');
@@ -38,6 +37,11 @@ Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
     Route::resource('wishlist', WishListController::class)->only(['index', 'store', 'destroy']);
 
     Route::get('/wishlist', [WishListController::class, 'index'])->name('whishlist');
+
+    Route::resource('cart', CartController::class);
+
+    Route::get('cart/mini-cart/get', [CartController::class, 'getMiniCart'])->name('cart.mini');
+    Route::delete('cart/remove/all', [CartController::class, 'clear'])->name('cart.clear');
 });
 
 //location ajax
@@ -45,5 +49,4 @@ Route::get('location/provinces', [LocationController::class, 'getProvinces']);
 Route::get('location/districts/{provinceCode}', [LocationController::class, 'getDistricts']);
 Route::get('location/wards/{districtCode}', [LocationController::class, 'getWards']);
 
-Route::resource('cart', CartController::class);
-Route::get('cart/mini/data', [CartController::class, 'cartData'])->name('cart.data');
+Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');

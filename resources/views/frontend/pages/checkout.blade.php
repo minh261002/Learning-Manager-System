@@ -3,14 +3,17 @@
 @section('title', 'Thanh toán')
 
 @section('content')
-    <section class="cart-area section--padding">
+    <section class="cart-area  mt-5">
         <div class="container">
             <div class="row">
+                @dump($cart)
+                @dump($provinces)
                 <div class="col-lg-7">
                     <div class="card card-item">
                         <div class="card-body">
-                            <h3 class="card-title fs-22 pb-3">Billing Details</h3>
+                            <h3 class="card-title fs-22 pb-3">Thông Tin Khách Hàng</h3>
                             <div class="divider"><span></span></div>
+
                             <form method="post" class="row">
                                 <div class="input-box col-lg-6">
                                     <label class="label-text">First Name</label>
@@ -348,157 +351,113 @@
                                     </div>
                                 </div><!-- end input-box -->
                                 <div class="btn-box col-lg-12">
-                                    <div class="custom-control custom-checkbox mb-4 fs-15">
-                                        <input type="checkbox" class="custom-control-input" id="agreeCheckbox" required>
-                                        <label class="custom-control-label custom--control-label" for="agreeCheckbox">I
-                                            agree to the
-                                            <a href="terms-and-conditions.html" class="text-color hover-underline">terms
-                                                and conditions</a> and
-                                            <a href="privacy-policy.html" class="text-color hover-underline">privacy
-                                                policy</a>
-                                        </label>
-                                    </div><!-- end custom-control -->
-                                    <p class="pb-1 text-black-50"><i class="la la-lock fs-24 mr-1"></i>Secure Connection
+                                    <p class="pb-1 text-black-50"><i class="la la-lock fs-24 mr-1"></i>Kết nối an toàn
                                     </p>
-                                    <p class="fs-14">Your information is safe with us!</p>
+                                    <p class="fs-14">Thông tin của bạn được bảo mật tuyệt đối!</p>
                                 </div><!-- end btn-box -->
                             </form>
                         </div><!-- end card-body -->
                     </div><!-- end card -->
+
                     <div class="card card-item">
                         <div class="card-body">
-                            <h3 class="card-title fs-22 pb-3">Select Payment Method</h3>
+                            <h3 class="card-title fs-22 pb-3">Phương Thức Thanh Toán</h3>
                             <div class="divider"><span></span></div>
                             <div class="payment-option-wrap">
                                 <div class="payment-tab is-active">
                                     <div class="payment-tab-toggle">
                                         <input checked="" id="bankTransfer" name="radio" type="radio"
                                             value="bankTransfer">
-                                        <label for="bankTransfer">Direct Bank Transfer</label>
+                                        <label for="bankTransfer">Chuyển Khoản Ngân Hàng</label>
+                                        <img class="payment-logo" src="{{ asset('frontend/img/bank.png') }}"
+                                            width="40px" alt="" style="top: 10px">
                                     </div>
-                                    <div class="payment-tab-content">
-                                        <p class="fs-15 lh-24">Make your payment directly into our bank account. Please use
-                                            your Order ID as the payment reference. Your order won’t be shipped until the
-                                            funds have cleared in our account.</p>
-                                    </div>
+
                                 </div><!-- end payment-tab -->
                                 <div class="payment-tab">
                                     <div class="payment-tab-toggle">
                                         <input id="paypal" name="radio" type="radio" value="paypal">
                                         <label for="paypal">PayPal</label>
-                                        <img class="payment-logo" src="images/paypal.png" alt="">
-                                    </div>
-                                    <div class="payment-tab-content">
-                                        <p class="fs-15 lh-24">In order to complete your transaction, we will transfer you
-                                            over to PayPal's secure servers.</p>
+                                        <img class="payment-logo" src="{{ asset('frontend/images/paypal.png') }}"
+                                            alt="">
                                     </div>
                                 </div><!-- end payment-tab -->
                                 <div class="payment-tab">
                                     <div class="payment-tab-toggle">
-                                        <input type="radio" name="radio" id="creditCart" value="creditCard">
-                                        <label for="creditCart">Credit / Debit Card</label>
-                                        <img class="payment-logo" src="images/payment-img.png" alt="">
-                                    </div>
-                                    <div class="payment-tab-content">
-                                        <form action="#" class="row">
-                                            <div class="input-box col-lg-6">
-                                                <label class="label-text">Name on Card</label>
-                                                <div class="form-group">
-                                                    <input class="form-control form--control pl-3" type="text"
-                                                        name="text" placeholder="Card Name">
-                                                </div>
-                                            </div>
-                                            <div class="input-box col-lg-6">
-                                                <label class="label-text">Card Number</label>
-                                                <div class="form-group">
-                                                    <input class="form-control form--control pl-3" type="text"
-                                                        name="text" placeholder="1234  5678  9876  5432">
-                                                </div>
-                                            </div>
-                                            <div class="input-box col-lg-4">
-                                                <label class="label-text">Expiry Month</label>
-                                                <div class="form-group">
-                                                    <input class="form-control form--control pl-3" type="text"
-                                                        name="text" placeholder="MM">
-                                                </div>
-                                            </div>
-                                            <div class="input-box col-lg-4">
-                                                <label class="label-text">Expiry Year</label>
-                                                <div class="form-group">
-                                                    <input class="form-control form--control pl-3" type="text"
-                                                        name="text" placeholder="YY">
-                                                </div>
-                                            </div>
-                                            <div class="input-box col-lg-4">
-                                                <label class="label-text">CVV</label>
-                                                <div class="form-group">
-                                                    <input class="form-control form--control pl-3" type="text"
-                                                        name="text" placeholder="cvv">
-                                                </div>
-                                            </div>
-                                        </form>
+                                        <input type="radio" name="radio" id="vnpay" value="vnpay">
+                                        <label for="vnpay">Cổng Thanh Toán VNPAY</label>
+                                        <img class="payment-logo" src="{{ asset('frontend/img/logo-primary.svg') }}"
+                                            width="70px" alt="">
                                     </div>
                                 </div><!-- end payment-tab -->
+
+                                <div class="payment-tab">
+                                    <div class="payment-tab-toggle">
+                                        <input type="radio" name="radio" id="momo" value="momo">
+                                        <label for="momo">Cổng Thanh Toán Momo</label>
+                                        <img class="payment-logo" src="{{ asset('frontend/img/momo.png') }}"
+                                            width="40px" style="top:10px">
+                                    </div>
+                                </div><!-- end payment-tab -->
+
                             </div>
                         </div><!-- end card-body -->
                     </div><!-- end card -->
                 </div><!-- end col-lg-7 -->
+
                 <div class="col-lg-5">
                     <div class="card card-item">
                         <div class="card-body">
-                            <h3 class="card-title fs-22 pb-3">Order Details</h3>
+                            <h3 class="card-title fs-22 pb-3">Thông Tin Đơn Hàng</h3>
                             <div class="divider"><span></span></div>
                             <div class="order-details-lists">
-                                <div class="media media-card border-bottom border-bottom-gray pb-3 mb-3">
-                                    <a href="course-details.html" class="media-img">
-                                        <img src="images/small-img.jpg" alt="Cart image">
-                                    </a>
-                                    <div class="media-body">
-                                        <h5 class="fs-15 pb-2"><a href="course-details.html">The Complete JavaScript
-                                                Course 2021: From Zero to Expert!</a></h5>
-                                        <p class="text-black font-weight-semi-bold lh-18">$12.99 <span
-                                                class="before-price fs-14">$129.99</span></p>
-                                    </div>
-                                </div><!-- end media -->
-                                <div class="media media-card border-bottom border-bottom-gray pb-3 mb-3">
-                                    <a href="course-details.html" class="media-img">
-                                        <img src="images/small-img.jpg" alt="Cart image">
-                                    </a>
-                                    <div class="media-body">
-                                        <h5 class="fs-15 pb-2"><a href="course-details.html">The Complete JavaScript
-                                                Course 2021: From Zero to Expert!</a></h5>
-                                        <p class="text-black font-weight-semi-bold lh-18">$12.99 <span
-                                                class="before-price fs-14">$129.99</span></p>
-                                    </div>
-                                </div><!-- end media -->
+                                @foreach ($cart as $item)
+                                    <div class="media media-card border-bottom border-bottom-gray pb-3 mb-3">
+                                        <a href="{{ route('course.detail', $item->options->slug) }}" class="media-img">
+                                            <img src="{{ $item->options->image }}" alt="Cart image">
+                                        </a>
+                                        <div class="media-body">
+                                            <h5 class="fs-15 pb-2"><a
+                                                    href="{{ route('course.detail', $item->options->slug) }}">
+                                                    {{ $item->name }}
+                                                </a></h5>
+                                            {{-- <p class="text-black font-weight-semi-bold lh-18">$12.99 <span
+                                                    class="before-price fs-14">$129.99</span></p> --}}
+
+                                            <p
+                                                class="text-black
+                                                font-weight-semi-bold">
+                                                {{ number_format($item->price) }} VND</p>
+                                        </div>
+                                    </div><!-- end media -->
+                                @endforeach
                             </div><!-- end order-details-lists -->
-                            <a href="course-grid.html" class="btn-text"><i class="la la-edit mr-1"></i>Edit</a>
+                            <a href="{{ route('cart.index') }}" class="btn-text"><i class="la la-edit mr-1"></i>Chỉnh
+                                Sửa</a>
                         </div><!-- end card-body -->
                     </div><!-- end card -->
                     <div class="card card-item">
                         <div class="card-body">
-                            <h3 class="card-title fs-22 pb-3">Order Summary</h3>
+                            <h3 class="card-title fs-22 pb-3">Thanh Toán</h3>
                             <div class="divider"><span></span></div>
                             <ul class="generic-list-item generic-list-item-flash fs-15">
                                 <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
-                                    <span class="text-black">Original price:</span>
-                                    <span>$199.99</span>
+                                    <span class="text-black">Tạm Tính:</span>
+                                    <span>
+                                        {{ $total }} VND
+                                    </span>
                                 </li>
                                 <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
-                                    <span class="text-black">Coupon discounts:</span>
+                                    <span class="text-black">Mã Giảm Giá:</span>
                                     <span>-$181.99</span>
                                 </li>
                                 <li class="d-flex align-items-center justify-content-between font-weight-bold">
-                                    <span class="text-black">Total:</span>
+                                    <span class="text-black">Tổng:</span>
                                     <span>$18.99</span>
                                 </li>
                             </ul>
                             <div class="btn-box border-top border-top-gray pt-3">
-                                <p class="fs-14 lh-22 mb-2">Aduca is required by law to collect applicable transaction
-                                    taxes for purchases made in certain tax jurisdictions.</p>
-                                <p class="fs-14 lh-22 mb-3">By completing your purchase you agree to these <a
-                                        href="#" class="text-color hover-underline">Terms of Service.</a></p>
-                                <a href="checkout.html" class="btn theme-btn w-100">Proceed <i
+                                <a href="checkout.html" class="btn theme-btn w-100">Thanh Toán Đơn Hàng <i
                                         class="la la-arrow-right icon ml-1"></i></a>
                             </div>
                         </div><!-- end card-body -->

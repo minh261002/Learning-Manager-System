@@ -3,29 +3,31 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Carbon\Carbon;
-use Gloudemans\Shoppingcart\Facades\Cart;
 use App\Services\Notify;
-use App\Models\Course;
+use Illuminate\Http\Request;
+use App\Models\Cart;
 
 class CartController extends Controller
 {
-    protected $course;
+    protected $cart;
 
-    public function __construct(Course $course)
+    public function __construct(Cart $cart)
     {
-        $this->course = $course;
+        $this->cart = $cart;
     }
-
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $carts = Cart::content();
-        $total = Cart::total(0, '', '');
-        return view('frontend.pages.cart', compact('carts', 'total'));
+        $cartItems = $this->cart->getCartItem(auth()->id());
+        return view('frontend.pages.cart', compact('cartItems'));
+    }
+
+    public function getMiniCart()
+    {
+        $cartItems = $this->cart->getCartItem(auth()->id());
+        return response()->json($cartItems);
     }
 
     /**
@@ -33,98 +35,40 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        $id = $request->input('course_id');
+        $cartItem = $this->cart->checkItem(request('course_id'), auth()->id());
 
-        $course = $this->course->findOrFail($id);
-
-        $cartItems = Cart::content();
-
-        // Kiểm tra nếu mục đã tồn tại trong giỏ hàng
-        foreach ($cartItems as $cartItem) {
-            if ($cartItem->id == $id) {
-                Notify::error('Khóa học đã có trong giỏ hàng');
-                return redirect()->back();
-            }
+        if ($cartItem) {
+            return Notify::warning('Khoá học đã có trong giỏ hàng');
         }
 
-        if ($course->discount > 0) {
-            $price = $course->price - ($course->price * $course->discount / 100);
-        } else {
-            $price = $course->price;
-        }
+        $this->cart->addToCart(request('course_id'), auth()->id());
+        Notify::success('Khoá học đã được thêm vào giỏ hàng');
 
-        Cart::add(
-            $course->id,
-            $course->name,
-            1, // Số lượng mặc định là 1
-            $price,
-            0, // Khối lượng mặc định là 0 vì không có trọng lượng
-            [
-                'image' => $course->image,
-                'instructor' => $course->instructor->name,
-                'slug' => $course->slug
-            ]
-        )->associate('App\Models\Course');
-
-        Notify::success('Thêm vào giỏ hàng thành công');
+        return redirect()->back();
     }
 
-    public function cartData()
-    {
-        $carts = Cart::content();
-        $total = Cart::total(0, '', '');
-        $cartQty = Cart::count();
-
-        return response()->json([
-            'carts' => $carts,
-            'total' => $total,
-            'cartQty' => $cartQty
-        ]);
-    }
-
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy($id)
     {
         try {
-            Cart::remove($id);
-            Notify::success('Xóa khỏi giỏ hàng thành công');
-            return response()->json(['success' => 'Xóa khỏi giỏ hàng thành công']);
+            $this->cart->removeItem($id);
+            Notify::success('Khoá học đã được xóa khỏi giỏ hàng');
+            return response()->json(['status' => 'success']);
         } catch (\Exception $e) {
-            Notify::error('Xóa khỏi giỏ hàng thất bại');
-            return response()->json(['error' => 'Xóa khỏi giỏ hàng thất bại'], 422);
+            Notify::error('Có lỗi xảy ra, vui lòng thử lại sau');
+            return response()->json(['status' => 'error']);
         }
     }
 
     public function clear()
     {
-        Cart::destroy();
-        Notify::success('Xóa toàn bộ giỏ hàng thành công');
+        try {
+            $this->cart->removeAllItem(auth()->id());
+            Notify::success('Giỏ hàng đã được xóa');
+            return response()->json(['status' => 'success']);
+        } catch (\Exception $e) {
+            Notify::error('Có lỗi xảy ra, vui lòng thử lại sau');
+            return response()->json(['status' => 'error']);
+        }
     }
+
 }

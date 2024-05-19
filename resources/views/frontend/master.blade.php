@@ -125,27 +125,26 @@
         function miniCart() {
             $.ajax({
                 method: 'GET',
-                url: '{{ route('cart.data') }}',
+                url: '{{ route('cart.mini') }}',
                 dataType: 'json',
                 success: function(response) {
                     var miniCart = ""
-                    $.each(response.carts, function(key, value) {
+                    $.each(response, function(key, value) {
                         miniCart += `<li class="media media-card">
-                        <a href="" class="media-img">
-                            <img src="${value.options.image}" alt="Cart image">
-                        </a>
-                        <div class="media-body">
-                            <h5><a href="/course/${value.options.slug}"> ${value.name}</a></h5>
+                    <a href="" class="media-img">
+                        <img src="${value.course.image}" alt="Cart image">
+                    </a>
+                    <div class="media-body">
+                        <h5><a href="/course/${value.course.slug}"> ${value.course.name}</a></h5>
 
-                             <span class="d-block fs-14">
-                                ${value.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}VND
-                            </span>
-                        </div>
-                    </li>
-                    `
+                         <span class="d-block fs-14">
+                            ${value.course.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}VND
+                        </span>
+                    </div>
+                </li>
+                `
                     });
                     $('#miniCart').html(miniCart);
-                    $("#cartQty").text(response.cartQty);
                 }
             })
         }

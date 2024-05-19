@@ -138,64 +138,38 @@
                                             </p>
 
                                             @auth
-                                                <div class="icon-element icon-element-sm shadow-sm cursor-pointer"
-                                                    id="{{ $course->id }}" title="Yêu Thích"
-                                                    onclick="addToWishLish(this.id)">
-                                                    <i class="la la-heart-o"></i>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <div class="icon-element icon-element-sm shadow-sm cursor-pointer"
+                                                        id="{{ $course->id }}" title="Yêu Thích"
+                                                        onclick="addToWishLish(this.id)">
+                                                        <i class="la la-heart-o"></i>
+                                                    </div>
+
+                                                    <div class="icon-element icon-element-sm shadow-sm cursor-pointer"
+                                                        id="{{ $course->id }}" title="Thêm Vào Giỏ Hàng"
+                                                        onclick="addToCart(this.id)">
+                                                        <i class="la la-shopping-cart"></i>
+                                                    </div>
                                                 </div>
                                             @endauth
 
                                             @guest
-                                                <div class="icon-element icon-element-sm shadow-sm" style="cursor:not-allowed"
-                                                    title="Bạn Cần Đăng Nhập">
-                                                    <i class="la la-heart-o"></i>
+                                                <div>
+                                                    <div class="icon-element icon-element-sm shadow-sm"
+                                                        style="cursor:not-allowed" title="Bạn Cần Đăng Nhập">
+                                                        <i class="la la-heart-o"></i>
+                                                    </div>
+
+                                                    <div class="icon-element icon-element-sm shadow-sm"
+                                                        style="cursor:not-allowed" title="Bạn Cần Đăng Nhập">
+                                                        <i class="la la-shopping-cart"></i>
+                                                    </div>
+
                                                 </div>
                                             @endguest
                                         </div>
                                     </div><!-- end card-body -->
                                 </div><!-- end card -->
-                            </div>
-
-                            <div class="tooltip_templates">
-                                <div id="tooltip_content_{{ $course->id }}">
-                                    <div class="card card-item">
-                                        <div class="card-body">
-                                            <p class="card-text pb-2"> <a href="teacher-detail.html">
-                                                    {{ $course->instructor->name }}
-                                                </a>
-                                            </p>
-                                            <h5 class="card-title pb-1"><a href="course-details.html">
-                                                    {{ $course->name }}
-                                                </a></h5>
-                                            <ul
-                                                class="generic-list-item generic-list-item-bullet generic-list-item--bullet d-flex align-items-center fs-14">
-                                                <li>
-
-                                                </li>
-                                            </ul>
-                                            <p class="card-text pt-1 fs-14 lh-22">
-                                                {!! $course->title !!}
-                                            </p>
-
-                                            <div class=" card-text pt-1 fs-14">
-                                                {!! $course->outcomes !!}
-                                            </div>
-
-
-                                            <div class="d-flex justify-content-between align-items-center mt-5">
-                                                <button onclick="addToCart({{ $course->id }})"
-                                                    class="btn theme-btn flex-grow-1 mr-3">
-                                                    @if ($course->status == 1)
-                                                        <i class="la la-shopping-cart mr-1 fs-18"></i>
-                                                        Thêm Vào Giỏ Hàng
-                                                    @else
-                                                        Sắp Ra Mắt
-                                                    @endif
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div><!-- end card -->
-                                </div>
                             </div>
                         @endforeach
 

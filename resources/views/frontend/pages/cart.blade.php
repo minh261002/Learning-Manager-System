@@ -3,7 +3,7 @@
 @section('title', 'Giỏ hàng')
 
 @section('content')
-    <section class="cart-area section-padding">
+    <section class="cart-area my-5">
         <div class="container">
             <div class="table-responsive">
                 <table class="table generic-table">
@@ -16,21 +16,23 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($carts as $item)
+                        @forelse ($cartItems as $item)
                             <tr>
                                 <th scope="row">
                                     <div class="media media-card">
-                                        <a href="" class="media-img mr-0">
-                                            <img src="{{ $item->options->image }}" alt="Cart image">
+                                        <a href="{{ route('course.detail', $item->course->slug) }}" class="media-img mr-0">
+                                            <img src="{{ $item->course->image }}" alt="Cart image">
                                         </a>
                                     </div>
                                 </th>
                                 <td>
-                                    <a href="" class="text-black font-weight-semi-bold">
-                                        {{ $item->name }}
+                                    <a href="{{ route('course.detail', $item->course->slug) }}"
+                                        class="text-black font-weight-semi-bold">
+                                        {{ $item->course->name }}
                                     </a>
                                     <p class="fs-14 text-gray lh-20"><a href="teacher-detail.html"
-                                            class="text-color hover-underline">{{ $item->options->instructor }}
+                                            class="text-color hover-underline">
+                                            {{ $item->course->instructor->name }}
                                         </a></p>
                                 </td>
                                 <td>
@@ -38,31 +40,47 @@
                                         <li class="d-flex align-items-center justify-content-between">
                                             <span
                                                 class="text-black
-                                                font-weight-semi-bold">{{ number_format($item->price) }}
-                                                VND</span>
+                                                font-weight-semi-bold ">
+                                                @if ($item->course->discount > 0)
+                                                    {{ number_format($item->course->price - ($item->course->discount * $item->course->price) / 100) }}
+                                                    <span class="text-gray fs-14" style="text-decoration: line-through">
+                                                        {{ number_format($item->course->price) }}
+                                                    </span>
+                                                @else
+                                                    {{ number_format($item->course->price) }}
+                                                @endif
+                                            </span>
                                         </li>
                                     </ul>
                                 </td>
                                 <td>
-                                    <a href="{{ route('cart.destroy', $item->rowId) }}"
+                                    <a href="{{ route('cart.destroy', $item->id) }}"
                                         class="icon-element delete-item icon-element-xs shadow-sm border-0"
                                         data-toggle="tooltip" data-placement="top" title="Remove">
                                         <i class="la la-times"></i>
                                     </a>
                                 </td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="4" class="text-center">Không có khoá học nào trong giỏ hàng</td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
                 <div class="d-flex flex-wrap align-items-center justify-content-between pt-4">
-                    <a href="{{ route('home') }}" class="btn theme-btn">Tiếp Tục Mua Sắm</a>
+                    <div>
+                        <a href="{{ route('cart.clear') }}" class="btn delete-item theme-btn">Xóa Tất Cả</a>
+                        <a href="{{ route('home') }}" class="btn theme-btn">Tiếp Tục Mua Sắm</a>
+                    </div>
 
-                    <form method="post">
+                    <form action="" method="POST">
+                        @csrf
                         <div class="input-group mb-2">
-                            <input class="form-control form--control pl-3" type="text" name="search"
+                            <input class="form-control form--control pl-3" type="text" name="coupon_name"
                                 placeholder="Mã Giảm Giá">
                             <div class="input-group-append">
-                                <button class="btn theme-btn">Áp Dụng</button>
+                                <button type="submit" class="btn theme-btn">Áp Dụng</button>
                             </div>
                         </div>
                     </form>
@@ -75,11 +93,11 @@
                     <ul class="generic-list-item pb-4">
                         <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
                             <span class="text-black">Tạm Tính:</span>
-                            <span>{{ number_format($total, 0, ',', '.') }} VND</span>
+                            <span>VND</span>
                         </li>
                         <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
                             <span class="text-black">Tổng Tiền:</span>
-                            <span>{{ number_format($total, 0, ',', '.') }} VND</span>
+                            <span>VND</span>
                         </li>
                     </ul>
                     <a href="{{ route('checkout') }}" class="btn theme-btn w-100">Thanh Toán <i
