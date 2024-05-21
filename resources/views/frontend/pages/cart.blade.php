@@ -67,7 +67,7 @@
                         <a href="{{ route('home') }}" class="btn theme-btn">Tiếp Tục Mua Sắm</a>
                     </div>
 
-                    <form action="" method="POST">
+                    <form action="{{ route('coupon.apply') }}" method="POST">
                         @csrf
                         <div class="input-group mb-2">
                             <input class="form-control form--control pl-3" type="text" name="coupon_name"
@@ -76,6 +76,13 @@
                                 <button type="submit" class="btn theme-btn">Áp Dụng</button>
                             </div>
                         </div>
+
+                        @if (session('isAppliedCoupon'))
+                            <div class="alert alert-success mt-2">
+                                {{ session('couponName') }}
+                                <a href="{{ route('coupon.remove') }}" class="text-danger delete-item">Xóa</a>
+                            </div>
+                        @endif
                     </form>
                 </div>
             </div>
@@ -84,18 +91,45 @@
                     <h3 class="fs-18 font-weight-bold pb-3">Tổng Tiền</h3>
                     <div class="divider"><span></span></div>
                     <ul class="generic-list-item pb-4">
-                        <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
-                            <span class="text-black">Tạm Tính:</span>
-                            <span>
-                                {{ number_format($subTotal, 0, ',', '.') }} VND
-                            </span>
-                        </li>
-                        <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
-                            <span class="text-black">Tổng Tiền:</span>
-                            <span>
-                                {{ number_format($total, 0, ',', '.') }} VND
-                            </span>
-                        </li>
+
+                        @if ($discount > 0)
+                            <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
+                                <span class="text-black">Tạm Tính:</span>
+                                <span>
+                                    {{ number_format($subTotal, 0, ',', '.') }} VND
+                                </span>
+                            </li>
+
+                            <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
+                                <span class="text-black font-weight-semi-bold ">Giảm
+                                    Giá:</span>
+                                <span class="text-danger">
+                                    -{{ number_format($discount, 0, ',', '.') }} VND
+                                </span>
+                            </li>
+
+                            <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
+                                <span class="text-black font-weight-semi-bold ">Tổng
+                                    Tiền:</span>
+                                <span>
+                                    {{ number_format($total, 0, ',', '.') }} VND
+                                </span>
+                            </li>
+                        @else
+                            <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
+                                <span class="text-black">Tạm Tính:</span>
+                                <span>
+                                    {{ number_format($subTotal, 0, ',', '.') }} VND
+                                </span>
+                            </li>
+                            <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
+                                <span class="text-black">Tổng Tiền:</span>
+                                <span>
+                                    {{ number_format($total, 0, ',', '.') }} VND
+                                </span>
+                            </li>
+                        @endif
+
                     </ul>
                     <a href="{{ route('checkout') }}" class="btn theme-btn w-100">Thanh Toán <i
                             class="la la-arrow-right icon ml-1"></i></a>

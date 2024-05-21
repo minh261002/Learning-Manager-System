@@ -7,6 +7,8 @@ use App\Services\Notify;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use App\Models\Course;
+use App\Models\Coupon;
+use Illuminate\Validation\Rule;
 
 class CartController extends Controller
 {
@@ -21,9 +23,11 @@ class CartController extends Controller
     {
         $cartItems = Cart::content();
         $total = Cart::total(0, '', '');
-        $subTotal = Cart::subtotal(0, '', '');
+        $subTotal = Cart::initial(0, '', '');
 
-        return view('frontend.pages.cart', compact('cartItems', 'total', 'subTotal'));
+        $discount = Cart::discount(0, '', '');
+
+        return view('frontend.pages.cart', compact('cartItems', 'total', 'subTotal', 'discount'));
     }
 
     public function cartData()
@@ -80,6 +84,13 @@ class CartController extends Controller
     {
         Cart::remove($rowId);
 
+        if (session()->has('isAppliedCoupon')) {
+            session()->forget([
+                'isAppliedCoupon',
+                'couponName'
+            ]);
+        }
+
         Notify::success('Đã xoá khoá học khỏi giỏ hàng');
         return response()->json(['status' => 'success']);
     }
@@ -88,13 +99,63 @@ class CartController extends Controller
     {
         Cart::destroy();
 
+        if (session()->has('isAppliedCoupon')) {
+            session()->forget([
+                'isAppliedCoupon',
+                'couponName'
+            ]);
+        }
+
         Notify::success('Đã xoá toàn bộ khoá học khỏi giỏ hàng');
         return response()->json(['status' => 'success']);
     }
 
     public function applyCoupon(Request $request)
     {
-        $coupon = $request->input('coupon');
+        if (session()->has('isAppliedCoupon')) {
+            Notify::error('Bạn đã áp dụng mã giảm giá rồi');
+            return redirect()->back();
+        }
 
+        $request->validate([
+            'coupon_name' => 'required'
+        ]);
+
+        $couponName = $request->input('coupon_name');
+
+        $coupon = Coupon::where('name', $couponName)->first();
+
+        if (!$coupon) {
+            Notify::error('Mã giảm giá không tồn tại');
+            return redirect()->back();
+        }
+
+        if ($coupon->expires_at < now()) {
+            Notify::error('Mã giảm giá đã hết hạn');
+            return redirect()->back();
+        }
+
+        Cart::setGlobalDiscount($coupon->discount);
+
+        session()->put([
+            'isAppliedCoupon' => true,
+            'couponName' => $couponName
+        ]);
+
+        Notify::success('Áp dụng mã giảm giá thành công');
+        return redirect()->back()->with('success', 'Áp dụng mã giảm giá thành công');
     }
+
+    public function removeCoupon()
+    {
+        Cart::setGlobalDiscount(0);
+
+        session()->forget(
+            ['isAppliedCoupon', 'couponName']
+        );
+
+        Notify::success('Đã xoá mã giảm giá');
+        return response()->json(['status' => 'success']);
+    }
+
 }

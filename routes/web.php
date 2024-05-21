@@ -45,6 +45,7 @@ Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
     Route::delete('cart/remove/all', [CartController::class, 'clear'])->name('cart.clear');
 
     Route::post('coupon/apply', [CartController::class, 'applyCoupon'])->name('coupon.apply');
+    Route::delete('coupon/remove', [CartController::class, 'removeCoupon'])->name('coupon.remove');
 });
 
 //location ajax
