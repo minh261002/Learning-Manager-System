@@ -23,54 +23,71 @@ class FrontendController extends Controller
         $categories = $this->category->where('parent_id', null)->get();
         return view('frontend.pages.home', compact('categories'));
     }
-
     public function courses()
     {
-        $categories = $this->category->where('parent_id', null)->get();
+        $categories = $this->category->where('parent_id', null)->pluck('id');
 
-        $courses = $this->course->latest();
+        $courses = $this->course->query();
 
-        if ($categorySlug = request()->category) {
-            $category = $this->category->where('slug', $categorySlug)->first();
+        $categorySlug = request()->category;
+        $q = request()->q;
 
-            if ($category) {
-                if ($category->parent_id == null) {
-                    $subCategories = $category->children()->pluck('id')->toArray();
+        $sort = request()->sort;
 
-                    $subCategories[] = $category->id;
+        $courses->when($categorySlug, function ($query) use ($categorySlug) {
+            $query->whereHas('category', function ($q) use ($categorySlug) {
+                $category = $this->category->where('slug', $categorySlug)->first();
+                $subCategories = $this->getSubCategories($category);
+                $q->whereIn('id', $subCategories);
+            });
+        });
 
-                    $courses = $this->course->whereIn('category_id', $subCategories)->latest();
-                } else {
-                    $courses = $category->courses()->latest();
-                }
+        $courses->when($q, function ($query) use ($q) {
+            $query->where('name', 'like', '%' . $q . '%');
+        });
+
+        $courses->when($sort, function ($query) use ($sort) {
+            switch ($sort) {
+                case 'newest':
+                    $query->latest();
+                    break;
+                case 'oldest':
+                    $query->oldest();
+                    break;
+                case 'name_desc':
+                    $query->orderBy('name', 'DESC');
+                    break;
+                case 'name_asc':
+                    $query->orderBy('name', 'ASC');
+                    break;
+                case 'price_desc':
+                    $query->orderBy('price', 'DESC');
+                    break;
+                case 'price_asc':
+                    $query->orderBy('price', 'ASC');
+                    break;
+                default:
+                    $query->latest();
+                    break;
             }
-        }
-
-        if (request()->q) {
-            $courses = $courses->where('name', 'like', '%' . request()->q . '%');
-        }
-
-        if (request()->sort) {
-            if (request()->sort == 'name-asc') {
-                $courses = $courses->orderBy('name');
-            }
-            if (request()->sort == 'name-desc') {
-                $courses = $courses->orderByDesc('name');
-            }
-            if (request()->sort == 'price-asc') {
-                $courses = $courses->orderBy('price');
-            }
-            if (request()->sort == 'price-desc') {
-                $courses = $courses->orderByDesc('price');
-            }
-        }
+        });
 
         $courses = $courses->paginate(2);
 
         return view('frontend.pages.courses', compact('courses', 'categories'));
     }
 
+    protected function getSubCategories($category)
+    {
+        $subCategories = [];
 
+        if ($category) {
+            $subCategories = $category->children()->pluck('id')->toArray();
+            $subCategories[] = $category->id;
+        }
+
+        return $subCategories;
+    }
 
     public function course_detail($slug)
     {

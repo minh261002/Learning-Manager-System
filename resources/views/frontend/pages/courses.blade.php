@@ -9,25 +9,20 @@
                 <div class="filter-bar-inner d-flex flex-wrap align-items-center justify-content-between">
                     <div class="d-flex flex-wrap align-items-center justify-content-between">
                         <div class="select-container select--container">
-                            <select class="select-container-select">
-                                <option value="all-category">Tất Cả</option>
-                                <option value="newest">Newest courses</option>
-                                <option value="oldest">Oldest courses</option>
-                                <option value="high-rated">Highest rated</option>
-                                <option value="popular-courses">Popular courses</option>
-                                <option value="high-to-low">Price: high to low</option>
-                                <option value="low-to-high">Price: low to high</option>
+                            <select class="select-container-select select2">
+                                <option value="newest" {{ request()->sort == 'newest' ? 'selected' : '' }}>Mới Nhất</option>
+                                <option value="oldest" {{ request()->sort == 'oldest' ? 'selected' : '' }}>Cũ Nhất</option>
+                                <option value="name_desc" {{ request()->sort == 'name_desc' ? 'selected' : '' }}>Tên: A-Z
+                                </option>
+                                <option value="name_asc" {{ request()->sort == 'name_asc' ? 'selected' : '' }}>Tên: Z-A
+                                </option>
+                                <option value="price_asc" {{ request()->sort == 'price_asc' ? 'selected' : '' }}>Giá: Thấp
+                                    Đến Cao</option>
+                                <option value="price_desc" {{ request()->sort == 'price_desc' ? 'selected' : '' }}>Giá: Cao
+                                    Đến Thấp</option>
                             </select>
                         </div>
                     </div>
-
-                    <form method="post">
-                        <div class="form-group mb-0">
-                            <input class="form-control form--control pl-3" type="text" name="search"
-                                placeholder="TÌm Kiếm  . . .">
-                            <span class="la la-search search-icon"></span>
-                        </div>
-                    </form>
 
                 </div><!-- end filter-bar-inner -->
             </div><!-- end filter-bar -->
@@ -35,24 +30,6 @@
             <div class="row">
                 <div class="col-lg-4">
                     <div class="sidebar mb-5">
-
-                        <div class="card card-item">
-                            <div class="card-body">
-                                <h3 class="card-title fs-18 pb-2">Danh Mục</h3>
-                                <div class="divider"><span></span></div>
-                                @foreach ($categories as $category)
-                                    <div class="custom-control custom-checkbox mb-1 fs-15">
-                                        <input type="checkbox" class="custom-control-input"
-                                            id="catCheckbox{{ $category->id }}" required>
-                                        <label class="custom-control-label custom--control-label text-black"
-                                            for="catCheckbox{{ $category->id }}">
-                                            {{ $category->name }}
-                                        </label>
-                                    </div><!-- end custom-control -->
-                                @endforeach
-                            </div>
-                        </div><!-- end card -->
-
 
                         <div class="card card-item">
                             <div class="card-body">
@@ -225,5 +202,26 @@
                 }
             });
         }
+
+        $('.select-container-select').on('change', function() {
+            var value = $(this).val();
+            var url = "{{ route('courses') }}";
+
+            if (value == 'newest') {
+                url = url + '?sort=newest';
+            } else if (value == 'oldest') {
+                url = url + '?sort=oldest';
+            } else if (value == 'name_desc') {
+                url = url + '?sort=name_desc';
+            } else if (value == 'name_asc') {
+                url = url + '?sort=name_asc';
+            } else if (value == 'price_asc') {
+                url = url + '?sort=price_asc';
+            } else if (value == 'price_desc') {
+                url = url + '?sort=price_desc';
+            }
+
+            window.location.href = url
+        });
     </script>
 @endpush

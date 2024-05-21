@@ -147,7 +147,8 @@
                             <form method="get" action="{{ route('courses') }}">
                                 <div class="form-group mb-0">
                                     <input class="form-control form--control pl-3" type="text" name="q"
-                                        id="search" placeholder="Tìm Kiếm  . . ." autocomplete="off">
+                                        id="search" placeholder="Tìm Kiếm  . . ." autocomplete="off"
+                                        value="{{ request()->q }}">
                                     <span class="la la-search search-icon"></span>
                                 </div>
                             </form>
