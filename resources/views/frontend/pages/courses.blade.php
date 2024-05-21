@@ -36,14 +36,16 @@
                                 <h3 class="card-title fs-18 pb-2">Ngôn Ngữ</h3>
                                 <div class="divider"><span></span></div>
                                 <div class="custom-control custom-checkbox mb-1 fs-15">
-                                    <input type="checkbox" class="custom-control-input" id="langCheckbox" required>
+                                    <input type="checkbox" class="custom-control-input" id="langCheckbox"
+                                        {{ request()->lang == 'vi' ? 'checked' : '' }}>
                                     <label class="custom-control-label custom--control-label text-black" for="langCheckbox">
                                         Tiếng Việt
                                     </label>
                                 </div><!-- end custom-control -->
 
                                 <div class="custom-control custom-checkbox mb-1 fs-15">
-                                    <input type="checkbox" class="custom-control-input" id="langCheckbox2" required>
+                                    <input type="checkbox" class="custom-control-input" id="langCheckbox2"
+                                        {{ request()->lang == 'en' ? 'checked' : '' }}>
                                     <label class="custom-control-label custom--control-label text-black"
                                         for="langCheckbox2">
                                         Tiếng Anh
@@ -188,6 +190,29 @@
                 url = url + '?sort=price_asc';
             } else if (value == 'price_desc') {
                 url = url + '?sort=price_desc';
+            }
+
+            window.location.href = url
+        });
+
+        //checkbox lang
+        $('#langCheckbox').on('change', function() {
+            var url = "{{ route('courses') }}";
+            var value = $(this).is(':checked') ? 'vi' : '';
+
+            if (value == 'vi') {
+                url = url + '?lang=vi';
+            }
+
+            window.location.href = url
+        });
+
+        $('#langCheckbox2').on('change', function() {
+            var url = "{{ route('courses') }}";
+            var value = $(this).is(':checked') ? 'en' : '';
+
+            if (value == 'en') {
+                url = url + '?lang=en';
             }
 
             window.location.href = url

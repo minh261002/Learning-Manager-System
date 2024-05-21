@@ -35,6 +35,8 @@ class FrontendController extends Controller
 
         $sort = request()->sort;
 
+        $lang = request()->lang;
+
         $courses->when($categorySlug, function ($query) use ($categorySlug) {
             $query->whereHas('category', function ($q) use ($categorySlug) {
                 $category = $this->category->where('slug', $categorySlug)->first();
@@ -71,6 +73,10 @@ class FrontendController extends Controller
                     $query->latest();
                     break;
             }
+        });
+
+        $courses->when($lang, function ($query) use ($lang) {
+            $query->where('language', $lang);
         });
 
         $courses = $courses->paginate(2);
