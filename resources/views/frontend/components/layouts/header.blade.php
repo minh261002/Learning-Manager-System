@@ -180,7 +180,7 @@
                                             <i class="la la-shopping-cart"></i>
                                             @if (Auth::check())
                                                 <span class="product-count" id="cartQty">
-                                                    {{ \App\Models\Cart::where('user_id', Auth::user()->id)->count() }}
+                                                    0
                                                 </span>
                                             @else
                                                 <span class="product-count" id="cartQty">

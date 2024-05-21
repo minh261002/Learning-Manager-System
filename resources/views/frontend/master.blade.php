@@ -149,6 +149,67 @@
             })
         }
         miniCart();
+
+        function addToWishLish(id) {
+            $.ajax({
+                url: "{{ route('wishlist.store') }}",
+                type: 'POST',
+                data: {
+                    course_id: id,
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(data) {
+                    location.reload();
+                }
+            });
+        }
+
+        function addToCart(id) {
+            $.ajax({
+                url: "{{ route('cart.store') }}",
+                type: 'POST',
+                data: {
+                    course_id: id,
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(data) {
+                    console.log(data)
+                    location.reload();
+                },
+                error: function(data) {
+                    console.log(data);
+                    alert('An error occurred. Please try again.');
+                }
+            });
+        }
+
+        function miniCart() {
+            $.ajax({
+                method: 'GET',
+                url: '{{ route('cart.data') }}',
+                dataType: 'json',
+                success: function(response) {
+                    var miniCart = ""
+                    $.each(response.carts, function(key, value) {
+                        miniCart += `<li class="media media-card">
+                        <a href="" class="media-img">
+                            <img src="${value.options.image}" alt="Cart image">
+                        </a>
+                        <div class="media-body">
+                            <h5><a href="/course/${value.options.slug}"> ${value.name}</a></h5>
+                             <span class="d-block fs-14">
+                                ${value.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}VND
+                            </span>
+                        </div>
+                    </li>
+                    `
+                    });
+                    $('#miniCart').html(miniCart);
+                    $("#cartQty").text(response.cartQty);
+                }
+            })
+        }
+        miniCart();
     </script>
 
     @stack('scripts')

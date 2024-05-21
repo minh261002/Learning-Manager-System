@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [FrontendController::class, 'index'])->name('home');
 Route::get('/courses', [FrontendController::class, 'courses'])->name('courses');
 Route::get('/course/{slug}', [FrontendController::class, 'course_detail'])->name('course.detail');
-Route::get('/teachers', [FrontendController::class, 'teachers'])->name('teacher.show');
+Route::get('/instructor/info/{username}', [FrontendController::class, 'instructor'])->name('info');
 
 //auth routes
 Route::get('/login', [AuthController::class, 'login'])->name('login');
@@ -39,9 +39,12 @@ Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
     Route::get('/wishlist', [WishListController::class, 'index'])->name('whishlist');
 
     Route::resource('cart', CartController::class);
+    Route::get('ajax/cart/data', [CartController::class, 'cartData'])->name('cart.data');
 
     Route::get('cart/mini-cart/get', [CartController::class, 'getMiniCart'])->name('cart.mini');
     Route::delete('cart/remove/all', [CartController::class, 'clear'])->name('cart.clear');
+
+    Route::post('coupon/apply', [CartController::class, 'applyCoupon'])->name('coupon.apply');
 });
 
 //location ajax

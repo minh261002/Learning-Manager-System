@@ -4,71 +4,97 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Services\Notify;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
-use App\Models\Cart;
+use App\Models\Course;
 
 class CartController extends Controller
 {
-    protected $cart;
+    protected $course;
 
-    public function __construct(Cart $cart)
+    public function __construct(Course $course)
     {
-        $this->cart = $cart;
+        $this->course = new Course();
     }
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        $cartItems = $this->cart->getCartItem(auth()->id());
-        return view('frontend.pages.cart', compact('cartItems'));
+        $cartItems = Cart::content();
+        $total = Cart::total(0, '', '');
+        $subTotal = Cart::subtotal(0, '', '');
+
+        return view('frontend.pages.cart', compact('cartItems', 'total', 'subTotal'));
     }
 
-    public function getMiniCart()
+    public function cartData()
     {
-        $cartItems = $this->cart->getCartItem(auth()->id());
-        return response()->json($cartItems);
+        $carts = Cart::content();
+        $total = Cart::total(0, '', '');
+        $cartQty = Cart::count();
+
+        return response()->json([
+            'carts' => $carts,
+            'total' => $total,
+            'cartQty' => $cartQty
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $cartItem = $this->cart->checkItem(request('course_id'), auth()->id());
+        $id = $request->input('course_id');
+        $course = $this->course->findOrFail($id);
 
-        if ($cartItem) {
-            return Notify::warning('Khoá học đã có trong giỏ hàng');
+        $cartItems = Cart::content();
+
+        foreach ($cartItems as $cartItem) {
+            if ($cartItem->id == $id) {
+                Notify::success('Khoá học đã có trong giỏ hàng');
+                return redirect()->back();
+            }
         }
 
-        $this->cart->addToCart(request('course_id'), auth()->id());
-        Notify::success('Khoá học đã được thêm vào giỏ hàng');
+        if ($course->discount > 0) {
+            $price = $course->price - ($course->price * $course->discount / 100);
+        } else {
+            $price = $course->price;
+        }
 
-        return redirect()->back();
+        Cart::add(
+            $course->id,
+            $course->name,
+            1,
+            $price,
+            0,
+            [
+                'image' => $course->image,
+                'slug' => $course->slug,
+                'instructor' => $course->instructor->name
+            ]
+        )->associate('App\Models\Course');
+
+        Notify::success('Thêm vào giỏ hàng thành công');
+
     }
 
-    public function destroy($id)
+    public function destroy($rowId)
     {
-        try {
-            $this->cart->removeItem($id);
-            Notify::success('Khoá học đã được xóa khỏi giỏ hàng');
-            return response()->json(['status' => 'success']);
-        } catch (\Exception $e) {
-            Notify::error('Có lỗi xảy ra, vui lòng thử lại sau');
-            return response()->json(['status' => 'error']);
-        }
+        Cart::remove($rowId);
+
+        Notify::success('Đã xoá khoá học khỏi giỏ hàng');
+        return response()->json(['status' => 'success']);
     }
 
     public function clear()
     {
-        try {
-            $this->cart->removeAllItem(auth()->id());
-            Notify::success('Giỏ hàng đã được xóa');
-            return response()->json(['status' => 'success']);
-        } catch (\Exception $e) {
-            Notify::error('Có lỗi xảy ra, vui lòng thử lại sau');
-            return response()->json(['status' => 'error']);
-        }
+        Cart::destroy();
+
+        Notify::success('Đã xoá toàn bộ khoá học khỏi giỏ hàng');
+        return response()->json(['status' => 'success']);
     }
 
+    public function applyCoupon(Request $request)
+    {
+        $coupon = $request->input('coupon');
+
+    }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\User;
 
 class FrontendController extends Controller
 {
@@ -95,11 +96,6 @@ class FrontendController extends Controller
         return view('frontend.pages.course-detail', compact('course'));
     }
 
-    public function teachers()
-    {
-        return view('frontend.pages.teachers');
-    }
-
     public function search(Request $request)
     {
         $search = $request->q;
@@ -110,5 +106,15 @@ class FrontendController extends Controller
             'courses' => $courses
         ]);
     }
+
+    public function instructor()
+    {
+        //lấy thông tin theo username
+        $instructor = User::where('username', request()->username)->first();
+        $courses = $this->course->where('instructor_id', $instructor->id)->get();
+
+        return view('frontend.pages.instructor', compact('instructor', 'courses'));
+    }
+
 
 }

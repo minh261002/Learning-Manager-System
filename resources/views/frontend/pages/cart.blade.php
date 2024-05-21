@@ -20,19 +20,19 @@
                             <tr>
                                 <th scope="row">
                                     <div class="media media-card">
-                                        <a href="{{ route('course.detail', $item->course->slug) }}" class="media-img mr-0">
-                                            <img src="{{ $item->course->image }}" alt="Cart image">
+                                        <a href="{{ route('course.detail', $item->options->slug) }}" class="media-img mr-0">
+                                            <img src="{{ $item->options->image }}" alt="Cart image">
                                         </a>
                                     </div>
                                 </th>
                                 <td>
-                                    <a href="{{ route('course.detail', $item->course->slug) }}"
+                                    <a href="{{ route('course.detail', $item->options->slug) }}"
                                         class="text-black font-weight-semi-bold">
-                                        {{ $item->course->name }}
+                                        {{ $item->name }}
                                     </a>
                                     <p class="fs-14 text-gray lh-20"><a href="teacher-detail.html"
                                             class="text-color hover-underline">
-                                            {{ $item->course->instructor->name }}
+                                            {{ $item->options->instructor }}
                                         </a></p>
                                 </td>
                                 <td>
@@ -41,20 +41,13 @@
                                             <span
                                                 class="text-black
                                                 font-weight-semi-bold ">
-                                                @if ($item->course->discount > 0)
-                                                    {{ number_format($item->course->price - ($item->course->discount * $item->course->price) / 100) }}
-                                                    <span class="text-gray fs-14" style="text-decoration: line-through">
-                                                        {{ number_format($item->course->price) }}
-                                                    </span>
-                                                @else
-                                                    {{ number_format($item->course->price) }}
-                                                @endif
+                                                {{ number_format($item->price, 0, ',', '.') }} VND
                                             </span>
                                         </li>
                                     </ul>
                                 </td>
                                 <td>
-                                    <a href="{{ route('cart.destroy', $item->id) }}"
+                                    <a href="{{ route('cart.destroy', $item->rowId) }}"
                                         class="icon-element delete-item icon-element-xs shadow-sm border-0"
                                         data-toggle="tooltip" data-placement="top" title="Remove">
                                         <i class="la la-times"></i>
@@ -93,11 +86,15 @@
                     <ul class="generic-list-item pb-4">
                         <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
                             <span class="text-black">Tạm Tính:</span>
-                            <span>VND</span>
+                            <span>
+                                {{ number_format($subTotal, 0, ',', '.') }} VND
+                            </span>
                         </li>
                         <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
                             <span class="text-black">Tổng Tiền:</span>
-                            <span>VND</span>
+                            <span>
+                                {{ number_format($total, 0, ',', '.') }} VND
+                            </span>
                         </li>
                     </ul>
                     <a href="{{ route('checkout') }}" class="btn theme-btn w-100">Thanh Toán <i

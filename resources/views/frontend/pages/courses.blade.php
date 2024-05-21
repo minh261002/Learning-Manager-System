@@ -172,37 +172,6 @@
 
 @push('scripts')
     <script>
-        function addToWishLish(id) {
-            $.ajax({
-                url: "{{ route('wishlist.store') }}",
-                type: 'POST',
-                data: {
-                    course_id: id,
-                    _token: "{{ csrf_token() }}"
-                },
-                success: function(data) {
-                    location.reload();
-                }
-            });
-        }
-
-        function addToCart(id) {
-            $.ajax({
-                url: "{{ route('cart.store') }}",
-                type: 'POST',
-                data: {
-                    course_id: id,
-                    _token: "{{ csrf_token() }}"
-                },
-                success: function(data) {
-                    location.reload();
-                },
-                error: function(data) {
-                    console.log(data);
-                }
-            });
-        }
-
         $('.select-container-select').on('change', function() {
             var value = $(this).val();
             var url = "{{ route('courses') }}";
