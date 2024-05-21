@@ -2,7 +2,7 @@
 
 @section('title', 'Danh Sách Khóa Học')
 @section('content')
-    <section class="course-area mt-5">
+    <section class="course-area my-5">
         <div class="container">
 
             <div class="filter-bar mb-4">
@@ -79,7 +79,7 @@
                 </div><!-- end col-lg-4 -->
                 <div class="col-lg-8">
                     <div class="row">
-                        @foreach ($courses as $course)
+                        @forelse ($courses as $course)
                             <div class="col-lg-6 responsive-column-half">
                                 <div class="card card-item card-preview"
                                     data-tooltip-content="#tooltip_content_{{ $course->id }}">
@@ -171,32 +171,22 @@
                                     </div><!-- end card-body -->
                                 </div><!-- end card -->
                             </div>
-                        @endforeach
+                        @empty
+                            <div class="col-lg-12">
+                                <div class="alert alert-danger">Không có khóa học nào</div>
+                            </div>
+                        @endforelse
 
                     </div><!-- end row -->
 
-                    {{-- <div class="text-center pt-3">
+                    <div class="text-center pt-3">
                         <nav aria-label="Page navigation example" class="pagination-box">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Previous">
-                                        <span aria-hidden="true"><i class="la la-arrow-left"></i></span>
-                                        <span class="sr-only">Previous</span>
-                                    </a>
-                                </li>
-                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Next">
-                                        <span aria-hidden="true"><i class="la la-arrow-right"></i></span>
-                                        <span class="sr-only">Next</span>
-                                    </a>
-                                </li>
-                            </ul>
+                            {{ $courses->links('pagination::bootstrap-4') }}
                         </nav>
-                        <p class="fs-14 pt-2">Showing 1-10 of 56 results</p>
-                    </div> --}}
+                        <p class="fs-14 pt-2">Hiển Thị {{ $courses->lastItem() ?? $courses->firstItem() }}
+                            Trên
+                            {{ $courses->total() }} Kết Quả</p>
+                    </div>
                 </div><!-- end col-lg-8 -->
             </div><!-- end row -->
         </div><!-- end container -->

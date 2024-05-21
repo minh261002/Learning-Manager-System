@@ -17,6 +17,7 @@
                         </ul>
                     </div><!-- end header-widget -->
                 </div><!-- end col-lg-6 -->
+
                 <div class="col-lg-6">
                     <div class="header-widget d-flex flex-wrap align-items-center justify-content-end">
                         <div class="theme-picker d-flex align-items-center">
@@ -143,13 +144,18 @@
 
                             </div><!-- end menu-category -->
 
-                            <form method="post">
+                            <form method="get" action="{{ route('courses') }}">
                                 <div class="form-group mb-0">
-                                    <input class="form-control form--control pl-3" type="text" name="search"
-                                        placeholder="Tìm Kiếm  . . .">
+                                    <input class="form-control form--control pl-3" type="text" name="q"
+                                        id="search" placeholder="Tìm Kiếm  . . ." autocomplete="off">
                                     <span class="la la-search search-icon"></span>
                                 </div>
                             </form>
+
+                            <div id="searchResult" class="search-result position-absolute left-0 w-100 mt-5 bg-light"
+                                style="top: 40px">
+
+                            </div>
 
                             <nav class="main-menu">
                                 <ul>
@@ -171,9 +177,15 @@
                                     <li>
                                         <p class="shop-cart-btn d-flex align-items-center">
                                             <i class="la la-shopping-cart"></i>
-                                            <span class="product-count" id="cartQty">
-                                                {{ \App\Models\Cart::count() ?? 0 }}
-                                            </span>
+                                            @if (Auth::check())
+                                                <span class="product-count" id="cartQty">
+                                                    {{ \App\Models\Cart::where('user_id', Auth::user()->id)->count() }}
+                                                </span>
+                                            @else
+                                                <span class="product-count" id="cartQty">
+                                                    0
+                                                </span>
+                                            @endif
                                         </p>
                                         <ul class="cart-dropdown-menu">
                                             <div id="miniCart">
@@ -361,3 +373,93 @@
 
     <div class="body-overlay"></div>
 </header>
+
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('#searchResult').length && !$(e.target).closest('#search')
+                    .length) {
+                    $('#searchResult').html('');
+                }
+            });
+
+
+            let searchTimeout;
+
+            $('#search').on('keyup', function() {
+                clearTimeout(searchTimeout);
+                $('#searchResult').html(`
+                    <div class="d-flex justify-content-center align-items-center" style="height: 100px;">
+                        <div class="spinner-border text-danger" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                `);
+
+                var q = $(this).val();
+
+                if (q.length == 0) {
+                    $('#searchResult').html('');
+                } else {
+                    searchTimeout = setTimeout(function() {
+                        $.ajax({
+                            url: "{{ route('search') }}",
+                            method: 'GET',
+                            data: {
+                                q: q
+                            },
+                            success: function(res) {
+                                var courses = res.courses;
+                                console.log(courses);
+
+                                if (courses.length === 0) {
+                                    $('#searchResult').html(
+                                        '<p class="py-3 fs-18 text-center">Không Có Kết Quả</p>'
+                                    );
+                                    return;
+                                }
+
+                                var searchResult = `
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Ảnh</th>
+                                            <th>Khoá Học</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                            `;
+
+                                $.each(courses, function(key, value) {
+                                    searchResult += `
+                                    <tr>
+                                        <td><img src="${value.image}" alt="Search image" style="width: 50px; height: 50px; object-fit:cover"></td>
+                                        <td>${value.name}</td>
+                                        <td><a href="/course/${value.slug}">Xem Chi Tiết</a></td>
+                                    </tr>
+                                `;
+                                });
+
+                                searchResult += `
+                                    </tbody>
+                                </table>
+                            `;
+
+                                $('#searchResult').html(searchResult);
+                            },
+                            error: function(err) {
+                                $('#searchResult').html(
+                                    '<p>Đã có lỗi xảy ra, vui lòng thử lại</p>'
+                                );
+                                console.log(err);
+                            }
+                        });
+                    }, 2000);
+                }
+            });
+        });
+    </script>
+@endpush

@@ -49,4 +49,7 @@ Route::get('location/provinces', [LocationController::class, 'getProvinces']);
 Route::get('location/districts/{provinceCode}', [LocationController::class, 'getDistricts']);
 Route::get('location/wards/{districtCode}', [LocationController::class, 'getWards']);
 
+//search ajax
+Route::get('search', [FrontendController::class, 'search'])->name('search');
+
 Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');

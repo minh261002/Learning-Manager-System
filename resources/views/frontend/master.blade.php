@@ -150,6 +150,7 @@
         }
         miniCart();
     </script>
+
     @stack('scripts')
 </body>
 

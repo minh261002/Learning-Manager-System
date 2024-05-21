@@ -46,6 +46,16 @@ class Course extends Model
         return Course::orderBy('id', 'desc')->get();
     }
 
+    public function createCourse($data)
+    {
+        return Course::create($data);
+    }
+
+    public function updateCourse($data, $id)
+    {
+        return Course::where('id', $id)->update($data);
+    }
+
     public function getPaginate($perPage)
     {
         return Course::orderBy('id', 'desc')->paginate($perPage);
