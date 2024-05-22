@@ -46,6 +46,11 @@ Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
 
     Route::post('coupon/apply', [CartController::class, 'applyCoupon'])->name('coupon.apply');
     Route::delete('coupon/remove', [CartController::class, 'removeCoupon'])->name('coupon.remove');
+
+    Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
+    Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+
+    Route::get('checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
 });
 
 //location ajax
@@ -56,4 +61,10 @@ Route::get('location/wards/{districtCode}', [LocationController::class, 'getWard
 //search ajax
 Route::get('search', [FrontendController::class, 'search'])->name('search');
 
-Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
+Route::get('payment/vnpay', [CheckoutController::class, 'paymentVNPay'])->name('payment.vnpay');
+Route::get('payment/paypal', [CheckoutController::class, 'paymentPaypal'])->name('payment.paypal');
+Route::get('payment/momo', [CheckoutController::class, 'paymentMomo'])->name('payment.momo');
+
+Route::get('test', function () {
+    return view('mail.order_mail');
+});

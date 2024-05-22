@@ -26,9 +26,10 @@ class FrontendController extends Controller
     }
     public function courses()
     {
+        $allCategories = $this->category->all();
         $categories = $this->category->where('parent_id', null)->pluck('id');
 
-        $courses = $this->course->query();
+        $courses = $this->course->query()->where('status', 1);
 
         $categorySlug = request()->category;
         $q = request()->q;
@@ -79,9 +80,14 @@ class FrontendController extends Controller
             $query->where('language', $lang);
         });
 
-        $courses = $courses->paginate(2);
+        //sắp xếp mặc định theo created_at
+        if (!request()->sort) {
+            $courses->latest();
+        }
 
-        return view('frontend.pages.courses', compact('courses', 'categories'));
+        $courses = $courses->paginate(6)->withQueryString();
+
+        return view('frontend.pages.courses', compact('courses', 'categories', 'allCategories'));
     }
 
     protected function getSubCategories($category)
@@ -99,7 +105,8 @@ class FrontendController extends Controller
     public function course_detail($slug)
     {
         $course = $this->course->getCourseBySlug($slug);
-        return view('frontend.pages.course-detail', compact('course'));
+        $related = $this->course->where('instructor_id', $course->instructor_id)->where('id', '!=', $course->id)->get();
+        return view('frontend.pages.course-detail', compact('course', 'related'));
     }
 
     public function search(Request $request)

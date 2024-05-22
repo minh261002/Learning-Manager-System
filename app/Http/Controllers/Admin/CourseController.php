@@ -42,7 +42,7 @@ class CourseController extends Controller
         //
     }
 
-    public function changeCourseStatus(Request $request)
+    public function changeStatus(Request $request)
     {
         try {
             $course = $this->course->findOrFail($request->course_id);

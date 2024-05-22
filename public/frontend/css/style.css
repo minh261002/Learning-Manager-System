@@ -6656,6 +6656,13 @@ div.datedropper .picker .pick-lg-b li {
     color: #ec5252;
 }
 
+.overflow_title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
 /*-========= header-menu-area ==========-*/
 .header-menu-area {
     position: relative;

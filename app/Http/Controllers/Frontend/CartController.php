@@ -51,8 +51,8 @@ class CartController extends Controller
         $cartItems = Cart::content();
 
         foreach ($cartItems as $cartItem) {
-            if ($cartItem->id == $id) {
-                Notify::success('Khoá học đã có trong giỏ hàng');
+            if ($cartItem->id == $course->id) {
+                Notify::warning('Khoá học đã có trong giỏ hàng');
                 return redirect()->back();
             }
         }

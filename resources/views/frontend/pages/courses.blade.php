@@ -12,9 +12,9 @@
                             <select class="select-container-select select2">
                                 <option value="newest" {{ request()->sort == 'newest' ? 'selected' : '' }}>Mới Nhất</option>
                                 <option value="oldest" {{ request()->sort == 'oldest' ? 'selected' : '' }}>Cũ Nhất</option>
-                                <option value="name_desc" {{ request()->sort == 'name_desc' ? 'selected' : '' }}>Tên: A-Z
+                                <option value="name_desc" {{ request()->sort == 'name_desc' ? 'selected' : '' }}>Tên: Z-A
                                 </option>
-                                <option value="name_asc" {{ request()->sort == 'name_asc' ? 'selected' : '' }}>Tên: Z-A
+                                <option value="name_asc" {{ request()->sort == 'name_asc' ? 'selected' : '' }}>Tên: A-Z
                                 </option>
                                 <option value="price_asc" {{ request()->sort == 'price_asc' ? 'selected' : '' }}>Giá: Thấp
                                     Đến Cao</option>
@@ -24,12 +24,28 @@
                         </div>
                     </div>
 
+                    <div>
+                        <h6 class="mb-0">
+                            @if (request()->category)
+                                Danh Mục: {{ $allCategories->where('slug', request()->category)->first()->name }}
+                            @else
+                                Danh Sách Khóa Học
+                            @endif
+                        </h6>
+                    </div>
+
                 </div><!-- end filter-bar-inner -->
             </div><!-- end filter-bar -->
 
             <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <div class="sidebar mb-5">
+                        <div class="card card-item">
+                            <div class="card-body">
+                                <h3 class="card-title fs-18 pb-2">Danh Mục</h3>
+                                <div class="divider"><span></span></div>
+                            </div>
+                        </div><!-- end card -->
 
                         <div class="card card-item">
                             <div class="card-body">
@@ -54,107 +70,19 @@
                             </div>
                         </div><!-- end card -->
 
+                        <div class="card card-item">
+                            <div class="card-body">
+                                <h3 class="card-title fs-18 pb-2">Đánh Giá</h3>
+                                <div class="divider"><span></span></div>
+                            </div>
+                        </div><!-- end card -->
                     </div><!-- end sidebar -->
                 </div><!-- end col-lg-4 -->
-                <div class="col-lg-8">
+                <div class="col-lg-9">
                     <div class="row">
-                        @forelse ($courses as $course)
-                            <div class="col-lg-6 responsive-column-half">
-                                <div class="card card-item card-preview"
-                                    data-tooltip-content="#tooltip_content_{{ $course->id }}">
-                                    <div class="card-image">
-                                        <a href="{{ route('course.detail', $course->slug) }}">
-                                            <img class="card-img-top lazy"
-                                                src="{{ asset('frontend/images/img-loading.png') }}"
-                                                data-src="{{ $course->image }}" alt="Card image cap">
-                                        </a>
-                                        <div class="course-badge-labels">
-                                            {{-- <div class="course-badge"></div> --}}
-                                            @if ($course->discount > 0)
-                                                <div class="course-badge red">
-                                                    -{{ $course->discount }}%
-                                                </div>
-                                            @endif
-                                        </div>
-                                    </div><!-- end card-image -->
-                                    <div class="card-body">
-                                        <h5 class="card-title">
-                                            <a href="{{ route('course.detail', $course->slug) }}">
-                                                {{ $course->name }}
-                                            </a>
-                                        </h5>
-                                        <p class="card-text"><a href="teacher-detail.html">
-                                                {{ $course->instructor->name }}
-                                            </a></p>
-                                        <div class="rating-wrap d-flex align-items-center py-2">
-                                            <div class="review-stars">
-                                                <span class="rating-number">4.4</span>
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star-o"></span>
-                                            </div>
-                                            <span class="rating-total pl-1">(20,230)</span>
-                                        </div><!-- end rating-wrap -->
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <p class="card-price text-black font-weight-bold">
-                                                {{-- {{ number_format($course->price, 0, '.', ',') }} VNĐ
-                                                <span class="before-price font-weight-medium">
-
-                                                </span> --}}
-                                                @if ($course->price == 0)
-                                                    Miễn Phí
-                                                @elseif ($course->discount > 0)
-                                                    {{ number_format($course->price - ($course->price * $course->discount) / 100, 0, '.', ',') }}
-                                                    VNĐ
-                                                    <span class="before-price font-weight-medium">
-                                                        {{ number_format($course->price, 0, '.', ',') }} VNĐ
-                                                    </span>
-                                                @else
-                                                    {{ number_format($course->price, 0, '.', ',') }} VNĐ
-                                                @endif
-                                            </p>
-
-                                            @auth
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <div class="icon-element icon-element-sm shadow-sm cursor-pointer"
-                                                        id="{{ $course->id }}" title="Yêu Thích"
-                                                        onclick="addToWishLish(this.id)">
-                                                        <i class="la la-heart-o"></i>
-                                                    </div>
-
-                                                    <div class="icon-element icon-element-sm shadow-sm cursor-pointer"
-                                                        id="{{ $course->id }}" title="Thêm Vào Giỏ Hàng"
-                                                        onclick="addToCart(this.id)">
-                                                        <i class="la la-shopping-cart"></i>
-                                                    </div>
-                                                </div>
-                                            @endauth
-
-                                            @guest
-                                                <div>
-                                                    <div class="icon-element icon-element-sm shadow-sm"
-                                                        style="cursor:not-allowed" title="Bạn Cần Đăng Nhập">
-                                                        <i class="la la-heart-o"></i>
-                                                    </div>
-
-                                                    <div class="icon-element icon-element-sm shadow-sm"
-                                                        style="cursor:not-allowed" title="Bạn Cần Đăng Nhập">
-                                                        <i class="la la-shopping-cart"></i>
-                                                    </div>
-
-                                                </div>
-                                            @endguest
-                                        </div>
-                                    </div><!-- end card-body -->
-                                </div><!-- end card -->
-                            </div>
-                        @empty
-                            <div class="col-lg-12">
-                                <div class="alert alert-danger">Không có khóa học nào</div>
-                            </div>
-                        @endforelse
+                        @php
+                            echo renderBoxCourses($courses);
+                        @endphp
 
                     </div><!-- end row -->
 
@@ -162,7 +90,7 @@
                         <nav aria-label="Page navigation example" class="pagination-box">
                             {{ $courses->links('pagination::bootstrap-4') }}
                         </nav>
-                        <p class="fs-14 pt-2">Hiển Thị {{ $courses->lastItem() ?? $courses->firstItem() }}
+                        <p class="fs-14 pt-2">Hiển Thị {{ $courses->firstItem() ?? 0 }} - {{ $courses->lastItem() ?? 0 }}
                             Trên
                             {{ $courses->total() }} Kết Quả</p>
                     </div>

@@ -10,11 +10,12 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('carts', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable()->constrained('users');
-            $table->foreignId('course_id')->nullable()->constrained('courses');
-            $table->foreignId('order_id')->nullable()->constrained('orders');
+            $table->string('order_number');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('payment_id')->constrained('payments')->onDelete('cascade'); // Khóa ngoại đến bảng payments
+            $table->json('items');
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('carts');
+        Schema::dropIfExists('orders');
     }
 };

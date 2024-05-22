@@ -122,48 +122,6 @@
             });
         });
 
-        function miniCart() {
-            $.ajax({
-                method: 'GET',
-                url: '{{ route('cart.mini') }}',
-                dataType: 'json',
-                success: function(response) {
-                    var miniCart = ""
-                    $.each(response, function(key, value) {
-                        miniCart += `<li class="media media-card">
-                    <a href="" class="media-img">
-                        <img src="${value.course.image}" alt="Cart image">
-                    </a>
-                    <div class="media-body">
-                        <h5><a href="/course/${value.course.slug}"> ${value.course.name}</a></h5>
-
-                         <span class="d-block fs-14">
-                            ${value.course.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}VND
-                        </span>
-                    </div>
-                </li>
-                `
-                    });
-                    $('#miniCart').html(miniCart);
-                }
-            })
-        }
-        miniCart();
-
-        function addToWishLish(id) {
-            $.ajax({
-                url: "{{ route('wishlist.store') }}",
-                type: 'POST',
-                data: {
-                    course_id: id,
-                    _token: "{{ csrf_token() }}"
-                },
-                success: function(data) {
-                    location.reload();
-                }
-            });
-        }
-
         function addToCart(id) {
             $.ajax({
                 url: "{{ route('cart.store') }}",
