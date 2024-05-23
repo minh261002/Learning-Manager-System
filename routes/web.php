@@ -62,5 +62,6 @@ Route::get('location/wards/{districtCode}', [LocationController::class, 'getWard
 Route::get('search', [FrontendController::class, 'search'])->name('search');
 
 Route::get('payment/vnpay', [CheckoutController::class, 'paymentVNPay'])->name('payment.vnpay');
+Route::get('payment/vnpay/callback', [CheckoutController::class, 'handleVNPayCallback'])->name('payment.vnpay.callback');
 Route::get('payment/paypal', [CheckoutController::class, 'paymentPaypal'])->name('payment.paypal');
 Route::get('payment/paypal/callback', [CheckoutController::class, 'handlePaypalCallback'])->name('payment.paypal.callback');
