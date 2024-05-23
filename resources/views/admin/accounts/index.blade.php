@@ -40,7 +40,7 @@
                                         @if ($account->role == 'admin')
                                             Quản Trị Viên
                                         @elseif ($account->role == 'instructor')
-                                            Giảng Viên
+                                            Người Hướng Dẫn
                                         @else
                                             Người Dùng
                                         @endif

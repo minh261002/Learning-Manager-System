@@ -30,7 +30,11 @@ class AccountController extends Controller
      */
     public function index()
     {
-        $accounts = User::orderBy('id', 'desc')->get();
+        if (request()->has('role')) {
+            $accounts = User::where('role', request('role'))->orderBy('id', 'desc')->get();
+        } else {
+            $accounts = User::orderBy('id', 'desc')->get();
+        }
         return view('admin.accounts.index', compact('accounts'));
     }
 

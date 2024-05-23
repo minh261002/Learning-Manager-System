@@ -26,10 +26,16 @@
                 </a>
             </li>
 
-            <li
+            {{-- <li
                 class="{{ adminSetSidebarActive(['admin.accounts.index', 'admin.accounts.create', 'admin.accounts.edit']) }}">
                 <a class="nav-link" href="{{ route('admin.accounts.index') }}"><i class="fa-solid fa-user-group"></i>
                     <span>Quản Lý Người Dùng</span></a>
+            </li> --}}
+
+            <li
+                class="{{ adminSetSidebarActive(['admin.accounts.index', 'admin.accounts.create', 'admin.accounts.edit']) }}">
+                <a class="nav-link" href="{{ route('admin.accounts.index') }}"><i class="fa-solid fa-user-group"></i>
+                    <span>Quản Lý Tài Khoản</span></a>
             </li>
 
             <li
@@ -44,9 +50,14 @@
                     <span>Quản Lý Mã Giảm Giá</span></a>
             </li>
             <li
-                class="{{ adminSetSidebarActive(['admin.orders.index', 'admin.orders.create', 'admin.orders.edit']) }}">
+                class="{{ adminSetSidebarActive(['admin.orders.index', 'admin.orders.create', 'admin.orders.edit', 'admin.orders.show']) }}">
                 <a class="nav-link" href="{{ route('admin.orders.index') }}"><i class="fa-solid fa-money-bills"></i>
                     <span>Quản Lý Đơn Hàng</span></a>
+            </li>
+
+            <li class="">
+                <a class="nav-link" href=""><i class="fa-solid fa-gear"></i>
+                    <span>Cấu Hình Email</span></a>
             </li>
 
             {{-- <li><a class="nav-link" href="blank.html"><i class="far fa-square"></i> <span>Blank

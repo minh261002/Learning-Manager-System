@@ -3,24 +3,34 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Services\Notify;
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Models\Payment;
 
 class OrderController extends Controller
 {
     public $order;
+    public $payment;
 
-    public function __construct(Order $order)
+    public function __construct(Order $order, Payment $payment)
     {
         $this->order = $order;
+        $this->payment = $payment;
     }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $orders = $this->order->latest()->get();
-        return view('admin.orders.index', compact('orders'));
+        if (request()->has('status')) {
+            $payments = $this->payment->where('status', request('status'))->orderBy('id', 'desc')->get();
+        } else {
+            $payments = $this->payment->orderBy('id', 'desc')->get();
+        }
+        ;
+
+        return view('admin.orders.index', compact('payments'));
     }
 
     /**
@@ -44,7 +54,10 @@ class OrderController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $payment = $this->payment->findOrFail($id);
+        $orders = $this->order->where('payment_id', $payment->id)->get();
+
+        return view('admin.orders.show', compact('payment', 'orders'));
     }
 
     /**
@@ -69,5 +82,15 @@ class OrderController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function changeStatus(Request $request)
+    {
+        $payment = $this->payment->findOrFail($request->id);
+        $payment->status = $request->status;
+        $payment->save();
+
+        Notify::success('Huỷ đơn hàng thành công');
+        return redirect()->back();
     }
 }

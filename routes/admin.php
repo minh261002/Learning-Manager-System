@@ -33,3 +33,4 @@ Route::resource('coupons', CouponController::class);
 
 //order
 Route::resource('orders', OrderController::class);
+Route::put('order/change-status/{id}', [OrderController::class, 'changeStatus'])->name('orders.change-status');
