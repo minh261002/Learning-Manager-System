@@ -18,7 +18,7 @@
                                     <label class="label-text">Họ Và Tên</label>
                                     <div class="form-group">
                                         <input class="form-control form--control" type="text" name="name"
-                                            value="{{ Auth::user()->name }}" disabled>
+                                            value="{{ Auth::user()->name }}" readonly>
                                         <span class="la la-user input-icon"></span>
                                     </div>
                                 </div>
@@ -27,7 +27,7 @@
                                     <label class="label-text">Email</label>
                                     <div class="form-group">
                                         <input class="form-control form--control" type="text" name="email"
-                                            value="{{ Auth::user()->email }}">
+                                            value="{{ Auth::user()->email }}" readonly>
                                         <span class="la la-envelope input-icon"></span>
                                     </div>
                                 </div>

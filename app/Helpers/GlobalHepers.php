@@ -165,3 +165,13 @@ function renderBoxCourses($courses)
 
     return $html;
 }
+
+function vndToUsd($vnd)
+{
+    return $vnd / 25463;
+}
+
+function usdToVnd($usd)
+{
+    return $usd * 25463;
+}

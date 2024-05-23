@@ -17,6 +17,8 @@
         "laravel/socialite": "^5.14",
         "laravel/tinker": "^2.9",
         "league/flysystem-aws-s3-v3": "^3.27",
+        "league/omnipay": "^3.2",
+        "omnipay/paypal": "^3.0",
         "owen-oj/laravel-getid3": "*",
         "php-flasher/flasher-notyf-laravel": "^2.0"
     },

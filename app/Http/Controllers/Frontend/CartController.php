@@ -45,6 +45,15 @@ class CartController extends Controller
 
     public function store(Request $request)
     {
+        if (session()->has('isAppliedCoupon')) {
+            session()->forget([
+                'isAppliedCoupon',
+                'couponName'
+            ]);
+
+            Cart::setGlobalDiscount(0);
+        }
+
         $id = $request->input('course_id');
         $course = $this->course->findOrFail($id);
 
@@ -89,6 +98,8 @@ class CartController extends Controller
                 'isAppliedCoupon',
                 'couponName'
             ]);
+
+            Cart::setGlobalDiscount(0);
         }
 
         Notify::success('Đã xoá khoá học khỏi giỏ hàng');
@@ -104,6 +115,8 @@ class CartController extends Controller
                 'isAppliedCoupon',
                 'couponName'
             ]);
+
+            Cart::setGlobalDiscount(0);
         }
 
         Notify::success('Đã xoá toàn bộ khoá học khỏi giỏ hàng');
@@ -143,7 +156,7 @@ class CartController extends Controller
         ]);
 
         Notify::success('Áp dụng mã giảm giá thành công');
-        return redirect()->back()->with('success', 'Áp dụng mã giảm giá thành công');
+        return redirect()->back();
     }
 
     public function removeCoupon()

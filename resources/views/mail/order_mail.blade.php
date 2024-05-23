@@ -7,7 +7,6 @@
     <title>Xác nhận Đơn Hàng</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Custom styles */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -57,10 +56,10 @@
         </div>
         <div class="order-details">
             <h2>Thông tin Đơn Hàng</h2>
-            <p><strong>Đơn Hàng:</strong> {{ $order->order_number }}</p>
-            <p><strong>Ngày Đặt Hàng:</strong> {{ formatDate($order->created_at) }}</p>
-            <p><strong>Phương Thức Thanh Toán:</strong> {{ $order->payment->payment_method }}</p>
-            <p><strong>Trạng Thái Đơn Hàng:</strong> {{ $order->payment->status }}</p>
+            <p><strong>Đơn Hàng:</strong> {{ $payment->payment_number }}</p>
+            <p><strong>Ngày Đặt Hàng:</strong> {{ $order->created_at->format('d/m/Y') }}</p>
+            <p><strong>Phương Thức Thanh Toán:</strong> {{ $payment->method }}</p>
+            <p><strong>Trạng Thái Đơn Hàng:</strong> {{ $payment->status }}</p>
         </div>
         <div class="footer">
             <p>Chúng tôi sẽ tiếp tục cập nhật trạng thái của đơn hàng và sẽ thông báo cho bạn khi đơn hàng được gửi đi.

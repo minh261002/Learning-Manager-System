@@ -12,9 +12,11 @@ class Order extends Mailable
 {
     use Queueable, SerializesModels;
 
-    function __construct(public $data)
+    public $data;
+
+    function __construct($data)
     {
-        //
+        $this->data = $data;
     }
 
     function envelope(): Envelope
@@ -24,12 +26,12 @@ class Order extends Mailable
         );
     }
 
-     function content(): Content
+    function content(): Content
     {
         $order = $this->data;
         return new Content(
             view: 'mail.order_mail',
-            with: ['order' => $this->data],
+            with: ['order' => $this->data['order'], 'payment' => $this->data['payment']],
         );
     }
 

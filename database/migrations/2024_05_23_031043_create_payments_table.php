@@ -10,12 +10,14 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->string('order_number');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('payment_id')->constrained('payments')->onDelete('cascade'); // Khóa ngoại đến bảng payments
-            $table->json('items');
+            $table->foreignId('order_id')->constrained()->onDelete('cascade');
+            $table->string('payment_number');
+            $table->string('method');
+            $table->string('status');
+            $table->string('total');
+            $table->string('discount');
             $table->timestamps();
         });
     }
@@ -25,6 +27,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('payments');
     }
 };
