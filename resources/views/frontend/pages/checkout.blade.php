@@ -49,10 +49,10 @@
                             <div class="payment-option-wrap">
                                 <div class="payment-tab">
                                     <div class="payment-tab-toggle">
-                                        <input type="radio" name="payment_method" id="momo" value="momo" checked>
-                                        <label for="momo">Cổng Thanh Toán Momo</label>
-                                        <img class="payment-logo" src="{{ asset('frontend/img/momo.png') }}" width="40px"
-                                            style="top:10px">
+                                        <input type="radio" name="payment_method" id="vnpay" value="vnpay">
+                                        <label for="vnpay">Cổng Thanh Toán VNPAY</label>
+                                        <img class="payment-logo" src="{{ asset('frontend/img/logo-primary.svg') }}"
+                                            width="70px" alt="">
                                     </div>
                                 </div><!-- end payment-tab -->
 
@@ -62,14 +62,6 @@
                                         <label for="paypal">Cổng Thanh Toán PayPal</label>
                                         <img class="payment-logo" src="{{ asset('frontend/images/paypal.png') }}"
                                             alt="">
-                                    </div>
-                                </div><!-- end payment-tab -->
-                                <div class="payment-tab">
-                                    <div class="payment-tab-toggle">
-                                        <input type="radio" name="payment_method" id="vnpay" value="vnpay">
-                                        <label for="vnpay">Cổng Thanh Toán VNPAY</label>
-                                        <img class="payment-logo" src="{{ asset('frontend/img/logo-primary.svg') }}"
-                                            width="70px" alt="">
                                     </div>
                                 </div><!-- end payment-tab -->
                             </div>

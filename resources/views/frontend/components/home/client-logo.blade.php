@@ -7,10 +7,10 @@
     <span class="stroke-shape stroke-shape-6"></span>
     <div class="container">
         <div class="section-heading">
-            <h5 class="ribbon ribbon-lg mb-2">Our partners</h5>
-            <h2 class="section__title">Top companies choose <a href="for-business.html"
-                    class="text-color hover-underline">Aduca for Business</a> to build
-                <br> in-demand career skills
+            <h5 class="ribbon ribbon-lg mb-2">Đối Tác</h5>
+            <h2 class="section__title">Các Công Ty Hàng Đầu Lựa Chọn <a href="for-business.html"
+                    class="text-color hover-underline">LearnHub for Business</a> để xây dựng
+                các kỹ năng theo yêu cầu
             </h2>
             <span class="section-divider"></span>
         </div><!-- end section-heading -->

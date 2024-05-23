@@ -37,23 +37,11 @@
     @include('frontend.components.home.cta')
     <!--====================================== END CTA AREA ======================================-->
 
-
-    <!--================================ START TESTIMONIAL AREA =================================-->
-    @include('frontend.components.home.testimonial')
-    <!--================================ END TESTIMONIAL AREA =================================-->
-
-
     <div class="section-block"></div>
 
     <!--====================================== START ABOUT AREA ======================================-->
     @include('frontend.components.home.about')
     <!--====================================== END ABOUT AREA ======================================-->
-
-    <div class="section-block"></div>
-
-    <!--====================================== START REGISTER AREA ======================================-->
-    @include('frontend.components.home.register')
-    <!--====================================== END REGISTER AREA ======================================-->
 
     <div class="section-block"></div>
 
@@ -66,8 +54,4 @@
     @include('frontend.components.home.blog')
     <!-- ================================ END BLOG AREA ================================= -->
 
-
-    <!--====================================== START GET STARTED AREA ======================================-->
-    @include('frontend.components.home.get-started')
-    <!--====================================== END GET STARTED AREA ======================================-->
 @endsection

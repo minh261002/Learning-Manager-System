@@ -153,8 +153,8 @@
                                 </div>
                             </form>
 
-                            <div id="searchResult" class="search-result position-absolute left-0 w-100 mt-5 bg-light"
-                                style="top: 40px">
+                            <div id="searchResult" class="search-result position-absolute left-0 w-50 mt-5 bg-light"
+                                style="top: 40px; left:44%; transform:translate(-50%)">
 
                             </div>
 
@@ -438,8 +438,11 @@
                                     searchResult += `
                                     <tr>
                                         <td><img src="${value.image}" alt="Search image" style="width: 50px; height: 50px; object-fit:cover"></td>
-                                        <td>${value.name}</td>
-                                        <td><a href="/course/${value.slug}">Xem Chi Tiết</a></td>
+                                        <td>
+                                            <a href="/course/${value.slug}">
+                                                ${value.name}
+                                            </a>
+                                        </td>
                                     </tr>
                                 `;
                                 });

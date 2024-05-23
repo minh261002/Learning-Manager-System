@@ -5,15 +5,18 @@
             <div class="container">
                 <div class="hero-content">
                     <div class="section-heading">
-                        <h2 class="section__title text-white fs-65 lh-80 pb-3">We Help You Learn <br> What You Love
-                        </h2>
-                        <p class="section__desc text-white pb-4">Emply dummy text of the printing and typesetting
-                            industry orem Ipsum has been the
-                            <br>industry's standard dummy text ever sinceprinting and typesetting industry.
+                        <h2 class="section__title text-white fs-65 lh-80 pb-3">Chúng Tôi Giúp Bạn <br />Tìm Hiểu Và Phát
+                            Triển Kỹ Năng</h2>
+                        <p class="section__desc text-white pb-4">
+                            Với đội ngũ chuyên gia giàu kinh nghiệm và các chương trình đào tạo chất lượng,<br /> chúng
+                            tôi
+                            cam kết hỗ trợ bạn trong việc khám phá và phát triển<br /> những kỹ năng cần thiết để thành
+                            công
+                            trong sự nghiệp.
                         </p>
                     </div><!-- end section-heading -->
                     <div class="hero-btn-box d-flex flex-wrap align-items-center pt-1">
-                        <a href="admission.html" class="btn theme-btn mr-4 mb-4">Join with Us <i
+                        <a href="admission.html" class="btn theme-btn mr-4 mb-4">Tìm Hiểu Thêm <i
                                 class="la la-arrow-right icon ml-1"></i></a>
                         <a href="#" class="btn-text video-play-btn mb-4" data-fancybox
                             data-src="https://www.youtube.com/watch?v=cRXm1p-CNyk">

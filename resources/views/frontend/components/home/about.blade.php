@@ -4,13 +4,12 @@
             <div class="col-lg-6">
                 <div class="about-content pb-5">
                     <div class="section-heading">
-                        <h5 class="ribbon ribbon-lg mb-2">About us</h5>
-                        <h2 class="section__title">Benefits of Learning With Aduca</h2>
+                        <h5 class="ribbon ribbon-lg mb-2">Về Chúng Tôi</h5>
+                        <h2 class="section__title">Lợi Ích Của Việc Học Tập Với Chúng Tôi</h2>
                         <span class="section-divider"></span>
                         <p class="section__desc">
-                            Simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
-                            the industry’s when an unknown printerit to make a type specimen book
-                            Pellentesque tellus arcu
+                            Bạn sẽ học được những kiến thức mới nhất, cập nhật nhất từ các chuyên gia hàng đầu. Hãy cùng
+                            chúng tôi trải nghiệm những khóa học chất lượng nhất.
                         </p>
                     </div><!-- end section-heading -->
                     <div class="row pt-4 pb-3">
@@ -68,7 +67,7 @@
                                         </g>
                                     </svg>
                                 </div>
-                                <h4 class="fs-20 font-weight-semi-bold pt-3">130,000 Courses</h4>
+                                <h4 class="fs-20 font-weight-semi-bold pt-3">Hơn 130,000 Khoá Học</h4>
                             </div><!-- end info-icon-box -->
                         </div><!-- end col-lg-4 -->
                         <div class="col-lg-4 responsive-column-half">
@@ -83,7 +82,9 @@
                                         </g>
                                     </svg>
                                 </div>
-                                <h4 class="fs-20 font-weight-semi-bold pt-3">Live Learning</h4>
+                                <h4 class="fs-20 font-weight-semi-bold pt-3">
+                                    Học Trực Tuyến Mọi Lúc, Mọi Nơi
+                                </h4>
                             </div><!-- end info-icon-box -->
                         </div><!-- end col-lg-4 -->
                         <div class="col-lg-4 responsive-column-half">
@@ -144,12 +145,14 @@
                                         </g>
                                     </svg>
                                 </div>
-                                <h4 class="fs-20 font-weight-semi-bold pt-3">Expert Teachers</h4>
+                                <h4 class="fs-20 font-weight-semi-bold pt-3">
+                                    Giảng Viên Chất Lượng
+                                </h4>
                             </div><!-- end info-icon-box -->
                         </div><!-- end col-lg-4 -->
                     </div><!-- end row -->
                     <div class="btn-box">
-                        <a href="about.html" class="btn theme-btn">Learn More <i
+                        <a href="about.html" class="btn theme-btn">Tìm Hiểu Thêm <i
                                 class="la la-arrow-right icon ml-1"></i></a>
                     </div><!-- end btn-box -->
                 </div><!-- end about-content -->

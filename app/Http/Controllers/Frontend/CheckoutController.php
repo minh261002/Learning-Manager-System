@@ -302,8 +302,14 @@ class CheckoutController extends Controller
 
             DB::commit();
 
+            Cart::destroy();
+            session()->forget([
+                'isAppliedCoupon',
+                'couponName'
+            ]);
+
             if ($request->payment_method == 'vnpay') {
-                return $this->paymentVNPay($total, $payment->payment_id);
+                return $this->paymentVNPay($payment->total, $payment->payment_id);
             } elseif ($request->payment_method == 'paypal') {
                 vndToUsd($total);
                 return $this->paymentPaypal(vndToUsd($total), $payment->payment_id);
@@ -443,24 +449,12 @@ class CheckoutController extends Controller
 
     public function success()
     {
-        Cart::destroy();
-        session()->forget([
-            'isAppliedCoupon',
-            'couponName'
-        ]);
-
         Notify::success('Thanh toán thành công');
         return view('frontend.pages.checkout_success');
     }
 
     public function error()
     {
-        Cart::destroy();
-        session()->forget([
-            'isAppliedCoupon',
-            'couponName'
-        ]);
-
         Notify::error('Thanh toán thất bại. Vui lòng thử lại.');
         return redirect()->route('home');
     }

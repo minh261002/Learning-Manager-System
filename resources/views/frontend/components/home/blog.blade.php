@@ -1,8 +1,8 @@
 <section class="blog-area section--padding bg-gray overflow-hidden">
     <div class="container">
         <div class="section-heading text-center">
-            <h5 class="ribbon ribbon-lg mb-2">News feeds</h5>
-            <h2 class="section__title">Latest News & Articles</h2>
+            <h5 class="ribbon ribbon-lg mb-2">Tin Tức</h5>
+            <h2 class="section__title">Tin Tức & Bài Viết Mới Nhất</h2>
             <span class="section-divider"></span>
         </div><!-- end section-heading -->
 
