@@ -168,10 +168,10 @@ function renderBoxCourses($courses)
 
 function vndToUsd($vnd)
 {
-    return $vnd / 25463;
+    return round($vnd / 25463, 2);
 }
 
 function usdToVnd($usd)
 {
-    return $usd * 25463;
+    return ceil($usd * 25463);
 }

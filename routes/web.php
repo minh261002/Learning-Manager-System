@@ -63,8 +63,4 @@ Route::get('search', [FrontendController::class, 'search'])->name('search');
 
 Route::get('payment/vnpay', [CheckoutController::class, 'paymentVNPay'])->name('payment.vnpay');
 Route::get('payment/paypal', [CheckoutController::class, 'paymentPaypal'])->name('payment.paypal');
-Route::get('payment/momo', [CheckoutController::class, 'paymentMomo'])->name('payment.momo');
-
-Route::get('test', function () {
-    return view('mail.order_mail');
-});
+Route::get('payment/paypal/callback', [CheckoutController::class, 'handlePaypalCallback'])->name('payment.paypal.callback');

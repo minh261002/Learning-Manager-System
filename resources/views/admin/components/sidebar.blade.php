@@ -43,6 +43,11 @@
                 <a class="nav-link" href="{{ route('admin.coupons.index') }}"><i class="fa-solid fa-ticket"></i>
                     <span>Quản Lý Mã Giảm Giá</span></a>
             </li>
+            <li
+                class="{{ adminSetSidebarActive(['admin.orders.index', 'admin.orders.create', 'admin.orders.edit']) }}">
+                <a class="nav-link" href="{{ route('admin.orders.index') }}"><i class="fa-solid fa-money-bills"></i>
+                    <span>Quản Lý Đơn Hàng</span></a>
+            </li>
 
             {{-- <li><a class="nav-link" href="blank.html"><i class="far fa-square"></i> <span>Blank
                         Page</span></a></li> --}}

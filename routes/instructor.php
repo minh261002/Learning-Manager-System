@@ -3,6 +3,7 @@
 use App\Http\Controllers\Instructor\CouponController;
 use App\Http\Controllers\Instructor\CoursesController;
 use App\Http\Controllers\Instructor\InstructorController;
+use App\Http\Controllers\Instructor\OrderController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('dashboard', [InstructorController::class, 'index'])->name('dashboard');
@@ -21,3 +22,6 @@ Route::post('course/lecture', [CoursesController::class, 'addCourseLecture'])->n
 
 //coupons
 Route::resource('coupons', CouponController::class);
+
+//orders
+Route::get('orders', [OrderController::class, 'index'])->name('orders.index');

@@ -81,7 +81,8 @@ class CartController extends Controller
             [
                 'image' => $course->image,
                 'slug' => $course->slug,
-                'instructor' => $course->instructor->name
+                'instructor' => $course->instructor->name,
+                'instructor_id' => $course->instructor->id
             ]
         )->associate('App\Models\Course');
 

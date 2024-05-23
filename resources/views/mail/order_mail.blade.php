@@ -15,7 +15,7 @@
         }
 
         .container {
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 20px;
             background-color: #fff;
@@ -49,22 +49,51 @@
         </div>
         <div class="confirmation mt-5">
             <h2>Xác nhận Đơn Hàng</h2>
-            <p>Xin chào {{ $order->user->name }},</p>
+            <p>Xin chào {{ $payment->name }},</p>
             <p>
-                Cảm ơn bạn đã mua hàng tại cửa hàng chúng tôi. Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất.
+                Cảm ơn bạn đã mua hàng tại cửa hàng chúng tôi. Chúng tôi sẽ liên hệ với bạn <br /> trong thời gian sớm
+                nhất.
             </p>
         </div>
         <div class="order-details">
             <h2>Thông tin Đơn Hàng</h2>
-            <p><strong>Đơn Hàng:</strong> {{ $payment->payment_number }}</p>
-            <p><strong>Ngày Đặt Hàng:</strong> {{ $order->created_at->format('d/m/Y') }}</p>
-            <p><strong>Phương Thức Thanh Toán:</strong> {{ $payment->method }}</p>
-            <p><strong>Trạng Thái Đơn Hàng:</strong> {{ $payment->status }}</p>
+            <p><strong>Đơn Hàng:</strong> {{ $payment->payment_id }}</p>
+            <p><strong>Ngày Đặt Hàng:</strong> {{ $payment->created_at->format('d/m/Y') }}</p>
+            <p><strong>Phương Thức Thanh Toán:</strong>
+                {{ $payment->payment_method === 'paypal' ? 'Cổng Thanh Toán PayPal' : 'Cổng Thanh Toán VNPAY' }}</p>
+            <p>
+                <strong>Trạng Thái Đơn Hàng:</strong>
+                {{ $payment->status == 'success' ? 'Đã Thanh Toán' : 'Chưa Thanh Toán' }}
+            </p>
+        </div>
+        <div class="order-details">
+            <h2>Đơn Hàng</h2>
+            <table class="table table-bordered table-borderless">
+                <tbody>
+                    @foreach ($orders as $order)
+                        <tr>
+                            <td>
+                                <img src="{{ $order->course->image }}" alt="{{ $order->course->name }}" width="50px">
+                            </td>
+                            <td>{{ $order->course->name }}</td>
+                            <td>{{ number_format($order->price, 0, ',', '.') }} VNĐ</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+
+                <tfoot>
+                    <tr>
+                        <td colspan="2" class="text-end"><strong>Thanh Toán:</strong></td>
+                        <td><strong>{{ number_format($payment->total, 0, ',', '.') }} VNĐ</strong></td>
+                    </tr>
+                </tfoot>
+            </table>
         </div>
         <div class="footer">
-            <p>Chúng tôi sẽ tiếp tục cập nhật trạng thái của đơn hàng và sẽ thông báo cho bạn khi đơn hàng được gửi đi.
-                Nếu bạn có bất kỳ câu hỏi hoặc yêu cầu nào, vui lòng liên hệ với chúng tôi qua email này.</p>
-            <p>Xin cảm ơn bạn đã mua sắm tại cửa hàng của chúng tôi!</p>
+            <p>Chúng tôi sẽ tiếp tục cập nhật trạng thái của đơn hàng và sẽ thông báo cho bạn khi đơn hàng được thanh
+                toán.
+                Nếu bạn có bất kỳ câu hỏi hoặc yêu cầu nào, vui lòng liên hệ với chúng tôi .</p>
+            <p>Cảm ơn bạn đã mua sắm tại cửa hàng của chúng tôi!</p>
         </div>
     </div>
 </body>

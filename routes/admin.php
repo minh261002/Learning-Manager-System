@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\CourseController;
+use App\Http\Controllers\Admin\OrderController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -29,3 +30,6 @@ Route::get('course/change-status', [CourseController::class, 'changeStatus'])->n
 
 //coupon
 Route::resource('coupons', CouponController::class);
+
+//order
+Route::resource('orders', OrderController::class);

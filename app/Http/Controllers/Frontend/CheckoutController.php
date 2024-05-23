@@ -229,9 +229,20 @@ use App\Models\Order;
 use App\Models\Payment;
 use App\Mail\Order as OrderMail;
 use Illuminate\Support\Facades\Mail;
+use Omnipay\Omnipay;
 
 class CheckoutController extends Controller
 {
+
+    private $gateway;
+
+    public function __construct()
+    {
+        $this->gateway = Omnipay::create('PayPal_Rest');
+        $this->gateway->setClientId(env('PAYPAL_CLIENT_ID'));
+        $this->gateway->setSecret(env('PAYPAL_CLIENT_SECRET'));
+        $this->gateway->setTestMode(true);
+    }
     public function checkout()
     {
         if (Cart::count() == 0) {
@@ -254,69 +265,48 @@ class CheckoutController extends Controller
 
         DB::beginTransaction();
 
-        //tạo đơn hàng
         try {
             $cart = Cart::content();
             $total = Cart::total('0', '', '');
             $discount = Cart::discount('0', '', '');
 
-            // $payment = new Payment();
-            // $payment->total = $total;
-            // $payment->discount = $discount ?? 0;
-            // $payment->method = $request->payment_method;
-            // $payment->save();
-
-            // $order = new Order();
-            // $order->user_id = auth()->user()->id;
-            // $order->payment_id = $payment->id;
-            // $order->order_number = 'LEARN_' . strtoupper(uniqid());
-            // $items = [];
-            // foreach ($cart as $item) {
-            //     $items[] = [
-            //         'product_id' => $item->id,
-            //         'price' => $item->price,
-            //     ];
-            // }
-            // $order->items = json_encode($items);
-            // $order->save();
-
-            //tạo dữ liệu bảng order
-
-            $order = new Order();
-            $order->user_id = auth()->user()->id;
-            $items = [];
-
-            foreach ($cart as $item) {
-                $items[] = [
-                    'course_id' => $item->id,
-                    'price' => $item->price,
-                ];
-            }
-
-            $order->items = json_encode($items);
-            $order->save();
-
-            //tạo dữ liệu bảng payment
             $payment = new Payment();
-            $payment->order_id = $order->id;
+            $payment->payment_id = 'LEARN_' . strtoupper(uniqid());
+            $payment->name = $request->name;
+            $payment->email = $request->email;
+            $payment->payment_method = $request->payment_method;
             $payment->total = $total;
             $payment->discount = $discount ?? 0;
-            $payment->method = $request->payment_method;
-            $payment->payment_number = 'LEARN_' . strtoupper(uniqid());
             $payment->status = 'pending';
             $payment->save();
 
-            Mail::to($request->email)->send(new OrderMail([
-                'order' => $order,
-                'payment' => $payment,
-            ]));
+            foreach ($cart as $item) {
+                $order = new Order();
+                $order->user_id = auth()->user()->id;
+                $order->payment_id = $payment->id;
+                $order->course_id = $item->id;
+                $order->price = $item->price;
+                $order->instructor_id = $item->options->instructor_id;
+                $order->save();
+
+                $orders[] = $order;
+            }
+
+
+            Mail::to($request->email)->send(
+                new OrderMail(
+                    $payment,
+                    $orders
+                )
+            );
 
             DB::commit();
 
             if ($request->payment_method == 'vnpay') {
                 return $this->paymentVNPay();
             } elseif ($request->payment_method == 'paypal') {
-                return $this->paymentPaypal();
+                vndToUsd($total);
+                return $this->paymentPaypal(vndToUsd($total), $payment->payment_id);
             }
 
         } catch (\Exception $e) {
@@ -325,8 +315,6 @@ class CheckoutController extends Controller
             Notify::error('Đã có lỗi xảy ra. Vui lòng thử lại.');
             return redirect()->back();
         }
-
-        return redirect()->route('checkout.success');
     }
 
     public function paymentVNPay()
@@ -334,8 +322,74 @@ class CheckoutController extends Controller
         echo 'VNPay';
     }
 
-    public function paymentPaypal()
+    public function handleVNPayCallback()
     {
-        echo 'Paypal';
+        echo 'VNPay Callback';
     }
+
+    public function paymentPaypal($total, $payment_id)
+    {
+        try {
+            $response = $this->gateway->purchase([
+                'amount' => $total,
+                'currency' => 'USD',
+                'returnUrl' => route('payment.paypal.callback', ['id' => $payment_id]),
+                'cancelUrl' => route('checkout'),
+            ])->send();
+
+            if ($response->isRedirect()) {
+                $response->redirect();
+            } else {
+                Notify::error('Đã có lỗi xảy ra. Vui lòng thử lại.');
+                return redirect()->back();
+            }
+        } catch (\Exception $e) {
+            Notify::error('Đã có lỗi xảy ra. Vui lòng thử lại.');
+            dd($e);
+            return redirect()->back();
+        }
+    }
+
+    public function handlePaypalCallback()
+    {
+        $response = $this->gateway->completePurchase([
+            'payer_id' => request()->PayerID,
+            'transactionReference' => request()->paymentId,
+        ])->send();
+
+        if ($response->isSuccessful()) {
+            $payment = Payment::where('payment_id', request()->id)->first();
+            $payment->update([
+                'status' => 'success'
+            ]);
+            return redirect()->route('checkout.success');
+        } else {
+            $this->error();
+        }
+    }
+
+    public function success()
+    {
+        Cart::destroy();
+        session()->forget([
+            'isAppliedCoupon',
+            'couponName'
+        ]);
+
+        Notify::success('Thanh toán thành công');
+        return view('frontend.pages.checkout_success');
+    }
+
+    public function error()
+    {
+        Cart::destroy();
+        session()->forget([
+            'isAppliedCoupon',
+            'couponName'
+        ]);
+
+        Notify::error('Thanh toán thất bại. Vui lòng thử lại.');
+        return redirect()->route('home');
+    }
+
 }
