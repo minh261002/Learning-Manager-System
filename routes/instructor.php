@@ -13,6 +13,7 @@ Route::put('profile', [InstructorController::class, 'updateProfile'])->name('pro
 
 Route::put('change-password', [InstructorController::class, 'changePassword'])->name('change.password');
 
+// Route::middleware('check-instructor-active')->group(function () {
 //courses
 Route::resource('courses', CoursesController::class);
 Route::post('course/section', [CoursesController::class, 'addCourseSection'])->name('course.section');
@@ -25,3 +26,4 @@ Route::resource('coupons', CouponController::class);
 
 //orders
 Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
+// });

@@ -82,6 +82,12 @@
                 </tbody>
 
                 <tfoot>
+                    @if ($payment->discount > 0)
+                        <tr>
+                            <td colspan="2" class="text-end"><strong>Giảm Giá:</strong></td>
+                            <td><strong>{{ number_format($payment->discount, 0, ',', '.') }} VNĐ</strong></td>
+                        </tr>
+                    @endif
                     <tr>
                         <td colspan="2" class="text-end"><strong>Thanh Toán:</strong></td>
                         <td><strong>{{ number_format($payment->total, 0, ',', '.') }} VNĐ</strong></td>

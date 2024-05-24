@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\Coupon;
 use Illuminate\Validation\Rule;
+use App\Models\Order;
 
 class CartController extends Controller
 {
@@ -45,6 +46,14 @@ class CartController extends Controller
 
     public function store(Request $request)
     {
+        $id = $request->input('course_id');
+
+        if (checkUserPaidCourse(auth()->id(), $id)) {
+            Notify::error('Bạn đã mua khoá học này rồi');
+            return redirect()->back();
+        }
+
+
         if (session()->has('isAppliedCoupon')) {
             session()->forget([
                 'isAppliedCoupon',
@@ -54,7 +63,6 @@ class CartController extends Controller
             Cart::setGlobalDiscount(0);
         }
 
-        $id = $request->input('course_id');
         $course = $this->course->findOrFail($id);
 
         $cartItems = Cart::content();

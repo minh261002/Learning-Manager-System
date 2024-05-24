@@ -65,7 +65,7 @@
                         <div class="input-box col-lg-6">
                             <label class="label-text">Số Điện Thoại</label>
                             <div class="form-group">
-                                <input class="form-control form--control" type="email" name="phone"
+                                <input class="form-control form--control" type="text" name="phone"
                                     value="{{ Auth::user()?->phone }}">
                                 <span class="la la-phone input-icon"></span>
                             </div>

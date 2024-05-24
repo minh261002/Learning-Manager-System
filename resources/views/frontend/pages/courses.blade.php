@@ -28,6 +28,8 @@
                         <h6 class="mb-0">
                             @if (request()->category)
                                 Danh Mục: {{ $allCategories->where('slug', request()->category)->first()->name }}
+                            @elseif (request()->q)
+                                Kết Quả Tìm Kiếm: <span class="text-danger">"{{ request()->q }}"</span>
                             @else
                                 Danh Sách Khóa Học
                             @endif

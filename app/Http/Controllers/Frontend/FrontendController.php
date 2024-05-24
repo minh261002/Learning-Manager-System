@@ -129,5 +129,12 @@ class FrontendController extends Controller
         return view('frontend.pages.instructor', compact('instructor', 'courses'));
     }
 
+    function view_course($slug)
+    {
+        $course = $this->course->getCourseBySlug($slug);
+        $sections = $course->section()->with('lectures')->get();
+
+        return view('frontend.pages.view_course', compact('course', 'sections'));
+    }
 
 }

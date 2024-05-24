@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string('username')->unique();
             $table->string('photo')->nullable();
             $table->string('phone')->nullable();
+            $table->string('sort_desc')->nullable();
             $table->longText('bio')->nullable();
             $table->string('address')->nullable();
             $table->foreignId('province_id')->nullable()->index();

@@ -51,6 +51,8 @@ Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
 
     Route::get('checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
+
+    Route::get('course/view/{slug}', [FrontendController::class, 'view_course'])->name('course.view')->middleware('check-course-payment');
 });
 
 //location ajax

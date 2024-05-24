@@ -54,7 +54,7 @@ class InstructorController extends Controller
 
         $imagePath = $this->uploadImage($request, 'photo', $user->photo, 'instructor');
 
-        if($imagePath) {
+        if ($imagePath) {
             $user->photo = $imagePath;
         }
 
@@ -67,6 +67,7 @@ class InstructorController extends Controller
         $user->district_id = $request->district;
         $user->ward_id = $request->ward;
         $user->bio = $request->bio;
+        $user->sort_desc = $request->sort_desc;
 
         $user->save();
 

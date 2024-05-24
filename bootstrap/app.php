@@ -24,6 +24,8 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'role' => \App\Http\Middleware\RoleMiddleware::class,
+            'check-course-payment' => \App\Http\Middleware\CheckCoursePaymentMiddleware::class,
+            'check-instructor-active' => \App\Http\Middleware\CheckInstructorActiveMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

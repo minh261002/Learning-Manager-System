@@ -168,6 +168,25 @@
             })
         }
         miniCart();
+
+        function addToWishList($id) {
+            $.ajax({
+                url: "{{ route('wishlist.store') }}",
+                type: 'POST',
+                data: {
+                    course_id: $id,
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(data) {
+                    console.log(data)
+                    location.reload();
+                },
+                error: function(data) {
+                    console.log(data);
+                    alert('An error occurred. Please try again.');
+                }
+            });
+        }
     </script>
 
     @stack('scripts')

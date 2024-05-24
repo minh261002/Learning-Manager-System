@@ -1,6 +1,8 @@
 <?php
+use App\Services\Notify;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Owenoj\LaravelGetId3\GetId3;
+use App\Models\Order;
 
 function setSidebarActive(array $routes): ?string
 {
@@ -65,11 +67,6 @@ function formatDate($date)
     $date = new DateTime($date);
     $date->setTimezone(new DateTimeZone('Asia/Ho_Chi_Minh'));
     return $date->format('H:i:s \N\g\à\y d/m/Y');
-}
-
-function checkDiscount($price, $discount)
-{
-    return $price - ($price * $discount) / 100;
 }
 
 function renderBoxCourses($courses)
@@ -170,8 +167,18 @@ function vndToUsd($vnd)
 {
     return round($vnd / 25463, 2);
 }
-
-function usdToVnd($usd)
+function checkUserPaidCourse($user_id, $course_id)
 {
-    return ceil($usd * 25463);
+    $orders = Order::where('user_id', $user_id)
+        ->where('course_id', $course_id)
+        ->get();
+
+    foreach ($orders as $order) {
+        $successfulPayment = $order->payment()->whereIn('status', ['success', 'pending'])->first();
+        if ($successfulPayment) {
+            return true;
+        }
+    }
+
+    return false;
 }

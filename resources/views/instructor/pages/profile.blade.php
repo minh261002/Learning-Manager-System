@@ -66,7 +66,7 @@
                         <div class="input-box col-lg-6">
                             <label class="label-text">Số Điện Thoại</label>
                             <div class="form-group">
-                                <input class="form-control form--control" type="email" name="phone"
+                                <input class="form-control form--control" type="text" name="phone"
                                     value="{{ Auth::user()?->phone }}">
                                 <span class="la la-phone input-icon"></span>
                             </div>
@@ -121,7 +121,7 @@
                             </select>
                         </div><!-- end input-box -->
 
-                        <div class="input-box col-lg-12">
+                        <div class="input-box col-lg-12 mb-4">
                             <label class="label-text">Địa Chỉ</label>
                             <div class="form-group">
                                 <input class="form-control form--control" type="text" name="address"
@@ -129,6 +129,14 @@
                                 <span class="la la-map-marker-alt input-icon"></span>
                             </div>
                         </div><!-- end input-box -->
+
+                        <div class="input-box col-12 mb-4">
+                            <label for="sort_desc">Giới Thiệu</label>
+                            <textarea name="sort_desc" id="sort_desc" class="form-control form--control pl-15px">{{ Auth::user()?->sort_desc }}</textarea>
+                            @error('sort_desc')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
 
                         <div class="input-box col-12 mb-4">
                             <label for="bio">TIểu Sử</label>
