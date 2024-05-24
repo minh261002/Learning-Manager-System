@@ -4186,3 +4186,15 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 .ck-editor__editable {
     min-height: 200px;
 }
+
+.box-input {
+    position: relative !important;
+}
+
+.icon_toggle {
+    position: absolute !important;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}

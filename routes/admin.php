@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\SettingController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -34,3 +35,7 @@ Route::resource('coupons', CouponController::class);
 //order
 Route::resource('orders', OrderController::class);
 Route::put('order/change-status/{id}', [OrderController::class, 'changeStatus'])->name('orders.change-status');
+
+//settings
+Route::get('smtp', [SettingController::class, 'smtp'])->name('smtp');
+Route::put('smtp', [SettingController::class, 'updateSmtp'])->name('smtp.update');

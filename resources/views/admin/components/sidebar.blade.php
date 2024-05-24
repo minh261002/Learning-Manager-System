@@ -55,8 +55,8 @@
                     <span>Quản Lý Đơn Hàng</span></a>
             </li>
 
-            <li class="">
-                <a class="nav-link" href=""><i class="fa-solid fa-gear"></i>
+            <li class="{{ adminSetSidebarActive(['admin.smtp']) }}">
+                <a class="nav-link" href="{{ route('admin.smtp') }}"><i class="fa-solid fa-gear"></i>
                     <span>Cấu Hình Email</span></a>
             </li>
 
