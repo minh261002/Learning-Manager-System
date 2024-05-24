@@ -182,3 +182,8 @@ function checkUserPaidCourse($user_id, $course_id)
 
     return false;
 }
+
+function formatPrice($price)
+{
+    return number_format($price, 0, '.', ',') . ' VNĐ';
+}
