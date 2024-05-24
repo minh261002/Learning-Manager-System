@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->integer('instructor_id')->nullable();
             $table->integer('course_id')->nullable();
             $table->integer('price')->nullable();
+            $table->string('order_number')->nullable();
             $table->timestamps();
         });
     }

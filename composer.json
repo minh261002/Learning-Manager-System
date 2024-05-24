@@ -10,6 +10,7 @@
     "require": {
         "php": "^8.2",
         "anayarojo/shoppingcart": "^4.2",
+        "barryvdh/laravel-dompdf": "^2.2",
         "cviebrock/eloquent-sluggable": "^11.0",
         "intervention/image-laravel": "^1.2",
         "james-heinrich/getid3": "^1.9",

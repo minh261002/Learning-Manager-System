@@ -26,4 +26,5 @@ Route::resource('coupons', CouponController::class);
 
 //orders
 Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
+Route::get('order/{id}/pdf', [OrderController::class, 'downloadPdf'])->name('order.pdf');
 // });

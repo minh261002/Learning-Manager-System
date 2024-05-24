@@ -282,6 +282,7 @@ class CheckoutController extends Controller
 
             foreach ($cart as $item) {
                 $order = new Order();
+                $order->order_number = 'LEARN_' . strtoupper(uniqid());
                 $order->user_id = auth()->user()->id;
                 $order->payment_id = $payment->id;
                 $order->course_id = $item->id;
