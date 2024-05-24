@@ -8,8 +8,6 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\Coupon;
-use Illuminate\Validation\Rule;
-use App\Models\Order;
 
 class CartController extends Controller
 {
@@ -177,6 +175,57 @@ class CartController extends Controller
         );
 
         Notify::success('Đã xoá mã giảm giá');
+        return response()->json(['status' => 'success']);
+    }
+
+    public function buyNow(Request $request)
+    {
+        $id = $request->input('courseId');
+        $course = $this->course->findOrFail($id);
+
+        if (checkUserPaidCourse(auth()->id(), $id)) {
+            Notify::error('Bạn đã mua khoá học này rồi');
+            return redirect()->back();
+        }
+
+        if (session()->has('isAppliedCoupon')) {
+            session()->forget([
+                'isAppliedCoupon',
+                'couponName'
+            ]);
+
+            Cart::setGlobalDiscount(0);
+        }
+
+        $cartItems = Cart::content();
+
+        foreach ($cartItems as $cartItem) {
+            if ($cartItem->id == $course->id) {
+                Notify::warning('Khoá học đã có trong giỏ hàng');
+                return redirect()->back();
+            }
+        }
+
+        if ($course->discount > 0) {
+            $price = $course->price - ($course->price * $course->discount / 100);
+        } else {
+            $price = $course->price;
+        }
+
+        Cart::add(
+            $course->id,
+            $course->name,
+            1,
+            $price,
+            0,
+            [
+                'image' => $course->image,
+                'slug' => $course->slug,
+                'instructor' => $course->instructor->name,
+                'instructor_id' => $course->instructor->id
+            ]
+        )->associate('App\Models\Course');
+
         return response()->json(['status' => 'success']);
     }
 

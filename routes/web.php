@@ -44,6 +44,8 @@ Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
     Route::get('cart/mini-cart/get', [CartController::class, 'getMiniCart'])->name('cart.mini');
     Route::delete('cart/remove/all', [CartController::class, 'clear'])->name('cart.clear');
 
+    Route::post('course/buy-now', [CartController::class, 'buyNow'])->name('course.buy-now');
+
     Route::post('coupon/apply', [CartController::class, 'applyCoupon'])->name('coupon.apply');
     Route::delete('coupon/remove', [CartController::class, 'removeCoupon'])->name('coupon.remove');
 

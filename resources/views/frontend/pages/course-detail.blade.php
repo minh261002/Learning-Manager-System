@@ -519,43 +519,50 @@
                                         </div>
                                     </a>
                                 </div><!-- end preview-course-video -->
+
                                 <div class="preview-course-feature-content pt-40px">
-                                    <p class="d-flex flex-column gap-10 ">
-                                        {{-- <span class="fs-35 font-weight-semi-bold text-black">
-                                            {{ number_format($course->price, 0, ',', '.') }} VND
-                                        </span> --}}
-                                        @if ($course->price == 0)
-                                            <span class="fs-35 font-weight-semi-bold text-black">Miễn Phí</span>
-                                        @elseif($course->discount > 0)
-                                            <span class="fs-35 font-weight-semi-bold text-color d-block pb-2">
-                                                {{ number_format($course->price - ($course->price * $course->discount) / 100, 0, ',', '.') }}
-                                                VND
-                                            </span>
-                                            <div class="d-flex align-items-center pb-3">
-                                                <span class="before-price font-weight-medium text-gray d-block">
+
+                                    @if (checkUserPaidCourse(auth()->user()->id, $course->id))
+                                        <a href="{{ route('course.view', $course->slug) }}"
+                                            class="btn theme-btn w-100 mb-2">Vào Học</a>
+                                    @else
+                                        <p class="d-flex flex-column gap-10 ">
+                                            @if ($course->discount > 0)
+                                                <span class="fs-35 font-weight-semi-bold text-color d-block pb-2">
+                                                    {{ number_format($course->price - ($course->price * $course->discount) / 100, 0, ',', '.') }}
+                                                    VND
+                                                </span>
+                                                <div class="d-flex align-items-center pb-3">
+                                                    <span class="before-price font-weight-medium text-gray d-block">
+                                                        {{ number_format($course->price, 0, ',', '.') }} VND
+                                                    </span>
+                                                    <span class="badge badge-danger">-{{ $course->discount }}%</span>
+                                                </div>
+                                            @else
+                                                <span class="fs-35 font-weight-semi-bold text-black d-block">
                                                     {{ number_format($course->price, 0, ',', '.') }} VND
                                                 </span>
-                                                <span class="badge badge-danger">-{{ $course->discount }}%</span>
-                                            </div>
-                                        @else
-                                            <span class="fs-35 font-weight-semi-bold text-black d-block">
-                                                {{ number_format($course->price, 0, ',', '.') }} VND
-                                            </span>
-                                        @endif
-                                    </p>
+                                            @endif
+                                        </p>
 
-                                    <div class="buy-course-btn-box my-3">
-                                        @if ($course->status == 1 && $course->price == 0)
-                                            <a href="" class="btn theme-btn w-100 mb-2">Tham Gia Khoá Học</a>
-                                        @elseif($course->price > 0 && $course->status == 1)
-                                            <button type="button" class="btn theme-btn w-100 mb-2"><i
-                                                    class="la la-shopping-cart fs-18 mr-1"></i> Thêm Vào Giỏ Hàng</button>
-                                            <button type="button" class="btn theme-btn w-100 theme-btn-white mb-2"><i
-                                                    class="la la-shopping-bag mr-1"></i> Mua Ngay</button>
-                                        @elseif($course->status == 0)
-                                            <a href="" class="btn theme-btn w-100 mb-2">Comming Soon</a>
-                                        @endif
-                                    </div>
+                                        <div class="buy-course-btn-box my-3">
+                                            @if ($course->status == 1 && $course->price == 0)
+                                                <a href="" class="btn theme-btn w-100 mb-2">Tham Gia Khoá Học</a>
+                                            @elseif($course->status == 1)
+                                                <button type="button" class="btn theme-btn w-100 mb-2"
+                                                    id="{{ $course->id }}" onclick="addToCart(this.id)">
+                                                    <i class="la la-shopping-cart fs-18 mr-1"></i>
+                                                    Thêm Vào Giỏ Hàng
+                                                </button>
+
+                                                <button type="button" class="btn theme-btn w-100 theme-btn-white mb-2"
+                                                    id="buyNow" data-course-id="{{ $course->id }}">
+                                                    <i class="la la-shopping-bag mr-1"></i>
+                                                    Mua Ngay
+                                                </button>
+                                            @endif
+                                        </div>
+                                    @endif
                                 </div><!-- end preview-course-content -->
                             </div>
                         </div><!-- end card -->
@@ -682,6 +689,26 @@
         $('#previewModal').on('hidden.bs.modal', function() {
             var video = document.getElementById("video");
             video.pause();
+        });
+
+        //mua ngay
+        $('#buyNow').click(function() {
+            var courseId = $(this).data('course-id');
+            $.ajax({
+                url: "{{ route('course.buy-now') }}",
+                method: "POST",
+                data: {
+                    courseId: courseId,
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(response) {
+                    if (response.status == 'success') {
+                        window.location.href = "{{ route('checkout') }}";
+                    } else {
+                        location.reload();
+                    }
+                }
+            });
         });
     </script>
 @endpush
