@@ -91,19 +91,19 @@ To install and run this application on your local machine, follow the steps belo
 - View the list of students enrolled in your courses.
 
 ### Student
-
 - Log in as a student to view enrolled courses, submit assignments, and check grades.
 - Access course materials and participate in quizzes.
 
 ## Contributing
+If you want to contribute to the project, please create a pull request and describe your proposed change in detail.
 
-We welcome contributions to the LMS project. To contribute, please follow these steps:
+## Problems
+If you encounter any problems while using the app, please create an issue on Github and describe the problem in detail.
+
 ## License
-
 This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 ## Contact
+If you have any questions or need further assistance, feel free to contact us at trcongminh.261002@gmail.com.
 
-If you have any questions or need further assistance, feel free to contact us at support@example.com.
-
-Thank you for using Laravel Learning Manager System!
+Thank you for using Learning Manager System!
