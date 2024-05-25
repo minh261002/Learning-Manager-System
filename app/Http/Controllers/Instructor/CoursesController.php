@@ -54,7 +54,12 @@ class CoursesController extends Controller
         $course = new Course();
 
         $imagePath = $this->uploadImage($request, 'image', null, 'courses');
-        $videoPath = $this->uploadVideo($request, 'video', null, 'courses')['url'];
+
+        if ($request->hasFile('video')) {
+            $videoPath = $this->uploadVideo($request, 'video', null, 'courses');
+        } elseif ($request->video_url) {
+            $videoPath = $request->video_url;
+        }
 
         if ($imagePath) {
             $course->image = $imagePath;
@@ -78,6 +83,19 @@ class CoursesController extends Controller
 
         $course->save();
 
+        //tạo mục mặc định cho khóa học
+        $section = new CourseSection();
+        $section->course_id = $course->id;
+        $section->title = 'Giới Thiệu';
+        $section->save();
+
+        //tạo bài giảng mặc định cho mục
+        $lecture = new CourseLecture();
+        $lecture->course_section_id = $section->id;
+        $lecture->title = 'Giới thiệu';
+        $lecture->video = $videoPath;
+        $lecture->save();
+
         Notify::success('Thêm khóa học mới thành công');
         return redirect()->route('instructor.courses.index');
     }
@@ -88,9 +106,11 @@ class CoursesController extends Controller
     public function show(string $slug)
     {
         $course = $this->course->getCourseBySlug($slug);
-        $sections = $this->section->getAllSections();
-        $lectures = $this->lecture->getAllLectures();
-        return view('instructor.pages.courses.show', compact('course', 'sections', 'lectures'));
+        $sections = $this->section
+            ->where('course_id', $course->id)
+            ->with('lectures')
+            ->get();
+        return view('instructor.pages.courses.show', compact('course', 'sections'));
     }
 
     /**
@@ -111,9 +131,12 @@ class CoursesController extends Controller
         $course = $this->course->findOrFail($id);
 
         $imagePath = $this->uploadImage($request, 'image', $course->image, 'courses');
-        $videoResult = $this->uploadVideo($request, 'video', $course->video, 'courses');
 
-        $videoPath = is_array($videoResult) && isset($videoResult['url']) ? $videoResult['url'] : $course->video;
+        if ($request->hasFile('video')) {
+            $videoPath = $this->uploadVideo($request, 'video', $course->video, 'courses');
+        } elseif ($request->video_url) {
+            $videoPath = $request->video_url;
+        }
 
         if ($course->name !== $request->name) {
             $course->slug = createSlug(Course::class, $request->name);
@@ -130,8 +153,7 @@ class CoursesController extends Controller
         $course->outcomes = $request->outcomes;
         $course->language = $request->language;
         $course->price = $request->price;
-        $course->discount = $request->discount;
-        $course->status = 1;
+        $course->discount = $request->discount ?? 0;
 
         $course->save();
 
@@ -146,13 +168,10 @@ class CoursesController extends Controller
     {
         try {
             $course = $this->course->findOrFail($id);
-
-            if ($course->image) {
-                $this->deleteFile($course->image);
-            }
-
-            if ($course->video) {
-                $this->deleteFile($course->video);
+            //kiểm tra xem khoá học đã được mua chưa
+            if ($course->orders->count() > 0) {
+                Notify::error('Khóa học đã có người mua.Bạn không thể xóa');
+                return response()->json(['status' => 'error']);
             }
 
             $course->delete();
@@ -207,15 +226,21 @@ class CoursesController extends Controller
 
         $lecture = new CourseLecture();
 
-        $videoResult = $this->uploadVideo($request, 'video', null, 'lectures');
-        $videoUrl = is_array($videoResult) && isset($videoResult['url']) ? $videoResult['url'] : null;
-        $videoDuration = is_array($videoResult) && isset($videoResult['duration']) ? $videoResult['duration'] : null;
-        $fileAttachment = $this->uploadFileAttachment($request, 'attachment', null, 'lectures');
+        if ($request->has('video')) {
+            $videoUrl = $this->uploadVideo($request, 'video', null, 'lectures');
+        } else {
+            $videoUrl = $request->link_video;
+        }
+
+        if ($request->has('attachment')) {
+            $fileAttachment = $this->uploadFileAttachment($request, 'attachment', null, 'lectures');
+        } else {
+            $fileAttachment = $request->link_attachment;
+        }
 
         $lecture->course_section_id = $request->course_section_id;
-        $lecture->title = $request->name;
+        $lecture->title = $request->title;
         $lecture->video = $videoUrl;
-        $lecture->duration = $videoDuration;
 
         if ($fileAttachment) {
             $lecture->attachment = $fileAttachment;
@@ -226,5 +251,46 @@ class CoursesController extends Controller
         Notify::success('Thêm bài giảng mới thành công');
         return redirect()->back();
 
+    }
+
+    public function updateCourseLecture(Request $request, string $id)
+    {
+        $lecture = $this->lecture->findOrFail($id);
+
+        if ($request->has('video')) {
+            $videoUrl = $this->uploadVideo($request, 'video', $lecture->video, 'lectures');
+        } else {
+            $videoUrl = $request->link_video;
+        }
+
+        if ($request->has('attachment')) {
+            $fileAttachment = $this->uploadFileAttachment($request, 'attachment', $lecture->attachment, 'lectures');
+        } else {
+            $fileAttachment = $request->link_attachment;
+        }
+
+        $lecture->title = $request->title;
+        $lecture->video = $videoUrl;
+        $lecture->attachment = $fileAttachment;
+        $lecture->preview = $request->preview;
+
+        $lecture->save();
+
+        Notify::success('Cập nhật bài giảng thành công');
+        return redirect()->back();
+    }
+
+    public function deleteCourseLecture(Request $request, string $id)
+    {
+        try {
+            $lecture = $this->lecture->findOrFail($id);
+            $lecture->delete();
+
+            Notify::success('Xóa bài giảng thành công');
+            return response()->json(['status' => 'success']);
+        } catch (\Exception $e) {
+            Notify::error('Xóa bài giảng thất bại');
+            return response()->json(['status' => 'error']);
+        }
     }
 }

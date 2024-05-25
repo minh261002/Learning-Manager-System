@@ -20,7 +20,8 @@ Route::post('course/section', [CoursesController::class, 'addCourseSection'])->n
 Route::put('course/section/{section}', [CoursesController::class, 'updateCourseSection'])->name('course.section.update');
 Route::delete('course/section/{section}', [CoursesController::class, 'deleteCourseSection'])->name('course.section.delete');
 Route::post('course/lecture', [CoursesController::class, 'addCourseLecture'])->name('course.lecture');
-
+Route::put('course/lecture/{id}/edit', [CoursesController::class, 'updateCourseLecture'])->name('course.lecture.update');
+Route::delete('course/lecture/{id}', [CoursesController::class, 'deleteCourseLecture'])->name('course.lecture.delete');
 //coupons
 Route::resource('coupons', CouponController::class);
 

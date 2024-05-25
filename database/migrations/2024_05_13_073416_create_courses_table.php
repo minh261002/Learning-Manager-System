@@ -22,7 +22,6 @@ return new class extends Migration {
             $table->string('video')->nullable();
             $table->integer('price')->nullable();
             $table->integer('discount')->nullable();
-            $table->integer('subscriber_count')->default(0);
             $table->text('prerequisites')->nullable();
             $table->text('outcomes')->nullable();
             $table->string('language')->nullable();

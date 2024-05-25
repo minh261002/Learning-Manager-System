@@ -31,20 +31,40 @@
                             </div>
                         </div>
 
-                        <div class="col-12 col-md-6 mb-4">
-                            <video src="{{ $course->video }}" id="previewVideo" class="d-block mb-4" width="100%"
-                                height="320px" controls></video>
-                            <div class="media-body file-upload-wrap file-upload-wrap-2">
-                                <div class="MultiFile-wrap" id="MultiFile2">
-                                    <input type="file" name="video"
-                                        class="multi file-upload-input file-upload-input-video with-preview MultiFile-applied"
-                                        id="MultiFile2">
-                                    <div class="MultiFile-list" id="MultiFile2_list"></div>
+                        <div class="col-12 col-md-6 mb-4  d-none" id="box-video">
+                            <video id="previewVideo" class="d-block mb-4" width="100%" height="320px" controls></video>
+
+                            <div class="d-flex">
+                                <div class="media-body file-upload-wrap file-upload-wrap-2" id="uploadVideo">
+                                    <div class="MultiFile-wrap" id="MultiFile2">
+                                        <input type="file" name="video"
+                                            class="multi file-upload-input file-upload-input-video with-preview MultiFile-applied"
+                                            id="MultiFile2">
+                                        <div class="MultiFile-list" id="MultiFile2_list"></div>
+                                    </div>
+
+                                    <span class="file-upload-text"><i class="la la-video mr-2"></i>Chọn Video</span>
                                 </div>
-                                <span class="file-upload-text"><i class="la la-video mr-2"></i>Chọn Video</span>
-                            </div><!-- file-upload-wrap -->
+
+                                <div class="mt-4">
+                                    <a href="javascript:void(0)" id="uploadLink">Tải Lên Link Video</a>
+                                </div>
+                            </div>
                         </div>
 
+                        <div class="col-12 col-md-6 mb-4" id="box-link">
+                            <div>
+                                <label for="video_url">Link Video</label>
+                                <input type="text" class="form-control form--control pl-15px" id="video_url"
+                                    name="video_url" value="{{ $course->video }}">
+                                @error('video_url')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="mt-4">
+                                <a href="javascript:void(0)" id="uploadVid">Tải Lên Video</a>
+                            </div>
+                        </div>
                         <div class="col-12 col-md-6 mb-4">
                             <label for="name">Tên Khoá Học</label>
                             <input type="text" class="form-control form--control pl-15px" id="name" name="name"
@@ -77,7 +97,8 @@
                             <label for="language">Ngôn Ngữ</label>
                             <select name="language" id="language" class="form-control select2">
                                 <option value="">Chọn Ngôn Ngữ</option>
-                                <option value="vi" {{ $course->language == 'vi' ? 'selected' : '' }}>Tiếng Việt</option>
+                                <option value="vi" {{ $course->language == 'vi' ? 'selected' : '' }}>Tiếng Việt
+                                </option>
                                 <option value="en" {{ $course->language == 'en' ? 'selected' : '' }}>Tiếng Anh</option>
                             </select>
                         </div>
@@ -93,8 +114,8 @@
 
                         <div class="col-12 col-md-6 mb-4">
                             <label for="discount">Giảm Giá (%)</label>
-                            <input type="text" class="form-control form--control pl-15px" id="discount" name="discount"
-                                value="{{ $course->discount }}">
+                            <input type="text" class="form-control form--control pl-15px" id="discount"
+                                name="discount" value="{{ $course->discount }}">
                             @error('discount')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -174,6 +195,24 @@
                     $('.prv-img').attr('src', e.target.result);
                 }
                 reader.readAsDataURL(file);
+            });
+
+            //upload video
+            $('#uploadVid').on('click', function() {
+                $('#box-link').addClass('d-none');
+                $('#box-video').removeClass('d-none');
+            });
+
+            //upload link
+            $('#uploadLink').on('click', function() {
+                $('#box-video').addClass('d-none');
+                $('#box-link').removeClass('d-none');
+            });
+
+            $('form').submit(function() {
+                $(this).find('button[type="submit"]').attr('disabled', true);
+                $(this).find('button[type="submit"]').html(
+                    '<i class="fa fa-spinner fa-spin"></i> Đang Xử Lý');
             });
         });
     </script>

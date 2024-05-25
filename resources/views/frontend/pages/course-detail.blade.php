@@ -44,7 +44,7 @@
                                 </path>
                             </svg>
                             {{-- Last updated 2 Jan,2021 --}}
-                            Cập nhật lần cuối: {{ formatDate($course->update_at) }}
+                            Cập nhật lần cuối: {{ formatDate($course->updated_at) }}
                         </p>
                         <p class="pr-3 d-flex align-items-center d-block">
                             <svg class="svg-icon-color-gray mr-1" width="16px" viewBox="0 0 24 24">
@@ -97,7 +97,7 @@
 
                             <a class="collapse-btn collapse--btn fs-15" data-toggle="collapse" href="#collapseMoreOne"
                                 role="button" aria-expanded="false" aria-controls="collapseMoreOne">
-                                <span class="collapse-btn-hide">Xem thêm<i class="la la-angle-down ml-1 fs-14"></i></span>
+                                <span class="collapse-btn-hide">Xem Mô Tả<i class="la la-angle-down ml-1 fs-14"></i></span>
                                 <span class="collapse-btn-show">Thu gọn<i class="la la-angle-up ml-1 fs-14"></i></span>
                             </a>
 
@@ -111,17 +111,6 @@
                                         {{ $course->section->flatMap(function ($section) {
                                                 return $section->lectures;
                                             })->count() }}
-                                    </span>
-                                    <span class="curriculum-total__hours"><strong
-                                            class="text-black font-weight-semi-bold">Thời Gian:</strong>
-                                        @php
-                                            $totalDuration = $course->section
-                                                ->flatMap(function ($section) {
-                                                    return $section->lectures->pluck('duration');
-                                                })
-                                                ->sum();
-                                        @endphp
-                                        {{ formatTime($totalDuration) }}
                                     </span>
                                 </div>
                             </div>
@@ -152,37 +141,50 @@
                                                 <div class="card-body">
                                                     <ul class="generic-list-item">
                                                         @foreach ($section->lectures as $lecture)
-                                                            <li>
-                                                                <a href="#"
-                                                                    class="d-flex align-items-center justify-content-between text-color"
-                                                                    data-toggle="modal" data-target="#previewLecture">
+                                                            @if ($lecture->preview == 1)
+                                                                <li>
+                                                                    <a href="#"
+                                                                        class="d-flex align-items-center justify-content-between text-color"
+                                                                        data-toggle="modal"
+                                                                        data-target="#previewLecture{{ $lecture->id }}">
 
-                                                                    <span>
-                                                                        <i class="la la-play-circle mr-1"></i>
-                                                                        {{ $lecture->title }}
-                                                                        <span class="ribbon ml-2 fs-13">Preview</span>
-                                                                    </span>
+                                                                        <span>
+                                                                            <i class="la la-play-circle mr-1"></i>
+                                                                            {{ $lecture->title }}
+                                                                            <span class="ribbon ml-2 fs-13">Preview</span>
+                                                                        </span>
+                                                                    </a>
+                                                                </li>
 
-                                                                    <span>
-                                                                        <i class="la la-clock-o mr-1"></i>
-                                                                        {{ formatTime($lecture->duration) }}
-                                                                    </span>
-                                                                </a>
-                                                            </li>
-
-                                                            <div class="modal fade" id="previewLecture" tabindex="-1"
-                                                                aria-labelledby="previewLectureLabel" aria-hidden="true">
-                                                                <div class="modal-dialog modal-lg">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-body">
-                                                                            <video id="previewVideo"
-                                                                                src="{{ $lecture->video }}"
-                                                                                class="d-block mb-4" width="100%"
-                                                                                height="320px" controls></video>
+                                                                <div class="modal fade"
+                                                                    id="previewLecture{{ $lecture->id }}" tabindex="-1"
+                                                                    aria-labelledby="previewLectureLabel"
+                                                                    aria-hidden="true">
+                                                                    <div class="modal-dialog modal-lg">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-body">
+                                                                                <video id="previewVideo"
+                                                                                    class="d-block mb-4" width="100%"
+                                                                                    height="320px" controls>
+                                                                                    <source src="{{ $lecture->video }}"
+                                                                                        type="video/mp4">
+                                                                                </video>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
+                                                            @else
+                                                                <li>
+                                                                    <a href="#"
+                                                                        class="d-flex align-items-center justify-content-between ">
+
+                                                                        <span>
+                                                                            <i class="la la-play-circle mr-1"></i>
+                                                                            {{ $lecture->title }}
+                                                                        </span>
+                                                                    </a>
+                                                                </li>
+                                                            @endif
                                                         @endforeach
                                                     </ul>
                                                 </div><!-- end card-body -->
@@ -203,22 +205,23 @@
                             <div class="instructor-wrap">
                                 <div class="media media-card">
                                     <div class="instructor-img">
-                                        <a href="teacher-detail.html" class="media-img d-block">
+                                        <a href="{{ route('info', $course->instructor->username) }}"
+                                            class="media-img d-block">
                                             <img class="lazy" src="images/img-loading.png"
                                                 data-src="{{ $course->instructor->photo ?? asset('uploads/no_image.jpg') }}"
                                                 alt="Avatar image">
                                         </a>
                                     </div><!-- end instructor-img -->
                                     <div class="media-body">
-                                        <h5><a href="teacher-detail.html">
+                                        <h5><a href="{{ route('info', $course->instructor->username) }}">
                                                 {{ $course->instructor->name }}
                                             </a></h5>
-                                        <span class="d-block lh-18 pt-2 pb-3">
+                                        <strong class="mt-2">
+                                            {{ $course->instructor->sort_desc }}
+                                        </strong>
+                                        <span class="d-block lh-18 py-2">
                                             Tham Gia: {{ formatDate($course->instructor->created_at) }}
                                         </span>
-                                        <p class="text-black lh-18 pb-3">
-
-                                        </p>
                                         <div class="collapse" id="collapseMoreTwo">
                                             {!! $course->instructor->bio !!}
                                         </div>
@@ -485,7 +488,7 @@
                         <div class="card card-item">
                             <div class="card-body">
                                 <div class="preview-course-video">
-                                    <a href="javascript:void(0)" data-toggle="modal" data-target="#previewModal">
+                                    <a href="javascript:void(0)" data-toggle="modal" data-target="#previewModal_course">
                                         <img src="{{ asset('frontend/images/img-loading.png') }}"
                                             data-src="{{ asset($course->image) }}" alt="course-img"
                                             class="w-100 rounded lazy">
@@ -572,18 +575,6 @@
                                 <div class="divider"><span></span></div>
                                 <ul class="generic-list-item generic-list-item-flash">
                                     <li class="d-flex align-items-center justify-content-between">
-                                        <span><i class="la la-clock mr-2 text-color"></i>Thời Lượng</span>
-                                        @php
-                                            $totalDuration = $course->section
-                                                ->flatMap(function ($section) {
-                                                    return $section->lectures->pluck('duration');
-                                                })
-                                                ->sum();
-                                        @endphp
-                                        {{ formatTime($totalDuration) }} giờ
-                                    </li>
-
-                                    <li class="d-flex align-items-center justify-content-between">
                                         <span><i class="la la-play-circle-o mr-2 text-color"></i>Bài Giảng</span>
                                         @php
                                             $totalLecture = $course->section
@@ -594,29 +585,37 @@
                                         @endphp
                                         {{ $totalLecture }}
                                     </li>
-                                    <li class="d-flex align-items-center justify-content-between"><span><i
-                                                class="la la-file-text-o mr-2 text-color"></i>Tài Nguyên</span>
+                                    <li class="d-flex align-items-center justify-content-between">
+                                        <span>
+                                            <i class="la la-file-text-o mr-2 text-color"></i>Tài Nguyên
+                                        </span>
                                         @php
                                             $totalAttachment = $course->section
                                                 ->flatMap(function ($section) {
-                                                    return $section->lectures->pluck('attachment');
+                                                    return $section->lectures
+                                                        ->pluck('attachment')
+                                                        ->filter(function ($attachment) {
+                                                            return !is_null($attachment);
+                                                        });
                                                 })
-                                                ->sum();
+                                                ->count();
                                         @endphp
                                         {{ $totalAttachment }}
                                     </li>
 
-                                    <li class="d-flex align-items-center justify-content-between"><span><i
-                                                class="la la-eye mr-2 text-color"></i>Xem Trước</span>
+                                    <li class="d-flex align-items-center justify-content-between">
+                                        <span>
+                                            <i class="la la-eye mr-2 text-color"></i>Xem Trước
+                                        </span>
                                         @php
-                                            $totalPreview = $course->section
+                                            echo $course->section
                                                 ->flatMap(function ($section) {
-                                                    return $section->lectures->where('preview', 1)->pluck('duration');
+                                                    return $section->lectures->where('preview', 1);
                                                 })
-                                                ->sum();
+                                                ->count();
                                         @endphp
-                                        {{ $totalPreview }}
                                     </li>
+
                                     <li class="d-flex align-items-center justify-content-between"><span><i
                                                 class="la la-language mr-2 text-color"></i>Ngôn Ngữ</span>
                                         {{ $course->language == 'vi' ? 'Tiếng Việt' : 'Tiếng Anh' }}
@@ -660,7 +659,7 @@
     </section>
 
     <!-- Modal -->
-    <div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel"
+    <div class="modal fade" id="previewModal_course" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content modal-content-preview">
@@ -672,11 +671,20 @@
                 </div>
                 <div class="modal-body">
                     <div class="preview-course-video">
-                        <video id="video" class="video-js vjs-default-skin vjs-big-play-centered" controls
-                            preload="auto" width="100%" height="100%" poster="{{ asset($course->image) }}"
-                            data-setup='{}'>
-                            <source src="{{ asset($course->video) }}" type='video/mp4'>
-                        </video>
+                        @if (strpos($course->video, 'youtube') !== false)
+                            <iframe width="100%" height="320px" src="{{ $course->video }}"
+                                title="YouTube video player" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        @else
+                            <video id="video" class="d-block mb-4" width="100%" height="320px" controls>
+                                <source src="{{ $course->video }}" type="video/mp4">
+                            </video>
+                        @endif
+                        {{-- <video controls crossorigin playsinline id="player" class="d-block mb-4" width="100%"
+                            height="320px" controls>
+                            <source src="{{ $course->video }}" />
+                        </video> --}}
                     </div><!-- end preview-course-video -->
                 </div>
             </div>
@@ -709,6 +717,12 @@
                     }
                 }
             });
+        });
+
+
+        $('#previewModal_course').on('hidden.bs.modal', function() {
+            var video = document.getElementById("video");
+            video.pause();
         });
     </script>
 @endpush

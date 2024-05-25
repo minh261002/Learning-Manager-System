@@ -25,7 +25,7 @@
                             <tbody>
                                 @foreach ($orders as $order)
                                     <tr>
-                                        <td>{{ $order->course->title }}</td>
+                                        <td>{{ $order->course->name }}</td>
                                         <td>{{ $order->user->name }}</td>
                                         <td>{{ number_format($order->price, 0, ',', '.') }} VNĐ</td>
                                         <td>{{ $order->created_at->format('d/m/Y') }}</td>

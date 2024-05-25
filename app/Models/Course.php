@@ -70,4 +70,9 @@ class Course extends Model
     {
         return Course::where('instructor_id', $instructorId)->get();
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

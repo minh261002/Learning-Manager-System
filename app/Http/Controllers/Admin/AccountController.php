@@ -168,8 +168,18 @@ class AccountController extends Controller
         try {
             $user = User::findOrFail($id);
 
-            if ($user->photo) {
-                $this->deleteFile($user->photo);
+            if ($user->role === 'admin') {
+                Notify::error('Không thể xóa tài khoản admin!');
+                return response()->json([
+                    'status' => 'error'
+                ]);
+            }
+
+            if ($user->orders->count() > 0) {
+                Notify::error('Tài khoản đã có đơn hàng. Bạn không thể xóa!');
+                return response()->json([
+                    'status' => 'error'
+                ]);
             }
 
             $user->delete();

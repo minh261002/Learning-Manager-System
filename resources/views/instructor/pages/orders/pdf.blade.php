@@ -115,9 +115,9 @@
                 </td>
                 <td>
                     @if ($order->payment->payment_method == 'paypal')
-                        <img src="{{ asset('frontend/img/paypal.png') }}" alt="paypal" style="width: 100px;">
+                        Thanh Toán Qua PayPal
                     @elseif($order->payment->payment_method == 'vnpay')
-                        <img src="{{ asset('frontend/img/vnpay.png') }}" alt="vnpay" style="width: 100px;">
+                        Thanh Toán Qua VNPay
                     @endif
                 </td>
             </tr>

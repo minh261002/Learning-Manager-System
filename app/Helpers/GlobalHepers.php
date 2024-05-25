@@ -45,14 +45,6 @@ function createSlug($model, $name)
     return $slug;
 }
 
-function getVideoDuration($videoPath)
-{
-    $getID3 = new GetId3($videoPath);
-    $file = $getID3->extractInfo();
-    // return $file['playtime_string'];
-    return $file['playtime_seconds'];
-}
-
 function formatTime($time)
 {
     $hours = floor($time / 3600);
