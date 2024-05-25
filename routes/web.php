@@ -6,6 +6,7 @@ use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\LocationController;
+use App\Http\Controllers\User\QuestionController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\WishListController;
 use Illuminate\Support\Facades\Route;
@@ -55,6 +56,9 @@ Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
     Route::get('checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
 
     Route::get('course/view/{slug}', [FrontendController::class, 'view_course'])->name('course.view')->middleware('check-course-payment');
+
+    Route::get('question/get-by-lecture', [QuestionController::class, 'getQuestionByLecture'])->name('question.get-by-lecture');
+    Route::post('question/create', [QuestionController::class, 'createQuestion'])->name('question.create');
 });
 
 //location ajax
@@ -65,6 +69,7 @@ Route::get('location/wards/{districtCode}', [LocationController::class, 'getWard
 //search ajax
 Route::get('search', [FrontendController::class, 'search'])->name('search');
 
+//payment
 Route::get('payment/vnpay', [CheckoutController::class, 'paymentVNPay'])->name('payment.vnpay');
 Route::get('payment/vnpay/callback', [CheckoutController::class, 'handleVNPayCallback'])->name('payment.vnpay.callback');
 Route::get('payment/paypal', [CheckoutController::class, 'paymentPaypal'])->name('payment.paypal');

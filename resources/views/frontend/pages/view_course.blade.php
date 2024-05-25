@@ -100,14 +100,16 @@
                                             aria-labelledby="heading{{ $loop->index }}"
                                             data-parent="#accordionCourseExample{{ $loop->index }}">
                                             <div class="card-body p-0">
+
                                                 <ul class="curriculum-sidebar-list">
                                                     @forelse ($section->lectures as $lesson)
-                                                        <li class="course-item-link" data-video="{{ $lesson->video }}">
+                                                        <li class="course-item-link" data-video="{{ $lesson->video }}"
+                                                            data-id-lecture="{{ $lesson->id }}"
+                                                            data-title-lecture="{{ $lesson->title }}">
                                                             <div class="course-item-content-wrap">
                                                                 <div class="course-item-content">
                                                                     <h4 class="fs-15">{{ $lesson->title }}</h4>
                                                                 </div><!-- end course-item-content -->
-
                                                                 @if ($lesson->attachment)
                                                                     <a class="btn btn-sm btn-outline-danger"
                                                                         href="{{ $lesson->attachment }}"
@@ -136,8 +138,6 @@
                                     Chưa có nội dung khóa học
                                 </div>
                             @endforelse
-
-
                         </div>
 
                     </div>
@@ -145,6 +145,7 @@
             </div>
         </div>
     </section>
+
     <!--======================================
         END COURSE-DASHBOARD
 ======================================-->
@@ -240,69 +241,6 @@
     <script src="{{ asset('frontend/js/jquery.MultiFile.min.js') }}"></script>
     <script src="{{ asset('frontend/js/main.js') }}"></script>
     <script>
-        // document.addEventListener('DOMContentLoaded', () => {
-        //     const player = new Plyr('#player');
-        //     let firstLinkClicked = false;
-
-        //     document.querySelectorAll('.course-item-link').forEach(link => {
-        //         link.addEventListener('click', function(event) {
-        //             event.preventDefault();
-
-        //             if (!firstLinkClicked) {
-        //                 firstLinkClicked = true;
-        //             } else {
-        //                 // Remove 'active' class from all links except the clicked one
-        //                 document.querySelectorAll('.course-item-link').forEach(link => {
-        //                     if (link !== this) {
-        //                         link.classList.remove('active');
-        //                     }
-        //                 });
-        //             }
-        //             // Add 'active' class to the clicked link
-        //             this.classList.add('active');
-
-        //             const videoUrl = this.dataset.video;
-
-        //             let sourceConfig;
-
-        //             if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
-        //                 const videoId = extractYouTubeVideoId(videoUrl);
-        //                 sourceConfig = {
-        //                     type: 'video',
-        //                     sources: [{
-        //                         src: videoId,
-        //                         provider: 'youtube'
-        //                     }],
-        //                     autoplay: true
-        //                 };
-        //             } else {
-        //                 sourceConfig = {
-        //                     type: 'video',
-        //                     sources: [{
-        //                         src: videoUrl,
-        //                         type: 'video/mp4'
-        //                     }],
-        //                     autoplay: true
-        //                 };
-        //             }
-
-        //             player.source = sourceConfig;
-        //         });
-        //     });
-
-        //     // Activate the first link by default
-        //     const firstLink = document.querySelector('.course-item-link');
-        //     if (firstLink) {
-        //         firstLink.click();
-        //     }
-
-        //     function extractYouTubeVideoId(url) {
-        //         const regex =
-        //             /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-        //         const matches = url.match(regex);
-        //         return matches ? matches[1] : null;
-        //     }
-        // });
         $('document').ready(function() {
             const player = new Plyr('#player');
 
@@ -367,6 +305,122 @@
         $('#downloadButton').click(function() {
             var url = $(this).attr('href');
             window.open(url, '_blank');
+        });
+
+        $(document).ready(function() {
+            $('.course-item-link').click(function() {
+                let id = $(this).data('id-lecture');
+                let title = $(this).data('title-lecture');
+                $('#heading-lecture-title').text('Bài học: ' + title);
+            });
+        });
+
+        $('#form-add-question').submit(function(e) {
+            e.preventDefault();
+
+            let form = $(this);
+            let url = form.attr('action');
+            let data = form.serialize();
+            $.ajax({
+                url: url,
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    course_lecture_id: form.find('input[name="course_lecture_id"]').val(),
+                    title: form.find('input[name="title"]').val(),
+                    question: form.find('textarea[name="content"]').val()
+
+                },
+                success: function(response) {
+                    if (response.status == 'success') {
+                        form.trigger('reset');
+
+                        $('.back-to-question-btn').click();
+
+                        $('.course-item-link.active').click();
+                    } else {
+                        toastr.error(response.message);
+                    }
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        });
+
+        $('.course-item-link').click(function() {
+            let id = $(this).data('id-lecture');
+
+            let url = '{{ route('question.get-by-lecture') }}';
+
+            $.ajax({
+                url: url,
+                method: 'GET',
+                data: {
+                    course_lecture_id: id
+                },
+
+                success: function(response) {
+                    let html = '';
+
+                    if (response.questions.length > 0) {
+                        response.questions.forEach(function(question) {
+                            html += `
+                            <div class="media media-card border-bottom border-bottom-gray py-4 px-3">
+                                <div class="media-img rounded-full flex-shrink-0 avatar-sm">
+                                    <img class="rounded-full" src="${question.user.photo ?? "{{ asset('uploads/no_image.jpg') }}"}"
+                                    style="width: 50px; height: 50px; object-fit:cover" alt="Image">
+                                </div>
+                                <div class="media-body">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="question-meta-content">
+                                            <a href="javascript:void(0)" class="d-block">
+                                                <h5 class="fs-16 pb-1">
+                                                    ${question.title}
+                                                </h5>
+                                                <p class="text-truncate fs-15 text-gray">
+                                                    ${question.question}
+                                                </p>
+                                            </a>
+                                        </div>
+
+                                        <div class="question-upvote-action">
+                                            <div class="number-upvotes question-response d-flex align-items-center">
+                                                <span>
+                                                    ${question.answers.length ?? 0}
+                                                </span>
+                                                <button type="button" class="question-replay-btn"><i
+                                                        class="la la-comments"></i></button>
+                                            </div>
+                                        </div><!-- end question-upvote-action -->
+                                    </div>
+                                    <p class="meta-tags pt-1 fs-13">
+                                        <a href="#">
+                                            ${question.user.name}
+                                        </a>
+                                        <span>
+                                            ${question.created_at}
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                            `;
+                        });
+
+                        $('#question-list').html(html);
+                    } else {
+                        html = '<div class="alert alert-info">Chưa có câu hỏi nào</div>';
+                    }
+
+                },
+
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                    $('#question-list').html(
+                        '<div class="alert alert-danger">Đã xảy ra lỗi khi gửi yêu cầu.</div>'
+                    );
+                }
+            });
         });
     </script>
 </body>
