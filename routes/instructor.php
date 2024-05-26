@@ -4,6 +4,7 @@ use App\Http\Controllers\Instructor\CouponController;
 use App\Http\Controllers\Instructor\CoursesController;
 use App\Http\Controllers\Instructor\InstructorController;
 use App\Http\Controllers\Instructor\OrderController;
+use App\Http\Controllers\Instructor\QuestionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('dashboard', [InstructorController::class, 'index'])->name('dashboard');
@@ -28,4 +29,7 @@ Route::resource('coupons', CouponController::class);
 //orders
 Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
 Route::get('order/{id}/pdf', [OrderController::class, 'downloadPdf'])->name('order.pdf');
+
+//questions
+Route::resource('questions', QuestionController::class);
 // });

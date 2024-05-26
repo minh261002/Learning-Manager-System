@@ -14,6 +14,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 
     <!-- Favicon -->
     <link rel="icon" sizes="16x16" href="{{ asset('frontend/img/favicon.svg') }}">
@@ -97,7 +98,40 @@
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous">
     </script>
 
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
     <script>
+        function checkNotifications() {
+            $.ajax({
+                url: "{{ route('notifications.get') }}",
+                method: 'GET',
+                success: function(response) {
+                    if (response.notifications.length > 0) {
+                        response.notifications.forEach(function(notification) {
+                            Toastify({
+                                text: notification.data.message,
+                                duration: 5000,
+                                close: true,
+                                gravity: "top",
+                                position: 'right',
+                                backgroundColor: "#2c3e50",
+                                stopOnFocus: true,
+                            }).showToast();
+                        });
+                    }
+                },
+                error: function(xhr) {
+                    console.error(xhr.responseText);
+                }
+            });
+        }
+
+        setInterval(checkNotifications, 5000);
+
+        $(document).ready(function() {
+            checkNotifications();
+        });
+
         //datatable
         $('#table').DataTable({
             'language': {

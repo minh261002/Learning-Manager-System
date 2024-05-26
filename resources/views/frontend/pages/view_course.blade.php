@@ -328,8 +328,8 @@
                     _token: '{{ csrf_token() }}',
                     course_lecture_id: form.find('input[name="course_lecture_id"]').val(),
                     title: form.find('input[name="title"]').val(),
-                    question: form.find('textarea[name="content"]').val()
-
+                    question: form.find('textarea[name="content"]').val(),
+                    instructor_id: {{ $course->instructor->id }}
                 },
                 success: function(response) {
                     if (response.status == 'success') {

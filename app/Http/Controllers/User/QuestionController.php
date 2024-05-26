@@ -40,6 +40,7 @@ class QuestionController extends Controller
         $question = $this->question->create([
             'user_id' => auth()->id(),
             'course_lecture_id' => $request->course_lecture_id,
+            'instructor_id' => $request->instructor_id,
             'question' => $request->question,
             'title' => $request->title,
         ]);

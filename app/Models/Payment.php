@@ -15,4 +15,9 @@ class Payment extends Model
     {
         return $this->hasOne(Order::class);
     }
+
+    public function createPayment($data)
+    {
+        return $this->create($data);
+    }
 }

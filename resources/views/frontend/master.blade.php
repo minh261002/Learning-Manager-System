@@ -84,6 +84,7 @@
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
 
     <script>
         $('body').on('click', '.delete-item', function(e) {

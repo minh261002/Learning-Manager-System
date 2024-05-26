@@ -12,7 +12,6 @@
         "anayarojo/shoppingcart": "^4.2",
         "barryvdh/laravel-dompdf": "^2.2",
         "cviebrock/eloquent-sluggable": "^11.0",
-        "intervention/image-laravel": "^1.2",
         "james-heinrich/getid3": "^1.9",
         "laravel/framework": "^11.0",
         "laravel/socialite": "^5.14",

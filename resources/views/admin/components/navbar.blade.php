@@ -13,7 +13,35 @@
         </div>
     </form>
     <ul class="navbar-nav navbar-right">
-
+        <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
+                class="nav-link notification-toggle nav-link-lg beep"><i class="far fa-bell"></i></a>
+            <div class="dropdown-menu dropdown-list dropdown-menu-right">
+                <div class="dropdown-header">Thông Báo
+                </div>
+                <div class="dropdown-list-content dropdown-list-icons">
+                    @forelse(Auth::user()->notifications as $notify)
+                        <a href="#" class="dropdown-item dropdown-item-unread">
+                            <div class="dropdown-item-icon bg-primary text-white">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <div class="dropdown-item-desc">
+                                {{ $notify->data['message'] }}
+                                <div class="time text-primary">
+                                    {{ $notify->created_at->diffForHumans() }}
+                                </div>
+                            </div>
+                        </a>
+                    @empty
+                        <div class="alert alert-info">
+                            Không có thông báo nào!
+                        </div>
+                    @endforelse
+                </div>
+                <div class="dropdown-footer text-center">
+                    <a href="#">Xem tất cả <i class="fas fa-chevron-right"></i></a>
+                </div>
+            </div>
+        </li>
         <li class="dropdown"><a href="#" data-toggle="dropdown"
                 class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                 <img alt="image" src="{{ Auth::user()->photo ?? asset('uploads/no_image.jpg') }}"

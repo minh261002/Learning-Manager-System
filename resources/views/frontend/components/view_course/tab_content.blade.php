@@ -287,46 +287,6 @@
                 <div class="section-block"></div>
                 <div class="lecture-overview-item mt-0">
                     <div class="question-list-item" id="question-list">
-                        {{-- <div class="media media-card border-bottom border-bottom-gray py-4 px-3">
-                            <div class="media-img rounded-full flex-shrink-0 avatar-sm">
-                                <img class="rounded-full" src="images/small-avatar-1.jpg" alt="User image">
-                            </div>
-                            <div class="media-body">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="question-meta-content">
-                                        <a href="javascript:void(0)" class="d-block">
-                                            <h5 class="fs-16 pb-1">I still did't get H264
-                                                after installing Quicktime. Please what do I
-                                                do</h5>
-                                            <p class="text-truncate fs-15 text-gray">
-                                                Lorem ipsum dolor sit amet, consectetur
-                                                adipisicing elit,
-                                                sed do eiusmod tempor incididunt ut labore
-                                                et dolore magna aliqua.
-                                                Ut enim ad minim veniam, quis nostrud
-                                                exercitation.
-                                            </p>
-                                        </a>
-                                    </div><!-- end question-meta-content -->
-                                    <div class="question-upvote-action">
-                                        <div class="number-upvotes pb-2 d-flex align-items-center">
-                                            <span>1</span>
-                                            <button type="button"><i class="la la-arrow-up"></i></button>
-                                        </div>
-                                        <div class="number-upvotes question-response d-flex align-items-center">
-                                            <span>1</span>
-                                            <button type="button" class="question-replay-btn"><i
-                                                    class="la la-comments"></i></button>
-                                        </div>
-                                    </div><!-- end question-upvote-action -->
-                                </div>
-                                <p class="meta-tags pt-1 fs-13">
-                                    <a href="#">Alex Smith</a>
-                                    <a href="#">Lecture 20</a>
-                                    <span>3 hours ago</span>
-                                </p>
-                            </div><!-- end media-body -->
-                        </div> --}}
                     </div>
 
                 </div><!-- end lecture-overview-item -->

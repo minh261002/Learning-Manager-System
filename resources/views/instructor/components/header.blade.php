@@ -47,56 +47,40 @@
                                                     class="cart-dropdown-menu after-none p-0 notification-dropdown-menu">
                                                     <li
                                                         class="menu-heading-block d-flex align-items-center justify-content-between">
-                                                        <h4>Notifications</h4>
-                                                        <span class="ribbon fs-14">18</span>
+                                                        <h4>Thông Báo</h4>
+                                                        <span class="ribbon fs-14">
+                                                            @php
+                                                                $ncount = Auth::user()->unreadNotifications()->count();
+                                                            @endphp
+                                                            {{ $ncount }}
+                                                        </span>
                                                     </li>
                                                     <li>
                                                         <div class="notification-body">
-                                                            <a href="dashboard.html"
-                                                                class="media media-card align-items-center">
-                                                                <div
-                                                                    class="icon-element icon-element-sm flex-shrink-0 bg-1 mr-3 text-white">
-                                                                    <i class="la la-bolt"></i>
+                                                            @forelse (Auth::user()->notifications as $notification)
+                                                                <a class="media media-card align-items-center">
+                                                                    <div
+                                                                        class="icon-element icon-element-sm flex-shrink-0 bg-1 mr-3 text-white">
+                                                                        <i class="la la-bolt"></i>
+                                                                    </div>
+                                                                    <div
+                                                                        class="media-body
+                                                                        {{ $notification->read_at ? 'text-gray' : '' }}">
+                                                                        <h5>{{ $notification->data['message'] }}</h5>
+                                                                        <span
+                                                                            class="d-block lh-18 pt-1 text-gray fs-13">{{ $notification->created_at->diffForHumans() }}</span>
+                                                                    </div>
+                                                                </a>
+                                                            @empty
+                                                                <div class="alert alert-info">
+                                                                    <p>Không có thông báo mới</p>
                                                                 </div>
-                                                                <div class="media-body">
-                                                                    <h5>Your resume updated!</h5>
-                                                                    <span class="d-block lh-18 pt-1 text-gray fs-13">1
-                                                                        hour ago</span>
-                                                                </div>
-                                                            </a>
-                                                            <a href="dashboard.html"
-                                                                class="media media-card align-items-center">
-                                                                <div
-                                                                    class="icon-element icon-element-sm flex-shrink-0 bg-2 mr-3 text-white">
-                                                                    <i class="la la-lock"></i>
-                                                                </div>
-                                                                <div class="media-body">
-                                                                    <h5>You changed password</h5>
-                                                                    <span
-                                                                        class="d-block lh-18 pt-1 text-gray fs-13">November
-                                                                        12, 2019</span>
-                                                                </div>
-                                                            </a>
-                                                            <a href="dashboard.html"
-                                                                class="media media-card align-items-center">
-                                                                <div
-                                                                    class="icon-element icon-element-sm flex-shrink-0 bg-3 mr-3 text-white">
-                                                                    <i class="la la-user"></i>
-                                                                </div>
-                                                                <div class="media-body">
-                                                                    <h5>Your account has been created successfully
-                                                                    </h5>
-                                                                    <span
-                                                                        class="d-block lh-18 pt-1 text-gray fs-13">November
-                                                                        12, 2019</span>
-                                                                </div>
-                                                            </a>
+                                                            @endforelse
                                                         </div>
                                                     </li>
                                                     <li class="menu-heading-block">
-                                                        <a href="dashboard.html" class="btn theme-btn w-100">Show
-                                                            All Notifications <i
-                                                                class="la la-arrow-right icon ml-1"></i></a>
+                                                        <a href="dashboard.html" class="btn theme-btn w-100">Xem Tất Cả
+                                                            <i class="la la-arrow-right icon ml-1"></i></a>
                                                     </li>
                                                 </ul>
                                             </li>
@@ -174,8 +158,8 @@
                                                                     stroke-linejoin="round">
                                                                     <circle cx="12" cy="12" r="5">
                                                                     </circle>
-                                                                    <line x1="12" y1="1"
-                                                                        x2="12" y2="3"></line>
+                                                                    <line x1="12" y1="1" x2="12"
+                                                                        y2="3"></line>
                                                                     <line x1="12" y1="21"
                                                                         x2="12" y2="23"></line>
                                                                     <line x1="4.22" y1="4.22"

@@ -6,6 +6,7 @@ use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\LocationController;
+use App\Http\Controllers\Frontend\NotificationController;
 use App\Http\Controllers\User\QuestionController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\WishListController;
@@ -74,3 +75,6 @@ Route::get('payment/vnpay', [CheckoutController::class, 'paymentVNPay'])->name('
 Route::get('payment/vnpay/callback', [CheckoutController::class, 'handleVNPayCallback'])->name('payment.vnpay.callback');
 Route::get('payment/paypal', [CheckoutController::class, 'paymentPaypal'])->name('payment.paypal');
 Route::get('payment/paypal/callback', [CheckoutController::class, 'handlePaypalCallback'])->name('payment.paypal.callback');
+
+//notification
+Route::get('notification/get', [NotificationController::class, 'getNotification'])->name('notifications.get');

@@ -25,4 +25,9 @@ class Order extends Model
     {
         return $this->belongsTo(Course::class, 'course_id', 'id');
     }
+
+    public function createOrder($data)
+    {
+        return $this->create($data);
+    }
 }
