@@ -90,7 +90,10 @@ class UserController extends Controller
 
     public function myCourse()
     {
-        $courses = auth()->user()->courses;
-        dd($courses);
+        $courses = Auth::user()
+            ->orders->map(function ($order) {
+                return $order->course;
+            });
+        return view('user.pages.my-course', compact('courses'));
     }
 }
