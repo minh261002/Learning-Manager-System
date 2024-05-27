@@ -20,7 +20,8 @@
         "league/omnipay": "^3.2",
         "omnipay/paypal": "^3.0",
         "owen-oj/laravel-getid3": "*",
-        "php-flasher/flasher-notyf-laravel": "^2.0"
+        "php-flasher/flasher-notyf-laravel": "^2.0",
+        "pusher/pusher-php-server": "^7.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

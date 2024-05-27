@@ -87,4 +87,10 @@ class UserController extends Controller
         Notify::success('Mật khẩu đã được thay đổi thành công!');
         return redirect()->back();
     }
+
+    public function myCourse()
+    {
+        $courses = auth()->user()->courses;
+        dd($courses);
+    }
 }

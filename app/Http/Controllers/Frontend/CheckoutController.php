@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Notifications\sendToInstructor;
 use App\Services\Notify;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
@@ -16,7 +15,6 @@ use Notification;
 use Omnipay\Omnipay;
 use App\Notifications\OrderComplete;
 use App\Models\User;
-use App\Events\OrderCreated;
 
 class CheckoutController extends Controller
 {
@@ -60,50 +58,26 @@ class CheckoutController extends Controller
             $total = Cart::total('0', '', '');
             $discount = Cart::discount('0', '', '');
 
-            $payment = $this->payment->createPayment([
-                'payment_id' => 'LEARN_' . strtoupper(uniqid()),
-                'name' => $request->name,
-                'email' => $request->email,
-                'payment_method' => $request->payment_method,
-                'total' => $total,
-                'discount' => $discount ?? 0,
-                'status' => 'pending',
-            ]);
+            $payment = $this->createPayment($request, $total, $discount);
 
-            foreach ($cart as $item) {
-                $order = $this->order->createOrder([
-                    'order_number' => 'LEARN_' . strtoupper(uniqid()),
-                    'user_id' => auth()->user()->id,
-                    'payment_id' => $payment->id,
-                    'course_id' => $item->id,
-                    'price' => $item->price,
-                    'instructor_id' => $item->options->instructor_id,
-                ]);
+            $orders = $this->createOrders($cart, $payment);
 
-                $orders[] = $order;
-            }
-
-
-            Mail::to($request->email)->send(
-                new OrderMail(
-                    $payment,
-                    $orders
-                )
-            );
-
-            Notification::send(auth()->user(), new OrderComplete(auth()->user()->name));
+            // Mail::to($request->email)->send(
+            //     new OrderMail(
+            //         $payment,
+            //         $orders
+            //     )
+            // );
 
             foreach ($orders as $order) {
                 $instructor = User::find($order->instructor_id);
                 if ($instructor) {
-                    Notification::send($instructor, new sendToInstructor(auth()->user()->name));
+                    Notification::send($instructor, new OrderComplete(auth()->user()->name));
                 }
             }
 
             $admins = User::where('role', 'admin')->get();
-            Notification::send($admins, new sendToInstructor(auth()->user()->name));
-
-            event(new OrderCreated(auth()->user()->name));
+            Notification::send($admins, new OrderComplete(auth()->user()->name));
 
             DB::commit();
 
@@ -126,6 +100,37 @@ class CheckoutController extends Controller
             Notify::error('Đã có lỗi xảy ra. Vui lòng thử lại.');
             return redirect()->back();
         }
+    }
+
+    private function createPayment($request, $total, $discount = null)
+    {
+        $payment = $this->payment->createPayment([
+            'payment_id' => 'LEARN_' . strtoupper(uniqid()),
+            'user_id' => auth()->user()->id,
+            'payment_method' => $request->payment_method,
+            'total' => $total,
+            'discount' => $discount ?? 0,
+            'status' => 'pending',
+        ]);
+
+        return $payment;
+    }
+
+    private function createOrders($cart, $payment)
+    {
+        $orders = [];
+        foreach ($cart as $item) {
+            $order = $this->order->createOrder([
+                'order_number' => 'LEARN_' . strtoupper(uniqid()),
+                'user_id' => auth()->user()->id,
+                'payment_id' => $payment->id,
+                'course_id' => $item->id,
+                'price' => $item->price,
+                'instructor_id' => $item->options->instructor_id,
+            ]);
+            $orders[] = $order;
+        }
+        return $orders;
     }
 
     public function paymentVNPay($total, $payment_id)
@@ -249,6 +254,25 @@ class CheckoutController extends Controller
             return redirect()->route('checkout.success');
         } else {
             $this->error();
+        }
+    }
+
+    public function reTryPayment(Request $request)
+    {
+        $payment_method = request()->payment_method;
+        $id = $request->id;
+
+        $payment = $this->payment->findOrFail($id);
+
+        $payment->update([
+            'payment_method' => $payment_method,
+        ]);
+
+        if ($payment_method == 'vnpay') {
+            return $this->paymentVNPay($payment->total, $payment->payment_id);
+        } elseif ($payment_method == 'paypal') {
+            vndToUsd($payment->total);
+            return $this->paymentPaypal(vndToUsd($payment->total), $payment->payment_id);
         }
     }
 

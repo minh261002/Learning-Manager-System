@@ -7,6 +7,7 @@ use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\LocationController;
 use App\Http\Controllers\Frontend\NotificationController;
+use App\Http\Controllers\User\OrderController;
 use App\Http\Controllers\User\QuestionController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\WishListController;
@@ -60,6 +61,11 @@ Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
 
     Route::get('question/get-by-lecture', [QuestionController::class, 'getQuestionByLecture'])->name('question.get-by-lecture');
     Route::post('question/create', [QuestionController::class, 'createQuestion'])->name('question.create');
+
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders');
+    Route::get('/order/{id}', [OrderController::class, 'show'])->name('order.show');
+
+    Route::get('my-course', [UserController::class, 'myCourse'])->name('my-course');
 });
 
 //location ajax
@@ -75,6 +81,7 @@ Route::get('payment/vnpay', [CheckoutController::class, 'paymentVNPay'])->name('
 Route::get('payment/vnpay/callback', [CheckoutController::class, 'handleVNPayCallback'])->name('payment.vnpay.callback');
 Route::get('payment/paypal', [CheckoutController::class, 'paymentPaypal'])->name('payment.paypal');
 Route::get('payment/paypal/callback', [CheckoutController::class, 'handlePaypalCallback'])->name('payment.paypal.callback');
+Route::post('payment/re-try', [CheckoutController::class, 'reTryPayment'])->name('payment.re-try');
 
 //notification
 Route::get('notification/get', [NotificationController::class, 'getNotification'])->name('notifications.get');
