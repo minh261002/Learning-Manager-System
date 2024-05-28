@@ -19,6 +19,7 @@ class QuestionController extends Controller
         $course_lecture_id = $request->course_lecture_id;
         $questions = $this->question
             ->where('course_lecture_id', $course_lecture_id)
+            ->where('parent_id', null)
             ->with('user')
             ->with('answers')
             ->orderBy('created_at', 'desc')
@@ -45,6 +46,16 @@ class QuestionController extends Controller
             'title' => $request->title,
         ]);
 
+        return response()->json([
+            'status' => 'success',
+            'question' => $question
+        ]);
+    }
+
+    public function getAnswers()
+    {
+        $question_id = request()->question_id;
+        $question = $this->question->with('answers')->find($question_id);
         return response()->json([
             'status' => 'success',
             'question' => $question

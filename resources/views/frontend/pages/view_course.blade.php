@@ -373,8 +373,8 @@
                                 </div>
                                 <div class="media-body">
                                     <div class="d-flex align-items-center justify-content-between">
-                                        <div class="question-meta-content">
-                                            <a href="javascript:void(0)" class="d-block">
+                                        <div class="question-meta-content question-replay" data-id-question="${question.id}">
+                                            <a href="javascript:void(0)" class="d-block" >
                                                 <h5 class="fs-16 pb-1">
                                                     ${question.title}
                                                 </h5>
@@ -389,7 +389,8 @@
                                                 <span>
                                                     ${question.answers.length ?? 0}
                                                 </span>
-                                                <button type="button" class="question-replay-btn"><i
+                                                <button type="button" class="question-replay-btn question-replay"
+                                                    data-id-question="${question.id}"><i
                                                         class="la la-comments"></i></button>
                                             </div>
                                         </div><!-- end question-upvote-action -->
@@ -419,6 +420,34 @@
                     $('#question-list').html(
                         '<div class="alert alert-danger">Đã xảy ra lỗi khi gửi yêu cầu.</div>'
                     );
+                }
+            });
+        });
+
+        $('#question-list').on('click', '.question-replay', function() {
+            let id = $(this).data('id-question');
+
+            $.ajax({
+                url: '{{ route('question.get-answers') }}',
+                method: 'GET',
+                data: {
+                    question_id: id
+                },
+                success: function(response) {
+                    let html = '';
+                    if (response.question.answers.length > 0) {
+                        let html = '';
+                        response.question.answers.forEach(function(answer) {
+                            html += `${answer.answer} <br>`;
+                        });
+
+                        $('#answer-block').html(
+                            html);
+                    } else {
+                        $('.answer').html(
+                            '<p>No answers found.</p>'
+                        );
+                    }
                 }
             });
         });

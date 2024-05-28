@@ -61,6 +61,7 @@ Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
 
     Route::get('question/get-by-lecture', [QuestionController::class, 'getQuestionByLecture'])->name('question.get-by-lecture');
     Route::post('question/create', [QuestionController::class, 'createQuestion'])->name('question.create');
+    Route::get('question/get-answer', [QuestionController::class, 'getAnswers'])->name('question.get-answers');
 
     Route::get('/orders', [OrderController::class, 'index'])->name('orders');
     Route::get('/order/{id}', [OrderController::class, 'show'])->name('order.show');
