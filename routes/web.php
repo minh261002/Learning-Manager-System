@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Frontend\AuthController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\CheckoutController;
+use App\Http\Controllers\Frontend\CourseRatingController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\LocationController;
 use App\Http\Controllers\Frontend\NotificationController;
@@ -67,6 +68,17 @@ Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
     Route::get('/order/{id}', [OrderController::class, 'show'])->name('order.show');
 
     Route::get('my-course', [UserController::class, 'myCourse'])->name('my-course');
+
+    //payment
+    Route::get('payment/vnpay', [CheckoutController::class, 'paymentVNPay'])->name('payment.vnpay');
+    Route::get('payment/vnpay/callback', [CheckoutController::class, 'handleVNPayCallback'])->name('payment.vnpay.callback');
+    Route::get('payment/paypal', [CheckoutController::class, 'paymentPaypal'])->name('payment.paypal');
+    Route::get('payment/paypal/callback', [CheckoutController::class, 'handlePaypalCallback'])->name('payment.paypal.callback');
+    Route::post('payment/re-try', [CheckoutController::class, 'reTryPayment'])->name('payment.re-try');
+
+    //rating
+    Route::post('/rating', [CourseRatingController::class, 'rating'])->name('course.rating');
+    Route::delete('/rating', [CourseRatingController::class, 'deleteRating'])->name('course.rating.delete');
 });
 
 //location ajax
@@ -77,12 +89,7 @@ Route::get('location/wards/{districtCode}', [LocationController::class, 'getWard
 //search ajax
 Route::get('search', [FrontendController::class, 'search'])->name('search');
 
-//payment
-Route::get('payment/vnpay', [CheckoutController::class, 'paymentVNPay'])->name('payment.vnpay');
-Route::get('payment/vnpay/callback', [CheckoutController::class, 'handleVNPayCallback'])->name('payment.vnpay.callback');
-Route::get('payment/paypal', [CheckoutController::class, 'paymentPaypal'])->name('payment.paypal');
-Route::get('payment/paypal/callback', [CheckoutController::class, 'handlePaypalCallback'])->name('payment.paypal.callback');
-Route::post('payment/re-try', [CheckoutController::class, 'reTryPayment'])->name('payment.re-try');
-
 //notification
 Route::get('notification/get', [NotificationController::class, 'getNotification'])->name('notifications.get');
+
+Route::get('/rating', [CourseRatingController::class, 'getRatingByCourse'])->name('course.rating.get');

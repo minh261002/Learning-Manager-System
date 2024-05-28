@@ -238,21 +238,16 @@
                             </div><!-- end instructor-wrap -->
                         </div><!-- end course-overview-card -->
                         <div class="course-overview-card pt-4">
-                            <h3 class="fs-24 font-weight-semi-bold pb-40px">Student feedback</h3>
+                            <h3 class="fs-24 font-weight-semi-bold pb-4">Đánh Giá</h3>
+
                             <div class="feedback-wrap">
                                 <div class="media media-card align-items-center">
                                     <div class="review-rating-summary">
-                                        <span class="stats-average__count">4.6</span>
+                                        <span class="stats-average__count"></span>
                                         <div class="rating-wrap pt-1">
-                                            <div class="review-stars">
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star-half-alt"></span>
+                                            <div class="review-stars" id="stars-box-container">
                                             </div>
-                                            <span class="rating-total d-block">(2,533)</span>
-                                            <span>Course Rating</span>
+                                            <span class="rating-total d-block"></span>
                                         </div><!-- end rating-wrap -->
                                     </div><!-- end review-rating-summary -->
                                     <div class="media-body">
@@ -314,173 +309,48 @@
                                     </div><!-- end media-body -->
                                 </div>
                             </div><!-- end feedback-wrap -->
-                        </div><!-- end course-overview-card -->
-                        <div class="course-overview-card pt-4">
-                            <h3 class="fs-24 font-weight-semi-bold pb-4">Reviews</h3>
-                            <div class="review-wrap">
-                                <div class="d-flex flex-wrap align-items-center pb-4">
-                                    <form method="post" class="mr-3 flex-grow-1">
-                                        <div class="form-group">
-                                            <input class="form-control form--control pl-3" type="text" name="search"
-                                                placeholder="Search reviews">
-                                            <span class="la la-search search-icon"></span>
-                                        </div>
-                                    </form>
-                                    <div class="select-container mb-3">
-                                        <select class="select-container-select">
-                                            <option value="all-rating">All ratings</option>
-                                            <option value="five-star">Five stars</option>
-                                            <option value="four-star">Four stars</option>
-                                            <option value="three-star">Three stars</option>
-                                            <option value="two-star">Two stars</option>
-                                            <option value="one-star">One star</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="media media-card border-bottom border-bottom-gray pb-4 mb-4">
-                                    <div class="media-img mr-4 rounded-full">
-                                        <img class="rounded-full lazy" src="images/img-loading.png"
-                                            data-src="images/small-avatar-1.jpg" alt="User image">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="d-flex flex-wrap align-items-center justify-content-between pb-1">
-                                            <h5>Kavi arasan</h5>
-                                            <div class="review-stars">
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                            </div>
-                                        </div>
-                                        <span class="d-block lh-18 pb-2">a month ago</span>
-                                        <p class="pb-2">This is one of the best courses I have taken in Udemy. It is very
-                                            complete, and it has made continue learning about Java and SQL databases as
-                                            well.</p>
-                                        <div class="helpful-action">
-                                            <span class="d-block fs-13">Was this review helpful?</span>
-                                            <button class="btn">Yes</button>
-                                            <button class="btn">No</button>
-                                            <span class="btn-text fs-14 cursor-pointer pl-1" data-toggle="modal"
-                                                data-target="#reportModal">Report</span>
-                                        </div>
-                                    </div>
-                                </div><!-- end media -->
-                                <div class="media media-card border-bottom border-bottom-gray pb-4 mb-4">
-                                    <div class="media-img mr-4 rounded-full">
-                                        <img class="rounded-full lazy" src="images/img-loading.png"
-                                            data-src="images/small-avatar-2.jpg" alt="User image">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="d-flex flex-wrap align-items-center justify-content-between pb-1">
-                                            <h5>Jitesh Shaw</h5>
-                                            <div class="review-stars">
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                            </div>
-                                        </div>
-                                        <span class="d-block lh-18 pb-2">1 months ago</span>
-                                        <p class="pb-2">This is one of the best courses I have taken in Udemy. It is very
-                                            complete, and it has made continue learning about Java and SQL databases as
-                                            well.</p>
-                                        <div class="helpful-action">
-                                            <span class="d-block fs-13">Was this review helpful?</span>
-                                            <button class="btn">Yes</button>
-                                            <button class="btn">No</button>
-                                            <span class="btn-text fs-14 cursor-pointer pl-1" data-toggle="modal"
-                                                data-target="#reportModal">Report</span>
-                                        </div>
-                                    </div>
-                                </div><!-- end media -->
-                                <div class="media media-card border-bottom border-bottom-gray pb-4 mb-4">
-                                    <div class="media-img mr-4 rounded-full">
-                                        <img class="rounded-full lazy" src="images/img-loading.png"
-                                            data-src="{{ asset('frontend/images/small-avatar-3.jpg') }}"
-                                            alt="User image">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="d-flex flex-wrap align-items-center justify-content-between pb-1">
-                                            <h5>Miguel Sanches</h5>
-                                            <div class="review-stars">
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                                <span class="la la-star"></span>
-                                            </div>
-                                        </div>
-                                        <span class="d-block lh-18 pb-2">2 month ago</span>
-                                        <p class="pb-2">This is one of the best courses I have taken in Udemy. It is very
-                                            complete, and it has made continue learning about Java and SQL databases as
-                                            well.</p>
-                                        <div class="helpful-action">
-                                            <span class="d-block fs-13">Was this review helpful?</span>
-                                            <button class="btn">Yes</button>
-                                            <button class="btn">No</button>
-                                            <span class="btn-text fs-14 cursor-pointer pl-1" data-toggle="modal"
-                                                data-target="#reportModal">Report</span>
-                                        </div>
-                                    </div>
-                                </div><!-- end media -->
+                            <hr>
+
+                            <div class="review-wrap mt-5" id="rating-box">
+
                             </div><!-- end review-wrap -->
-                            <div class="see-more-review-btn text-center">
-                                <button type="button" class="btn theme-btn theme-btn-transparent">Load more
-                                    reviews</button>
-                            </div>
                         </div><!-- end course-overview-card -->
-                        <div class="course-overview-card pt-4">
-                            <h3 class="fs-24 font-weight-semi-bold pb-4">Add a Review</h3>
+
+                        <form id="form-rating" class="course-overview-card pt-4" method="POST"
+                            action="{{ route('course.rating') }}">
+                            @csrf
+
+                            <input type="hidden" name="course_id" value="{{ $course->id }}">
+                            <input type="hidden" name="instructor_id" value="{{ $course->instructor->id }}">
+
+                            <h3 class="fs-24 font-weight-semi-bold pb-4">Đánh Giá Về Khoá Học Này</h3>
+                            <div class="my-2" id="rating-notify"></div>
                             <div class="leave-rating-wrap pb-4">
                                 <div class="leave-rating leave--rating">
-                                    <input type="radio" name='rate' id="star5" />
+                                    <input type="radio" name='rate' id="star5" value="5" />
                                     <label for="star5"></label>
-                                    <input type="radio" name='rate' id="star4" />
+                                    <input type="radio" name='rate' id="star4" value="4" />
                                     <label for="star4"></label>
-                                    <input type="radio" name='rate' id="star3" />
+                                    <input type="radio" name='rate' id="star3" value="3" />
                                     <label for="star3"></label>
-                                    <input type="radio" name='rate' id="star2" />
+                                    <input type="radio" name='rate' id="star2" value="2" />
                                     <label for="star2"></label>
-                                    <input type="radio" name='rate' id="star1" />
+                                    <input type="radio" name='rate' id="star1" value="1" />
                                     <label for="star1"></label>
                                 </div><!-- end leave-rating -->
                             </div>
-                            <form method="post" class="row">
-                                <div class="input-box col-lg-6">
-                                    <label class="label-text">Name</label>
-                                    <div class="form-group">
-                                        <input class="form-control form--control" type="text" name="name"
-                                            placeholder="Your Name">
-                                        <span class="la la-user input-icon"></span>
-                                    </div>
-                                </div><!-- end input-box -->
-                                <div class="input-box col-lg-6">
-                                    <label class="label-text">Email</label>
-                                    <div class="form-group">
-                                        <input class="form-control form--control" type="email" name="email"
-                                            placeholder="Email Address">
-                                        <span class="la la-envelope input-icon"></span>
-                                    </div>
-                                </div><!-- end input-box -->
+                            <div class="row">
                                 <div class="input-box col-lg-12">
-                                    <label class="label-text">Message</label>
+                                    <label class="label-text">Nội Dung</label>
                                     <div class="form-group">
-                                        <textarea class="form-control form--control pl-3" name="message" placeholder="Write Message" rows="5"></textarea>
+                                        <textarea class="form-control form--control pl-3" name="message" rows="3"></textarea>
                                     </div>
                                 </div><!-- end input-box -->
                                 <div class="btn-box col-lg-12">
-                                    <div class="custom-control custom-checkbox mb-3 fs-15">
-                                        <input type="checkbox" class="custom-control-input" id="saveCheckbox" required>
-                                        <label class="custom-control-label custom--control-label" for="saveCheckbox">
-                                            Save my name, and email in this browser for the next time I comment.
-                                        </label>
-                                    </div><!-- end custom-control -->
-                                    <button class="btn theme-btn" type="submit">Submit Review</button>
+                                    <button class="btn theme-btn" type="submit">Gửi Đánh Giá</button>
                                 </div><!-- end btn-box -->
-                            </form>
-                        </div><!-- end course-overview-card -->
+                            </div>
+                        </form><!-- end course-overview-card -->
                     </div><!-- end course-details-content-wrap -->
                 </div><!-- end col-lg-8 -->
                 <div class="col-lg-4">
@@ -728,5 +598,170 @@
             var video = document.getElementById("video");
             video.pause();
         });
+
+        $('#form-rating').on('submit', function(e) {
+            e.preventDefault();
+
+            var rate = $('input[name="rate"]:checked').val();
+            var message = $('textarea[name="message"]').val();
+            var courseId = $('input[name="course_id"]').val();
+            var instructorId = $('input[name="instructor_id"]').val();
+            var userId = $('input[name="user_id"]').val();
+
+            $.ajax({
+                url: $(this).attr('action'),
+                method: 'POST',
+                data: {
+                    rate: rate,
+                    message: message,
+                    course_id: courseId,
+                    instructor_id: instructorId,
+                    _token: '{{ csrf_token() }}'
+                },
+                beforeSend: function() {
+                    $('#form-rating button').attr('disabled', true);
+                    $('#form-rating button').html(
+                        '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Đang xử lý...'
+                    );
+                },
+                success: function(response) {
+                    if (response.status == 'success') {
+                        loadRating();
+                        $('#rating-notify').html(
+                            '<div class="alert alert-success">Đánh giá của bạn đã được gửi thành công</div>'
+                        ).show().delay(2000).fadeOut();
+                        $('#form-rating')[0].reset();
+                    } else {
+                        console.log(response)
+                    }
+                },
+                complete: function() {
+                    $('#form-rating button').attr('disabled', false);
+                    $('#form-rating button').html('Gửi Đánh Giá');
+                }
+            });
+            return false;
+        });
+
+        function deleteRating(id) {
+            $.ajax({
+                url: "{{ route('course.rating.delete') }}",
+                method: 'DELETE',
+                data: {
+                    id: id,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    if (response.status == 'success') {
+                        loadRating();
+
+                        $('#rating-notify').html(
+                            '<div class="alert alert-success">Đánh giá của bạn đã được xóa</div>'
+                        ).show().delay(2000).fadeOut();
+                    }
+                }
+            });
+        }
+
+        function loadRating() {
+            $.ajax({
+                url: "{{ route('course.rating.get') }}",
+                method: 'GET',
+                data: {
+                    course_id: {{ $course->id }}
+                },
+                success: function(response) {
+                    var html = '';
+                    var ratings = response.data;
+                    var current_user = {{ auth()->check() ? auth()->user()->id : 0 }};
+                    var delete_button = '';
+
+                    $('.stats-average__count').html(response.avg);
+                    $('.rating-total').html(response.total + ' đánh giá');
+                    $('#stars-box-container').html(generateStars(response.avg));
+
+                    if (ratings.length > 0) {
+                        ratings.forEach(function(rating) {
+
+                            if (rating.user_id === current_user) {
+                                deleteButton =
+                                    `<button class="btn btn-sm btn-danger btn-del-rating rounded-circle" onclick="deleteRating(${rating.id})">
+                                        <i class="la la-trash"></i>
+                                    </button>`;
+                            } else {
+                                deleteButton = '';
+                            }
+
+                            html += `
+                    <div class="media media-card border-bottom border-bottom-gray pb-4 mb-4">
+                        <div class="media-img mr-4 rounded-full">
+                            <img class="rounded-full lazy" src="{{ asset('frontend/images/img-loading.png') }}"
+                                data-src="${rating.users.photo ?? 'uploads/no_image.png'}" alt="User image">
+                        </div>
+                        <div class="media-body custom-box-rating">
+                            <div class="d-flex flex-wrap align-items-center justify-content-between pb-1">
+                                <h5>${rating.users.name}</h5>
+                                <div class="review-stars">
+                                    ${generateStars(rating.rating)}
+                                </div>
+                            </div>
+                            <span class="d-block lh-18 pb-2">
+                                ${formatDate(rating.created_at)}
+                            </span>
+                            <p class="pb-2">${rating.comment}</p>
+
+                            ${deleteButton}
+                        </div>
+                    </div><!-- end media -->
+                    `;
+                        });
+
+                    } else {
+                        html += '<div class="alert alert-info">Chưa có đánh giá nào</div>';
+                    }
+                    $('#rating-box').html(
+                        html);
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX Error: ' + status + error);
+                }
+            });
+        }
+
+        function formatDate(dateString) {
+            var options = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            };
+            return new Date(dateString).toLocaleDateString(undefined, options);
+        }
+
+        function generateStars(rating) {
+            var fullStar = '<i class="fas fa-star star-filled"></i>';
+            var halfStar = '<i class="fas fa-star-half-alt star-filled"></i>';
+            var emptyStar = '<i class="far fa-star star-empty"></i>';
+
+            var starsHtml = '';
+            var fullStars = Math.floor(rating);
+            var hasHalfStar = (rating % 1) >= 0.5;
+            var emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+
+            for (var i = 0; i < fullStars; i++) {
+                starsHtml += fullStar;
+            }
+
+            if (hasHalfStar) {
+                starsHtml += halfStar;
+            }
+
+            for (var i = 0; i < emptyStars; i++) {
+                starsHtml += emptyStar;
+            }
+
+            return starsHtml;
+        }
+
+        loadRating();
     </script>
 @endpush

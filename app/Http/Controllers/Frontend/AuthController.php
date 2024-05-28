@@ -50,7 +50,7 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         Notify::success('Đăng Xuất Thành Công');
-        return redirect()->route('home');
+        return redirect()->back();
     }
 
     public function register()
