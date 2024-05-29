@@ -9,7 +9,7 @@
                 <div class="filter-bar-inner d-flex flex-wrap align-items-center justify-content-between">
                     <div class="d-flex flex-wrap align-items-center justify-content-between">
                         <div class="select-container select--container">
-                            <select class="select-container-select select2">
+                            <select class="select-container-select select2" id="select-option">
                                 <option value="newest" {{ request()->sort == 'newest' ? 'selected' : '' }}>Mới Nhất</option>
                                 <option value="oldest" {{ request()->sort == 'oldest' ? 'selected' : '' }}>Cũ Nhất</option>
                                 <option value="name_desc" {{ request()->sort == 'name_desc' ? 'selected' : '' }}>Tên: Z-A
@@ -46,6 +46,42 @@
                             <div class="card-body">
                                 <h3 class="card-title fs-18 pb-2">Danh Mục</h3>
                                 <div class="divider"><span></span></div>
+
+                                @foreach ($allCategories as $category)
+                                    @if ($category->parent_id == null)
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div class="custom-control custom-checkbox mb-1 fs-15">
+                                                <input type="checkbox" class="custom-control-input"
+                                                    id="categoryCheckbox{{ $category->id }}"
+                                                    data-slug="{{ $category->slug }}"
+                                                    {{ request()->category == $category->slug ? 'checked' : '' }}>
+                                                <label class="custom-control-label custom--control-label text-black"
+                                                    for="categoryCheckbox{{ $category->id }}">
+                                                    {{ $category->name }}
+                                                </label>
+                                            </div>
+                                            <div class="parent cursor-pointer">
+                                                <i class="fas fa-chevron-down"></i>
+                                            </div>
+                                        </div>
+                                        @foreach ($allCategories as $childCategory)
+                                            @if ($childCategory->parent_id == $category->id)
+                                                <div class="custom-control custom-checkbox mb-1 fs-15 d-none"
+                                                    style="margin-left: 10px;" id="child">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                        id="categoryCheckbox{{ $childCategory->id }}"
+                                                        data-slug="{{ $childCategory->slug }}"
+                                                        {{ request()->category == $childCategory->slug ? 'checked' : '' }}>
+                                                    <label class="custom-control-label custom--control-label text-black"
+                                                        for="categoryCheckbox{{ $childCategory->id }}">
+                                                        {{ $childCategory->name }}
+                                                    </label>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                @endforeach
+
                             </div>
                         </div><!-- end card -->
 
@@ -69,13 +105,6 @@
                                         Tiếng Anh
                                     </label>
                                 </div>
-                            </div>
-                        </div><!-- end card -->
-
-                        <div class="card card-item">
-                            <div class="card-body">
-                                <h3 class="card-title fs-18 pb-2">Đánh Giá</h3>
-                                <div class="divider"><span></span></div>
                             </div>
                         </div><!-- end card -->
                     </div><!-- end sidebar -->
@@ -104,48 +133,80 @@
 
 @push('scripts')
     <script>
-        $('.select-container-select').on('change', function() {
-            var value = $(this).val();
-            var url = "{{ route('courses') }}";
+        $(document).ready(function() {
+            function buildUrl() {
+                var url = "{{ route('courses') }}";
+                var params = [];
 
-            if (value == 'newest') {
-                url = url + '?sort=newest';
-            } else if (value == 'oldest') {
-                url = url + '?sort=oldest';
-            } else if (value == 'name_desc') {
-                url = url + '?sort=name_desc';
-            } else if (value == 'name_asc') {
-                url = url + '?sort=name_asc';
-            } else if (value == 'price_asc') {
-                url = url + '?sort=price_asc';
-            } else if (value == 'price_desc') {
-                url = url + '?sort=price_desc';
+                // Lấy danh sách các danh mục đã chọn bằng slug
+                var categories = [];
+                $('input[type=checkbox]:checked').each(function() {
+                    if ($(this).attr('id').includes('categoryCheckbox')) {
+                        categories.push($(this).data('slug'));
+                    }
+                });
+                if (categories.length > 0) {
+                    params.push('category=' + categories.join(','));
+                }
+
+                // Lấy ngôn ngữ đã chọn
+                var lang = '';
+                if ($('#langCheckbox').is(':checked')) {
+                    lang = 'vi';
+                } else if ($('#langCheckbox2').is(':checked')) {
+                    lang = 'en';
+                }
+                if (lang) {
+                    params.push('lang=' + lang);
+                }
+
+                // Lấy thứ tự sắp xếp đã chọn
+                var sort = $('#select-option').val();
+                if (sort) {
+                    params.push('sort=' + sort);
+                }
+
+                // Xây dựng URL với các tham số đã chọn, có thể có nhiều tham số
+                if (params.length > 0) {
+                    url += '?' + params.join('&');
+                }
+
+                return url;
             }
+            //khi option được chọn
+            $('#select-option').on('change', function() {
+                window.location.href = buildUrl();
+            });
 
-            window.location.href = url
-        });
+            // Sự kiện thay đổi checkbox category
+            $('input[type=checkbox]').on('change', function() {
+                // Đảm bảo chỉ một checkbox category được chọn
+                if ($(this).attr('id').includes('categoryCheckbox')) {
+                    $('input[type=checkbox]').not(this).prop('checked', false);
+                }
+                window.location.href = buildUrl();
+            });
 
-        //checkbox lang
-        $('#langCheckbox').on('change', function() {
-            var url = "{{ route('courses') }}";
-            var value = $(this).is(':checked') ? 'vi' : '';
+            // Sự kiện thay đổi checkbox ngôn ngữ
+            $('#langCheckbox, #langCheckbox2').on('change', function() {
+                // Đảm bảo chỉ một checkbox ngôn ngữ được chọn
+                if ($(this).is('#langCheckbox') && $(this).is(':checked')) {
+                    $('#langCheckbox2').prop('checked', false);
+                } else if ($(this).is('#langCheckbox2') && $(this).is(':checked')) {
+                    $('#langCheckbox').prop('checked', false);
+                }
+                window.location.href = buildUrl();
+            });
 
-            if (value == 'vi') {
-                url = url + '?lang=vi';
-            }
+            $('#ratingCheckbox1', '#ratingCheckbox2', '#ratingCheckbox3', '#ratingCheckbox4', '#ratingCheckbox5')
+                .on('change', function() {
+                    window.location.href = buildUrl();
+                });
 
-            window.location.href = url
-        });
-
-        $('#langCheckbox2').on('change', function() {
-            var url = "{{ route('courses') }}";
-            var value = $(this).is(':checked') ? 'en' : '';
-
-            if (value == 'en') {
-                url = url + '?lang=en';
-            }
-
-            window.location.href = url
+            // Sự kiện click vào danh mục cha hiện danh sách danh mục con của nó
+            $('.parent').on('click', function() {
+                $(this).parent().nextAll('#child').toggleClass('d-none');
+            });
         });
     </script>
 @endpush

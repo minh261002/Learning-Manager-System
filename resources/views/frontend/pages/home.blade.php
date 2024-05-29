@@ -17,14 +17,17 @@
     @include('frontend.components.home.category')
     <!--====================================== END CATEGORY AREA ======================================-->
 
+    <!--====================================== START COURSE AREA ======================================-->
+    @include('frontend.components.home.new-course', ['newCourses' => $newCourses])
+    <!--====================================== END COURSE AREA ======================================-->
 
     <!--====================================== START COURSE AREA ======================================-->
-    @include('frontend.components.home.course')
+    @include('frontend.components.home.course', ['bestSellerCourses' => $bestSellerCourses])
     <!--====================================== END COURSE AREA ======================================-->
 
 
     <!--====================================== START COURSE-2 AREA ======================================-->
-    @include('frontend.components.home.course-2')
+    @include('frontend.components.home.course-2', ['bestRatingCourses' => $bestRatingCourses])
     <!--====================================== END COURSE AREA ======================================-->
 
 

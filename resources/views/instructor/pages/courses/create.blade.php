@@ -209,6 +209,12 @@
                 $('#box-video').addClass('d-none');
                 $('#box-link').removeClass('d-none');
             });
+
+            $('form').submit(function() {
+                $(this).find('button[type="submit"]').attr('disabled', true);
+                $(this).find('button[type="submit"]').html(
+                    '<i class="la la-spinner la-spin"></i> Đang Xử Lý');
+            });
         });
     </script>
 @endpush

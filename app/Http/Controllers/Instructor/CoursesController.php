@@ -94,6 +94,7 @@ class CoursesController extends Controller
         $lecture->course_section_id = $section->id;
         $lecture->title = 'Giới thiệu';
         $lecture->video = $videoPath;
+        $lecture->preview = 1;
         $lecture->save();
 
         Notify::success('Thêm khóa học mới thành công');

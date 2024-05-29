@@ -96,4 +96,9 @@ class UserController extends Controller
             });
         return view('user.pages.my-course', compact('courses'));
     }
+
+    public function myRating(){
+        $reviews = Auth::user()->reviews;
+        return view('user.pages.my-rating', compact('reviews'));
+    }
 }

@@ -79,6 +79,8 @@ Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
     //rating
     Route::post('/rating', [CourseRatingController::class, 'rating'])->name('course.rating');
     Route::delete('/rating', [CourseRatingController::class, 'deleteRating'])->name('course.rating.delete');
+
+    Route::get('/my-rating', [UserController::class, 'myRating'])->name('my-rating');
 });
 
 //location ajax

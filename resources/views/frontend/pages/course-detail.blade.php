@@ -19,21 +19,7 @@
                             {{ $course->title }}
                         </p>
                     </div><!-- end section-heading -->
-                    {{-- <div class="d-flex flex-wrap align-items-center pt-3">
-                        <h6 class="ribbon ribbon-lg mr-2 bg-3 text-white">Bestseller</h6>
-                        <div class="rating-wrap d-flex flex-wrap align-items-center">
-                            <div class="review-stars">
-                                <span class="rating-number">4.4</span>
-                                <span class="la la-star"></span>
-                                <span class="la la-star"></span>
-                                <span class="la la-star"></span>
-                                <span class="la la-star"></span>
-                                <span class="la la-star-o"></span>
-                            </div>
-                            <span class="rating-total pl-1">(20,230 ratings)</span>
-                            <span class="student-total pl-2">540,815 students</span>
-                        </div>
-                    </div><!-- end d-flex --> --}}
+
                     <p class="pt-2 pb-1">Người Hướng Dẫn: <a href="{{ route('info', $course->instructor->username) }}"
                             class="text-color hover-underline">{{ $course->instructor->name }}</a></p>
                     <div class="d-flex flex-column">
@@ -250,63 +236,7 @@
                                             <span class="rating-total d-block"></span>
                                         </div><!-- end rating-wrap -->
                                     </div><!-- end review-rating-summary -->
-                                    <div class="media-body">
-                                        <div class="review-bars d-flex align-items-center mb-2">
-                                            <div class="review-bars__text">5 stars</div>
-                                            <div class="review-bars__fill">
-                                                <div class="skillbar-box">
-                                                    <div class="skillbar" data-percent="77%">
-                                                        <div class="skillbar-bar bg-3"></div>
-                                                    </div> <!-- End Skill Bar -->
-                                                </div>
-                                            </div><!-- end review-bars__fill -->
-                                            <div class="review-bars__percent">77%</div>
-                                        </div><!-- end review-bars -->
-                                        <div class="review-bars d-flex align-items-center mb-2">
-                                            <div class="review-bars__text">4 stars</div>
-                                            <div class="review-bars__fill">
-                                                <div class="skillbar-box">
-                                                    <div class="skillbar" data-percent="54%">
-                                                        <div class="skillbar-bar bg-3"></div>
-                                                    </div> <!-- End Skill Bar -->
-                                                </div>
-                                            </div><!-- end review-bars__fill -->
-                                            <div class="review-bars__percent">54%</div>
-                                        </div><!-- end review-bars -->
-                                        <div class="review-bars d-flex align-items-center mb-2">
-                                            <div class="review-bars__text">3 stars</div>
-                                            <div class="review-bars__fill">
-                                                <div class="skillbar-box">
-                                                    <div class="skillbar" data-percent="14%">
-                                                        <div class="skillbar-bar bg-3"></div>
-                                                    </div> <!-- End Skill Bar -->
-                                                </div>
-                                            </div><!-- end review-bars__fill -->
-                                            <div class="review-bars__percent">14%</div>
-                                        </div><!-- end review-bars -->
-                                        <div class="review-bars d-flex align-items-center mb-2">
-                                            <div class="review-bars__text">2 stars</div>
-                                            <div class="review-bars__fill">
-                                                <div class="skillbar-box">
-                                                    <div class="skillbar" data-percent="5%">
-                                                        <div class="skillbar-bar bg-3"></div>
-                                                    </div> <!-- End Skill Bar -->
-                                                </div>
-                                            </div><!-- end review-bars__fill -->
-                                            <div class="review-bars__percent">5%</div>
-                                        </div><!-- end review-bars -->
-                                        <div class="review-bars d-flex align-items-center mb-2">
-                                            <div class="review-bars__text">1 stars</div>
-                                            <div class="review-bars__fill">
-                                                <div class="skillbar-box">
-                                                    <div class="skillbar" data-percent="2%">
-                                                        <div class="skillbar-bar bg-3"></div>
-                                                    </div> <!-- End Skill Bar -->
-                                                </div>
-                                            </div><!-- end review-bars__fill -->
-                                            <div class="review-bars__percent">2%</div>
-                                        </div><!-- end review-bars -->
-                                    </div><!-- end media-body -->
+                                    <div class="my-2" id="rating-notify"></div>
                                 </div>
                             </div><!-- end feedback-wrap -->
                             <hr>
@@ -324,7 +254,6 @@
                             <input type="hidden" name="instructor_id" value="{{ $course->instructor->id }}">
 
                             <h3 class="fs-24 font-weight-semi-bold pb-4">Đánh Giá Về Khoá Học Này</h3>
-                            <div class="my-2" id="rating-notify"></div>
                             <div class="leave-rating-wrap pb-4">
                                 <div class="leave-rating leave--rating">
                                     <input type="radio" name='rate' id="star5" value="5" />
@@ -644,23 +573,36 @@
         });
 
         function deleteRating(id) {
-            $.ajax({
-                url: "{{ route('course.rating.delete') }}",
-                method: 'DELETE',
-                data: {
-                    id: id,
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    if (response.status == 'success') {
-                        loadRating();
+            Swal.fire({
+                title: 'Xác nhận xóa ?',
+                text: "Bạn không thể hoàn tác hành động này!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xác nhận',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ route('course.rating.delete') }}",
+                        method: 'DELETE',
+                        data: {
+                            id: id,
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            if (response.status == 'success') {
+                                loadRating();
 
-                        $('#rating-notify').html(
-                            '<div class="alert alert-success">Đánh giá của bạn đã được xóa</div>'
-                        ).show().delay(2000).fadeOut();
-                    }
+                                $('#rating-notify').html(
+                                    '<div class="alert alert-success">Đánh giá của bạn đã được xóa</div>'
+                                ).show().delay(2000).fadeOut();
+                            }
+                        }
+                    });
                 }
-            });
+            })
         }
 
         function loadRating() {
@@ -679,6 +621,7 @@
                     $('.stats-average__count').html(response.avg);
                     $('.rating-total').html(response.total + ' đánh giá');
                     $('#stars-box-container').html(generateStars(response.avg));
+
 
                     if (ratings.length > 0) {
                         ratings.forEach(function(rating) {

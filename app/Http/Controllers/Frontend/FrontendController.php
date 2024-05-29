@@ -21,8 +21,30 @@ class FrontendController extends Controller
 
     public function index()
     {
+        $newCourses = $this->course->where('status', 1)
+            ->orderBy('created_at', 'desc')
+            ->latest()
+            ->limit(8)
+            ->get();
+
+        $bestSellerCourses = $this->course->where('status', 1)
+            ->whereHas('orders', function ($query) {
+                $query->whereHas('payment', function ($q) {
+                    $q->where('status', 'success');
+                });
+            })->get();
+
+        $bestRatingCourses = $this->course->where('status', 1)
+            ->whereHas('reviews')
+            ->with('reviews')
+            ->get()
+            ->sortByDesc(function ($course) {
+                return $course->reviews->avg('rating');
+            });
+
+
         $categories = $this->category->where('parent_id', null)->get();
-        return view('frontend.pages.home', compact('categories'));
+        return view('frontend.pages.home', compact('categories', 'newCourses', 'bestSellerCourses', 'bestRatingCourses'));
     }
     public function courses()
     {

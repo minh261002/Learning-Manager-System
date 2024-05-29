@@ -56,5 +56,9 @@ class Category extends Model
     {
         return Category::where('slug', $slug)->first();
     }
+    public function children_courses()
+    {
+        return $this->hasManyThrough(Course::class, Category::class, 'parent_id', 'category_id');
+    }
 
 }
