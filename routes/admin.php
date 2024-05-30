@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AccountController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\BlogCategoryController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\CourseController;
@@ -39,3 +40,6 @@ Route::put('order/change-status/{id}', [OrderController::class, 'changeStatus'])
 //settings
 Route::get('smtp', [SettingController::class, 'smtp'])->name('smtp');
 Route::put('smtp', [SettingController::class, 'updateSmtp'])->name('smtp.update');
+
+Route::get('site', [SettingController::class, 'siteSetting'])->name('site');
+Route::put('site', [SettingController::class, 'updateSiteSetting'])->name('site.update');

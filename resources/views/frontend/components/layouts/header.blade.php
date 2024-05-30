@@ -10,10 +10,10 @@
                     <div class="header-widget">
                         <ul class="generic-list-item d-flex flex-wrap align-items-center fs-14">
                             <li class="d-flex align-items-center pr-3 mr-3 border-right border-right-gray"><i
-                                    class="la la-phone mr-1"></i><a href="tel:00123456789"> (00) 123 456 789</a>
+                                    class="la la-phone mr-1"></i><a href="tel:00123456789"> {{ $site->phone }}</a>
                             </li>
                             <li class="d-flex align-items-center"><i class="la la-envelope-o mr-1"></i><a
-                                    href="mailto:contact@learnhub.com"> contact@learnhub.com</a></li>
+                                    href="mailto:{{ $site->email }}">{{ $site->email }}</a></li>
                         </ul>
                     </div><!-- end header-widget -->
                 </div><!-- end col-lg-6 -->
@@ -91,8 +91,8 @@
                 <div class="row align-items-center">
                     <div class="col-lg-2">
                         <div class="logo-box">
-                            <a href="{{ route('home') }}" class="logo"><img
-                                    src="{{ asset('frontend/img/logo.svg') }}" alt="logo"></a>
+                            <a href="{{ route('home') }}" class="logo"><img src="{{ $site->logo }}"
+                                    alt="logo"></a>
 
                             <div class="user-btn-action">
                                 <div class="search-menu-toggle icon-element icon-element-sm shadow-sm mr-2"

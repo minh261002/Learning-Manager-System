@@ -76,9 +76,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Review::class);
     }
-
-    public function UserOnline()
-    {
-        return Cache::has('user-is-online' . $this->id);
-    }
 }

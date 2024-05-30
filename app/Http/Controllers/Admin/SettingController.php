@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Services\Notify;
 use Illuminate\Http\Request;
 use App\Models\SmtpSetting;
+use App\Models\SiteSetting;
 
 class SettingController extends Controller
 {
@@ -30,5 +31,11 @@ class SettingController extends Controller
 
         Notify::success('Cập nhật cài đặt SMTP thành công');
         return redirect()->back();
+    }
+
+    public function siteSetting()
+    {
+        $settings = SiteSetting::first();
+        return view('admin.settings.site', compact('settings'));
     }
 }

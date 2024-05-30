@@ -5,8 +5,7 @@
                 <div class="row align-items-center">
                     <div class="col-lg-12">
                         <div class="logo-box logo--box">
-                            <a href="{{ route('home') }}" class="logo"><img src="{{ asset('frontend/img/logo.svg') }}"
-                                    alt="logo"></a>
+                            <a href="{{ route('home') }}" class="logo"><img src="{{ $site->logo }}" alt="logo"></a>
 
                             <div class="user-btn-action">
                                 <div class="search-menu-toggle icon-element icon-element-sm shadow-sm mr-2"

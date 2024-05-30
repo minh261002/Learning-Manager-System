@@ -60,6 +60,10 @@
                     <span>Cấu Hình Email</span></a>
             </li>
 
+            <li class="{{ adminSetSidebarActive(['admin.site']) }}">
+                <a class="nav-link" href="{{ route('admin.site') }}"><i class="fa-solid fa-gear"></i>
+                    <span>Cấu Hình Trang Web</span></a>
+            </li>
             {{-- <li><a class="nav-link" href="blank.html"><i class="far fa-square"></i> <span>Blank
                         Page</span></a></li> --}}
         </ul>

@@ -62,9 +62,10 @@
                     </div>
                     <div class="card-wrap">
                         <div class="card-header">
-                            <h4>Đang Hoạt Động</h4>
+                            <h4></h4>
                         </div>
                         <div class="card-body">
+
                         </div>
                     </div>
                 </div>
@@ -72,116 +73,122 @@
         </div>
 
         <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Bạn Có {{ $instructors->count() }} Tài Khoản Cần Xác Nhận</h4>
-                    </div>
-
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped" id="table">
-                                <thead>
-                                    <tr>
-                                        <th>Tên</th>
-                                        <th>Email</th>
-                                        <th>Thời Gian</th>
-                                        <th>Thao Tác</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse ($instructors as $key => $instructor)
-                                        <tr>
-                                            <td>{{ $instructor->name }}</td>
-                                            <td>{{ $instructor->email }}</td>
-                                            <td>{{ formatDate($instructor->created_at) }}</td>
-                                            <td>
-                                                <label class="custom-switch d-block mr-4">
-                                                    <input type="checkbox" name="custom-switch-checkbox"
-                                                        class="custom-switch-input change-status-user"
-                                                        id="customSwitch{{ $instructor->id }}"
-                                                        {{ $instructor->status == 1 ? 'checked' : '' }}>
-                                                    <span class="custom-switch-indicator"></span>
-                                                </label>
-                                            </td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="5" class="text-center">Không có dữ liệu</td>
-                                        </tr>
-                                    @endforelse
-                                </tbody>
-                            </table>
+            @if ($instructors->count() > 0)
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Bạn Có {{ $instructors->count() }} Tài Khoản Cần Xác Nhận</h4>
                         </div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Bạn Có {{ $courses->count() }} Khoá Học Cần Xác Nhận</h4>
-                    </div>
-
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped" id="table">
-                                <thead>
-                                    <tr>
-                                        <th>Ảnh</th>
-                                        <th>Tên Khoá Học</th>
-                                        <th>Người Hướng Dẫn</th>
-                                        <th>Thời Gian</th>
-                                        <th>Thao Tác</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse ($courses as $key => $course)
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="table">
+                                    <thead>
                                         <tr>
-                                            <td>
-                                                <img src="{{ $course->image }}" alt="{{ $course->title }}"
-                                                    class="img-fluid" style="width: 150px">
-                                            </td>
-                                            <td>{{ $course->title }}</td>
-                                            <td>{{ $course->instructor->name }}</td>
-                                            <td>{{ formatDate($course->created_at) }}</td>
-                                            <<td>
-                                                <label class="custom-switch d-block mr-4">
-                                                    <input type="checkbox" name="custom-switch-checkbox"
-                                                        class="custom-switch-input change-status-course"
-                                                        id="customSwitch{{ $course->id }}" data-id="{{ $course->id }}"
-                                                        {{ $course->status == 1 ? 'checked' : '' }}>
-                                                    <span class="custom-switch-indicator"></span>
-                                                </label>
+                                            <th>Tên</th>
+                                            <th>Email</th>
+                                            <th>Thời Gian</th>
+                                            <th>Thao Tác</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($instructors as $key => $instructor)
+                                            <tr>
+                                                <td>{{ $instructor->name }}</td>
+                                                <td>{{ $instructor->email }}</td>
+                                                <td>{{ formatDate($instructor->created_at) }}</td>
+                                                <td>
+                                                    <label class="custom-switch d-block mr-4">
+                                                        <input type="checkbox" name="custom-switch-checkbox"
+                                                            class="custom-switch-input change-status-user"
+                                                            id="customSwitch{{ $instructor->id }}"
+                                                            {{ $instructor->status == 1 ? 'checked' : '' }}>
+                                                        <span class="custom-switch-indicator"></span>
+                                                    </label>
                                                 </td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="5" class="text-center">Không có dữ liệu</td>
-                                        </tr>
-                                    @endforelse
-                                </tbody>
-                            </table>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="5" class="text-center">Không có dữ liệu</td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endif
+
+            @if ($courses->count() > 0)
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Bạn Có {{ $courses->count() }} Khoá Học Cần Xác Nhận</h4>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Ảnh</th>
+                                            <th>Tên Khoá Học</th>
+                                            <th>Người Hướng Dẫn</th>
+                                            <th>Thời Gian</th>
+                                            <th>Thao Tác</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($courses as $key => $course)
+                                            <tr>
+                                                <td>
+                                                    <img src="{{ $course->image }}" alt="{{ $course->title }}"
+                                                        class="img-fluid" style="width: 150px">
+                                                </td>
+                                                <td>{{ $course->title }}</td>
+                                                <td>{{ $course->instructor->name }}</td>
+                                                <td>{{ formatDate($course->created_at) }}</td>
+                                                <<td>
+                                                    <label class="custom-switch d-block mr-4">
+                                                        <input type="checkbox" name="custom-switch-checkbox"
+                                                            class="custom-switch-input change-status-course"
+                                                            id="customSwitch{{ $course->id }}"
+                                                            data-id="{{ $course->id }}"
+                                                            {{ $course->status == 1 ? 'checked' : '' }}>
+                                                        <span class="custom-switch-indicator"></span>
+                                                    </label>
+                                                    </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="5" class="text-center">Không có dữ liệu</td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
         </div>
 
         <div class="row">
             <div class="col-lg-8 col-md-12 col-12 col-sm-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Statistics</h4>
+                        <h4>Thống Kê</h4>
                         <div class="card-header-action">
                             <div class="btn-group">
-                                <a href="#" class="btn btn-primary">Week</a>
-                                <a href="#" class="btn">Month</a>
+                                <a href="#" class="btn btn-primary">Tuần</a>
+                                <a href="#" class="btn">Tháng</a>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
                         <canvas id="myChart" height="182"></canvas>
+
                         <div class="statistic-details mt-sm-4">
                             <div class="statistic-details-item">
                                 <span class="text-muted"><span class="text-primary"><i class="fas fa-caret-up"></i></span>
@@ -215,7 +222,26 @@
 
             <div class="col-lg-4 col-md-12 col-12 col-sm-12">
                 <div class="card">
-
+                    <div class="card-header">
+                        <h4>Người Dùng Mới</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled user-progress list-unstyled-border">
+                            @foreach ($newUsers as $user)
+                                <ul class="list-unstyled user-progress list-unstyled-border mb-4">
+                                    <li class="media">
+                                        <img alt="image" class="mr-3 rounded-circle" width="50"
+                                            src="{{ $user->photo ?? asset('uploads/no_image.jpg') }}">
+                                        <div class="media-body">
+                                            <div class="media-title">{{ $user->name }}</div>
+                                            <div class="text-muted">
+                                                {{ formatDate($user->created_at) }}</div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

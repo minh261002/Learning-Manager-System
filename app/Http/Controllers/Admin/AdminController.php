@@ -13,8 +13,7 @@ use App\Models\Ward;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Course;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Cache;
+use App\Models\Payment;
 
 class AdminController extends Controller
 {
@@ -23,12 +22,17 @@ class AdminController extends Controller
     public $province;
     public $district;
     public $ward;
+    public $user;
+
+    public $payment;
 
     function __construct()
     {
         $this->province = new Province();
         $this->district = new District();
         $this->ward = new Ward();
+        $this->user = new User();
+        $this->payment = new Payment();
     }
 
     public function index()
@@ -39,7 +43,11 @@ class AdminController extends Controller
         $totalInstructor = User::where('role', 'instructor')->count();
         $totalCourse = Course::count();
 
-        return view('admin.dashboard.index', compact('instructors', 'courses', 'totalInstructor', 'totalCourse'));
+        $newUsers = $this->user->orderBy('created_at', 'desc')->limit(5)->get();
+
+        $payments = $this->payment->where('status', 'success')->get();
+
+        return view('admin.dashboard.index', compact('instructors', 'courses', 'totalInstructor', 'totalCourse', 'newUsers'));
     }
 
     public function login()

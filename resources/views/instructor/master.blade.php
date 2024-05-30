@@ -1,3 +1,7 @@
+@php
+    $site = \App\Models\SiteSetting::first();
+@endphp
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,7 +21,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 
     <!-- Favicon -->
-    <link rel="icon" sizes="16x16" href="{{ asset('frontend/img/favicon.svg') }}">
+    <link rel="icon" sizes="16x16" href="{{ $site->favicon }}">
 
     <!-- inject:css -->
     <link rel="stylesheet" href="{{ asset('frontend/css/bootstrap.min.css') }}">
