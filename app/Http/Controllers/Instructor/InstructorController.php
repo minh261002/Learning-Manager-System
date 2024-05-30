@@ -11,6 +11,7 @@ use App\Models\District;
 use App\Models\Ward;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Cache;
 
 class InstructorController extends Controller
 {
@@ -84,6 +85,7 @@ class InstructorController extends Controller
 
         $user = Auth::user();
         $user->password = Hash::make($request->password);
+
         $user->save();
 
         Notify::success('Mật khẩu đã được thay đổi thành công!');

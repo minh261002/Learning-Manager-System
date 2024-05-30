@@ -27,8 +27,8 @@ class CheckoutController extends Controller
         $this->order = $order;
         $this->payment = $payment;
         $this->gateway = Omnipay::create('PayPal_Rest');
-        $this->gateway->setClientId(env('PAYPAL_CLIENT_ID'));
-        $this->gateway->setSecret(env('PAYPAL_CLIENT_SECRET'));
+        $this->gateway->setClientId('AfQsdQsBf-D6HiqeT23-E6JHkCQmCIAVJiyHgxkeigAh95G0b-jQxF8w9W289twfMf9zuGyTIv_VTUb4');
+        $this->gateway->setSecret('EIlWrKsH3i6VlmK6CDvXXyeYGwgPdqNm5ApC2YybWJUmDwOKjF9Lk50tG0vjfaaZmkGMjzc_aRip8B8h');
         $this->gateway->setTestMode(true);
     }
     public function checkout()
@@ -62,12 +62,12 @@ class CheckoutController extends Controller
 
             $orders = $this->createOrders($cart, $payment);
 
-            // Mail::to($request->email)->send(
-            //     new OrderMail(
-            //         $payment,
-            //         $orders
-            //     )
-            // );
+            Mail::to($request->email)->send(
+                new OrderMail(
+                    $payment,
+                    $orders
+                )
+            );
 
             foreach ($orders as $order) {
                 $instructor = User::find($order->instructor_id);
@@ -137,8 +137,8 @@ class CheckoutController extends Controller
     {
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
         $vnp_Returnurl = route('payment.vnpay.callback');
-        $vnp_TmnCode = env('TmnCode');//Mã website tại VNPAY
-        $vnp_HashSecret = env('HashSecret'); //Chuỗi bí mật
+        $vnp_TmnCode = 'PYXVASOE'; //Mã website tại VNPAY (lấy từ VNPAY
+        $vnp_HashSecret = 'PQUEJJWSX61627PWC7O3AADO86N2SWA3';
 
         $vnp_TxnRef = $payment_id;
         $vnp_OrderInfo = 'Thanh toán hóa đơn';

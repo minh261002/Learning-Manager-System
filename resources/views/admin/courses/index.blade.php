@@ -15,6 +15,25 @@
                 </div>
 
                 <div class="card-body">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->status == null ? 'active' : '' }}" aria-current="page"
+                                href="{{ route('admin.courses.index') }}">Xem Tất Cả</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->status == '1' ? 'active' : '' }}"
+                                href="{{ route('admin.courses.index', ['status' => '1']) }}">Đã Kích Hoạt</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->status == '0' ? 'active' : '' }}"
+                                href="{{ route('admin.courses.index', ['status' => '0']) }}">Chưa Kích Hoạt</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-striped" id="table">
                             <thead>

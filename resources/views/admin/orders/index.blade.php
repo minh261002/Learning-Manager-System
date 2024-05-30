@@ -47,7 +47,7 @@
                                 @foreach ($payments as $item)
                                     <tr>
                                         <td>{{ $item->payment_id }}</td>
-                                        <td>{{ $item->name }}</td>
+                                        <td>{{ $item->user->name }}</td>
                                         <td>{{ formatDate($item->created_at) }}</td>
                                         <td>{{ number_format($item->total) }} VND</td>
                                         <td>

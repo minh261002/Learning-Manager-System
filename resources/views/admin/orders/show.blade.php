@@ -29,8 +29,8 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <p><strong>Khách Hàng:</strong> {{ $payment->name }}</p>
-                            <p><strong>Email:</strong> {{ $payment->email }}</p>
+                            <p><strong>Khách Hàng:</strong> {{ $payment->user->name }}</p>
+                            <p><strong>Email:</strong> {{ $payment->user->email }}</p>
                             <p><strong>Ngày Đặt Hàng:</strong> {{ formatDate($payment->created_at) }}</p>
                         </div>
 

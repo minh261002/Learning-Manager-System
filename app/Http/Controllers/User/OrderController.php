@@ -17,8 +17,10 @@ class OrderController extends Controller
     public function show($id)
     {
         $payment = auth()->user()->payments()->where('id', $id)->first();
-        // $order = auth()->user()->orders()->where('payment_id', $id)->first();
-        $order = Order::whereIn('payment_id', $payment->pluck('id'))->get();
+        $order = Order::whereIn('payment_id', $payment->pluck('id'))
+            ->where('user_id', auth()->id())
+            ->where('payment_id', $id)
+            ->get();
 
         return view('user.pages.order_detail', compact('payment', 'order'));
     }

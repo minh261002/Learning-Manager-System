@@ -18,7 +18,34 @@
                 </div>
 
                 <div class="card-body">
-                    <table class="table table-striped" id="table">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->role == null ? 'active' : '' }}" aria-current="page"
+                                href="{{ route('admin.accounts.index') }}">Xem Tất Cả</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link
+                            {{ request()->role == 'admin' ? 'active' : '' }}"
+                                href="{{ route('admin.accounts.index', ['role' => 'admin']) }}">Quản Trị
+                                Viên</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link
+                            {{ request()->role == 'instructor' ? 'active' : '' }}"
+                                href="{{ route('admin.accounts.index', ['role' => 'instructor']) }}">
+                                Người Hướng Dẫn
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link
+                            {{ request()->role == 'user' ? 'active' : '' }}"
+                                href="{{ route('admin.accounts.index', ['role' => 'user']) }}">Khách Hàng</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card-body">
+                    <table class="table table-striped mt-4" id="table">
                         <thead>
                             <tr>
                                 <th>Họ Và Tên</th>
@@ -42,7 +69,7 @@
                                         @elseif ($account->role == 'instructor')
                                             Người Hướng Dẫn
                                         @else
-                                            Người Dùng
+                                            Khách Hàng
                                         @endif
                                     </td>
                                     <td>
@@ -108,5 +135,9 @@
                 })
             })
         })
+    </script>
+
+    <script>
+        //chuyển role
     </script>
 @endpush

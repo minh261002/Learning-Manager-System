@@ -11,7 +11,10 @@ use App\Models\Province;
 use App\Models\District;
 use App\Models\Ward;
 use Illuminate\Support\Facades\Auth;
-
+use App\Models\User;
+use App\Models\Course;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 class AdminController extends Controller
 {
@@ -30,7 +33,13 @@ class AdminController extends Controller
 
     public function index()
     {
-        return view('admin.dashboard.index');
+        $instructors = User::where('role', 'instructor')->where('status', 0)->get();
+        $courses = Course::where('status', 0)->get();
+
+        $totalInstructor = User::where('role', 'instructor')->count();
+        $totalCourse = Course::count();
+
+        return view('admin.dashboard.index', compact('instructors', 'courses', 'totalInstructor', 'totalCourse'));
     }
 
     public function login()
@@ -61,7 +70,7 @@ class AdminController extends Controller
 
         $imagePath = $this->uploadImage($request, 'photo', $user->avatar, 'avatar');
 
-        if($imagePath){
+        if ($imagePath) {
             $user->photo = $imagePath;
         }
 
@@ -101,6 +110,7 @@ class AdminController extends Controller
     public function logout(Request $request)
     {
         auth()->logout();
+
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

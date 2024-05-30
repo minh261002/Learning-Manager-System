@@ -161,7 +161,7 @@
                                                                 </div>
                                                             @else
                                                                 <li>
-                                                                    <a href="#"
+                                                                    <a href="javascript:void(0)"
                                                                         class="d-flex align-items-center justify-content-between ">
 
                                                                         <span>

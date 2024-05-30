@@ -1,4 +1,5 @@
 <?php
+use App\Models\Payment;
 use App\Services\Notify;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Support\Carbon;
@@ -91,6 +92,14 @@ function renderBoxCourses($courses)
                 $disount = '';
             }
 
+            $averageRating = $course->reviews->avg('rating');
+
+            if ($averageRating > 0) {
+                $rating = renderStarRating($course->reviews->avg('rating'));
+            } else {
+                $rating = 'Chưa có đánh giá';
+            }
+
             $html .= '
         <div class="col-lg-4 responsive-column-half">
             <div class="card card-item card-preview" data-tooltip-content="#tooltip_content_' . $course->id . '">
@@ -116,6 +125,10 @@ function renderBoxCourses($courses)
                     <p class="card-text"><a href="teacher-detail.html">
                         ' . $course->instructor->name . '
                     </a></p>
+
+                    <div class="star-rating">
+                        ' . $rating . '
+                    </div>
 
                     <div class="d-flex justify-content-between align-items-center">
                         <p class="card-price text-black font-weight-bold">';
@@ -345,4 +358,17 @@ function renderStarRating($rating)
     }
 
     return $html;
+}
+
+function checkUserPendingPayment($user_id)
+{
+    $payments = Payment::where('user_id', $user_id)->get();
+
+    foreach ($payments as $payment) {
+        if ($payment->status == 'pending') {
+            return true;
+        }
+    }
+
+    return false;
 }

@@ -7,6 +7,8 @@ use App\Services\Notify;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -104,4 +106,6 @@ class AuthController extends Controller
     {
         return view('frontend.pages.reset-password');
     }
+
+
 }
