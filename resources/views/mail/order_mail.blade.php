@@ -49,7 +49,7 @@
         </div>
         <div class="confirmation mt-5">
             <h2>Xác nhận Đơn Hàng</h2>
-            <p>Xin chào {{ $payment->name }},</p>
+            <p>Xin chào {{ $payment->user->name }},</p>
             <p>
                 Cảm ơn bạn đã mua hàng tại cửa hàng chúng tôi. Chúng tôi sẽ liên hệ với bạn <br /> trong thời gian sớm
                 nhất.
@@ -95,6 +95,12 @@
                 </tfoot>
             </table>
         </div>
+
+        <p>
+            Bạn có thể kiểm kiểm tra đơn hàng trong <a href="{{ route('orders') }}">trang quản lý đơn hàng</a> của
+            bạn.
+        </p>
+
         <div class="footer">
             <p>Chúng tôi sẽ tiếp tục cập nhật trạng thái của đơn hàng và sẽ thông báo cho bạn khi đơn hàng được thanh
                 toán.
