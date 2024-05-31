@@ -10,6 +10,40 @@
         <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                 <div class="card card-statistic-1">
+                    <div class="card-icon bg-warning">
+                        <i class="far fa-file"></i>
+                    </div>
+                    <div class="card-wrap">
+                        <div class="card-header">
+                            <h4>
+                                Đơn Hàng
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            {{ $totalOrder }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="card card-statistic-1">
+                    <div class="card-icon bg-success">
+                        <i class="fas fa-dollar"></i>
+                    </div>
+                    <div class="card-wrap">
+                        <div class="card-header">
+                            <h4>Doanh Thu</h4>
+                        </div>
+                        <div class="card-body">
+                            {{ number_format($totalRevenue) }} VNĐ
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="card card-statistic-1">
                     <div class="card-icon bg-primary">
                         <i class="far fa-user"></i>
                     </div>
@@ -34,38 +68,6 @@
                         </div>
                         <div class="card-body">
                             {{ $totalCourse }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <div class="card card-statistic-1">
-                    <div class="card-icon bg-warning">
-                        <i class="far fa-file"></i>
-                    </div>
-                    <div class="card-wrap">
-                        <div class="card-header">
-                            <h4>
-                                Bài Viết
-                            </h4>
-                        </div>
-                        <div class="card-body">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <div class="card card-statistic-1">
-                    <div class="card-icon bg-success">
-                        <i class="fas fa-circle"></i>
-                    </div>
-                    <div class="card-wrap">
-                        <div class="card-header">
-                            <h4></h4>
-                        </div>
-                        <div class="card-body">
-
                         </div>
                     </div>
                 </div>
@@ -179,17 +181,11 @@
                 <div class="card">
                     <div class="card-header">
                         <h4>Thống Kê</h4>
-                        <div class="card-header-action">
-                            <div class="btn-group">
-                                <a href="#" class="btn btn-primary">Tuần</a>
-                                <a href="#" class="btn">Tháng</a>
-                            </div>
-                        </div>
                     </div>
                     <div class="card-body">
-                        <canvas id="myChart" height="182"></canvas>
+                        <canvas id="statistical" height="182"></canvas>
 
-                        <div class="statistic-details mt-sm-4">
+                        {{-- <div class="statistic-details mt-sm-4">
                             <div class="statistic-details-item">
                                 <span class="text-muted"><span class="text-primary"><i class="fas fa-caret-up"></i></span>
                                     7%</span>
@@ -215,7 +211,7 @@
                                 <div class="detail-value">$92,142</div>
                                 <div class="detail-name">This Year's Sales</div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -327,6 +323,65 @@
                         $(this).prop('checked', !status);
                     }
                 });
+            });
+        });
+    </script>
+
+    <script>
+        $('statistical').ready(function() {
+            var ctx = document.getElementById('statistical').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [
+                        @foreach ($revenueByDay as $item)
+                            '{{ $item->date }}',
+                        @endforeach
+                    ],
+                    datasets: [{
+                        label: 'Doanh Thu',
+                        data: [
+                            @foreach ($revenueByDay as $item)
+                                {{ $item->total }},
+                            @endforeach
+                        ],
+                        borderWidth: 5,
+                        borderColor: '#ed5252',
+                        backgroundColor: 'transparent',
+                        pointBackgroundColor: '#fff',
+                        pointBorderColor: '#ed5252',
+                        pointRadius: 4,
+                    }]
+                },
+                options: {
+                    legend: {
+                        display: false
+                    },
+                    scales: {
+                        yAxes: [{
+                            gridLines: {
+                                display: true,
+                                drawBorder: true,
+                            },
+                            ticks: {
+                                beginAtZero: true,
+                                stepSize: 500000,
+                                callback: function(value, index, values) {
+                                    return value.toLocaleString('vi-VN', {
+                                        style: 'currency',
+                                        currency: 'VND'
+                                    });
+                                }
+                            }
+                        }],
+                        xAxes: [{
+                            gridLines: {
+                                color: '#fbfbfb',
+                                lineWidth: 2
+                            }
+                        }]
+                    },
+                }
             });
         });
     </script>

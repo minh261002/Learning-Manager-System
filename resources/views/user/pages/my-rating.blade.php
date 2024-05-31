@@ -9,7 +9,7 @@
                 @forelse($reviews as $item)
                     <div class="media media-card border-bottom border-bottom-gray pb-4 mb-4">
                         <div class="media-img mr-4 rounded-full">
-                            <img class="rounded-full" src="{{ $item->users->photo ?? asset('uploads/no_image.png') }}"
+                            <img class="rounded-full" src="{{ $item->users->photo ?? asset('uploads/no_image.jpg') }}"
                                 alt="User image">
                         </div>
                         <div class="media-body">

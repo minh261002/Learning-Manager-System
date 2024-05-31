@@ -19,7 +19,7 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        $questions = $this->question->where('user_id', auth()->user()->id)
+        $questions = $this->question->where('instructor_id', auth()->user()->id)
             ->orderBy('created_at', 'desc')
             ->get();
 

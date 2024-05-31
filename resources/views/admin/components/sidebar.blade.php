@@ -1,11 +1,15 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="{{ route('admin.dashboard') }}">Stisla</a>
+            <a href="{{ route('admin.dashboard') }}">
+                <img alt="image" src="{{ $site->logo }}" class="header-logo" />
+            </a>
         </div>
 
         <div class="sidebar-brand sidebar-brand-sm">
-            <a href="{{ route('admin.dashboard') }}">St</a>
+            <a href="{{ route('admin.dashboard') }}">
+                <img alt="image" src="{{ $site->favicon }}" class="header-logo" />
+            </a>
         </div>
 
         <ul class="sidebar-menu">
@@ -40,7 +44,8 @@
 
             <li
                 class="{{ adminSetSidebarActive(['admin.courses.index', 'admin.courses.create', 'admin.courses.edit']) }}">
-                <a class="nav-link" href="{{ route('admin.courses.index') }}"><i class="fa-solid fa-graduation-cap"></i>
+                <a class="nav-link" href="{{ route('admin.courses.index') }}"><i
+                        class="fa-solid fa-graduation-cap"></i>
                     <span>Quản Lý Khoá Học</span></a>
             </li>
 

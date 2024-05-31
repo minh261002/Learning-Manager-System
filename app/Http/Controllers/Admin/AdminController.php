@@ -45,9 +45,20 @@ class AdminController extends Controller
 
         $newUsers = $this->user->orderBy('created_at', 'desc')->limit(5)->get();
 
-        $payments = $this->payment->where('status', 'success')->get();
+        //tổng đơn hàng
+        $totalOrder = $this->payment->count();
 
-        return view('admin.dashboard.index', compact('instructors', 'courses', 'totalInstructor', 'totalCourse', 'newUsers'));
+        //tổng doanh thu
+        $totalRevenue = $this->payment->where('status', 'success')->sum('total');
+
+        $revenueByDay = $this->payment->selectRaw('DATE(created_at) as date, sum(total) as total')
+            ->groupBy('date')
+            ->orderBy('date', 'desc')
+            ->where('status', 'success')
+            ->get();
+
+
+        return view('admin.dashboard.index', compact('instructors', 'courses', 'totalInstructor', 'totalCourse', 'newUsers', 'revenueByDay', 'totalRevenue', 'totalOrder'));
     }
 
     public function login()
