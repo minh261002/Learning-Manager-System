@@ -31,7 +31,7 @@ class Order extends Mailable
     function content(): Content
     {
         return new Content(
-            view: 'mail.order_mail',
+            view: 'emails.order_mail',
             with: [
                 'payment' => $this->payment,
                 'orders' => $this->orders

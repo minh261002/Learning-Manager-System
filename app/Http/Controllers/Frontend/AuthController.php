@@ -3,12 +3,17 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ForgotPassword;
 use App\Services\Notify;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class AuthController extends Controller
 {
@@ -102,9 +107,54 @@ class AuthController extends Controller
         return view('frontend.pages.forgot-password');
     }
 
+    public function sendResetPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email'
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            Notify::error('Email không tồn tại');
+            return redirect()->back();
+        }
+
+        Password::sendResetLink($request->only('email'));
+
+        Notify::success('Vui lòng kiểm tra email để đặt lại mật khẩu');
+        return redirect()->back()->with('success', 'Vui lòng kiểm tra email để đặt lại mật khẩu');
+    }
+
     public function resetPassword()
     {
-        return view('frontend.pages.reset-password');
+        $user = User::where('email', request()->email)->first();
+        $token = request()->token;
+        return view('frontend.pages.reset-password', compact('user', 'token'));
+    }
+
+    public function resetPasswordPost(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|min:6|confirmed',
+        ]);
+
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password)
+                ])->save();
+            }
+        );
+
+        if ($status == Password::PASSWORD_RESET) {
+            Notify::success('Đặt Lại Mật Khẩu Thành Công');
+            return redirect()->route('login');
+        } else {
+            Notify::error('Đặt Lại Mật Khẩu Thất Bại');
+            return redirect()->back();
+        }
     }
 
 

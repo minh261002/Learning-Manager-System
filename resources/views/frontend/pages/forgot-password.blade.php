@@ -15,12 +15,19 @@
                 <div class="col-lg-6 mx-auto">
                     <h3 class="card-title text-center fs-24 lh-35 pb-4">Quên Mật Khẩu</h3>
                     <div class="section-block"></div>
-                    <form method="post" class="pt-4">
+                    <form method="post" class="pt-4" action="{{ route('password.email') }}">
+                        @csrf
+
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
 
                         <div class="input-box">
                             <label class="label-text">Email</label>
                             <div class="form-group">
-                                <input class="form-control form--control" type="text" name="name"
+                                <input class="form-control form--control" type="text" name="email"
                                     value="{{ old('email') }}">
                                 <span class="la la-user input-icon"></span>
                             </div>
@@ -50,3 +57,16 @@
         </div><!-- end container -->
     </section>
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('form').submit(function() {
+                $(this).find('button[type="submit"]').html(
+                    '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Đang Xử Lý...'
+                );
+                $(this).find('button[type="submit"]').attr('disabled', true);
+            });
+        });
+    </script>
+@endpush

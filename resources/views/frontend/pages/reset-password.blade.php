@@ -16,12 +16,16 @@
 
                     <h3 class="card-title text-center fs-24 lh-35 pb-4">Cập Nhật Mật Khẩu</h3>
                     <div class="section-block"></div>
-                    <form method="post" class="pt-4">
-
+                    <form method="post" class="pt-4" action="{{ route('password.update') }}">
+                        @csrf
                         <div class="alert alert-info" role="alert">
-                            {{-- Xin chào, {{ $user->name }}. --}}
+                            Xin Chào,<strong> {{ $user->name }}</strong>
+                            <br>
                             Vui lòng nhập mật khẩu mới của bạn.
                         </div>
+
+                        <input type="hidden" name="token" value="{{ $token }}">
+                        <input type="hidden" name="email" value="{{ $user->email }}">
 
                         <div class="input-box">
                             <label class="label-text">Mật Khẩu</label>
@@ -45,20 +49,20 @@
                                         </svg>
                                     </button>
                                 </div>
-
-                                @error('password')
-                                    <span class="text-danger my-2">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
                             </div>
+                            @error('password')
+                                <span class="text-danger my-2">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div><!-- end input-box -->
 
                         <div class="input-box">
                             <label class="label-text">Nhập Lại Mật Khẩu</label>
                             <div class="input-group mb-3">
                                 <span class="la la-lock input-icon"></span>
-                                <input class="form-control form--control password-field" type="password" name="password">
+                                <input class="form-control form--control password-field" type="password"
+                                    name="password_confirmation">
                                 <div class="input-group-append">
                                     <button class="btn theme-btn theme-btn-transparent toggle-password" type="button">
                                         <svg class="eye-on" xmlns="http://www.w3.org/2000/svg" height="22px"
@@ -76,13 +80,12 @@
                                         </svg>
                                     </button>
                                 </div>
-
-                                @error('password')
-                                    <span class="text-danger my-2">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
                             </div>
+                            @error('password_confirmation')
+                                <span class="text-danger my-2">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div><!-- end input-box -->
 
                         <div class="btn-box">
