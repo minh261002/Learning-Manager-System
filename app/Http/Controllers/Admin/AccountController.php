@@ -182,6 +182,13 @@ class AccountController extends Controller
                 ]);
             }
 
+            if($user->role == 'instructor' ) {
+                Notify::error('Bạn không thể xóa tài khoản người hướng dẫn!');
+                return response()->json([
+                    'status' => 'error'
+                ]);
+            }
+
             $user->delete();
 
             Notify::success('Xóa tài khoản thành công!');
