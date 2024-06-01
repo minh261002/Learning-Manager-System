@@ -105,37 +105,33 @@
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
     <script>
-        // function checkNotifications() {
-        //     $.ajax({
-        //         url: "{{ route('notifications.get') }}",
-        //         method: 'GET',
-        //         success: function(response) {
-        //             if (response.notifications.length > 0) {
-        //                 response.notifications.forEach(function(notification) {
-        //                     Toastify({
-        //                         text: notification.data.message,
-        //                         duration: 5000,
-        //                         close: true,
-        //                         gravity: "top",
-        //                         position: 'right',
-        //                         backgroundColor: "#2c3e50",
-        //                         stopOnFocus: true,
-        //                     }).showToast();
-        //                 });
-        //             }
-        //         },
-        //         error: function(xhr) {
-        //             console.error(xhr.responseText);
-        //         }
-        //     });
-        // }
+        function checkNotifications() {
+            $.ajax({
+                url: "{{ route('notifications.get') }}",
+                method: 'GET',
+                success: function(response) {
+                    console.log(response);
+                    Toastify({
+                        text: response.notifications.data.message,
+                        duration: 5000,
+                        close: true,
+                        gravity: "top",
+                        position: 'right',
+                        backgroundColor: "#2dce89",
+                        stopOnFocus: true,
+                    }).showToast();
+                },
+                error: function(xhr) {
+                    console.error(xhr.responseText);
+                }
+            });
+        }
 
-        // setInterval(checkNotifications, 5000);
+        setInterval(checkNotifications, 5000);
 
-        // $(document).ready(function() {
-        //     checkNotifications();
-        // });
-
+        $(document).ready(function() {
+            checkNotifications();
+        });
         //datatable
         $('#table').DataTable({
             'language': {

@@ -97,3 +97,5 @@ Route::get('search', [FrontendController::class, 'search'])->name('search');
 Route::get('notification/get', [NotificationController::class, 'getNotification'])->name('notifications.get');
 
 Route::get('/rating', [CourseRatingController::class, 'getRatingByCourse'])->name('course.rating.get');
+
+Route::get('/admission',[FrontendController::class, 'admission'])->name('admission');

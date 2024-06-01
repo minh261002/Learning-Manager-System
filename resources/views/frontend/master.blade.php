@@ -67,6 +67,7 @@
         <i class="la la-arrow-up" title="Go top"></i>
     </div>
     <!-- end scroll top -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
 
     <!-- template js files -->
     <script src="{{ asset('frontend/js/jquery-3.4.1.min.js') }}"></script>
@@ -82,7 +83,7 @@
     <script src="{{ asset('frontend/js/tooltipster.bundle.min.js') }}"></script>
     <script src="{{ asset('frontend/js/jquery.lazy.min.js') }}"></script>
     <script src="{{ asset('frontend/js/main.js') }}"></script>
-
+    <script src="{{ asset('js/location.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
     </script>
@@ -194,6 +195,17 @@
                     alert('An error occurred. Please try again.');
                 }
             });
+        }
+
+        function warning() {
+            Swal.fire({
+                title: 'Thông Báo',
+                text: "Chức năng này sẽ sớm được ra mắt",
+                icon: 'warning',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Thoát',
+            })
         }
     </script>
 

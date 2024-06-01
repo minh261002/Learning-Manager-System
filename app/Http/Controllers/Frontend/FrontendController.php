@@ -3,20 +3,29 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\District;
+use App\Models\Province;
+use App\Models\Ward;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class FrontendController extends Controller
 {
     private $category;
     private $course;
 
-    public function __construct(Category $category, Course $course)
+    private $districts;
+    private $wards;
+
+    public function __construct(Category $category, Course $course, District $district, Ward $ward)
     {
         $this->category = $category;
         $this->course = $course;
+        $this->districts = $district;
+        $this->wards = $ward;
     }
 
     public function index()
@@ -32,11 +41,14 @@ class FrontendController extends Controller
                 $query->whereHas('payment', function ($q) {
                     $q->where('status', 'success');
                 });
-            })->get();
+            })
+            ->limit(4)
+            ->get();
 
         $bestRatingCourses = $this->course->where('status', 1)
             ->whereHas('reviews')
             ->with('reviews')
+            ->limit(4)
             ->get()
             ->sortByDesc(function ($course) {
                 return $course->reviews->avg('rating');
@@ -134,7 +146,7 @@ class FrontendController extends Controller
     public function search(Request $request)
     {
         $search = $request->q;
-        $courses = $this->course->where('name', 'like', '%' . $search . '%')->get();
+        $courses = $this->course->where('name', 'like', '%' . $search . '%')->limit(5)->get();
 
         return response()->json([
             'status' => 'success',
@@ -157,6 +169,17 @@ class FrontendController extends Controller
         $sections = $course->section()->with('lectures')->get();
 
         return view('frontend.pages.view_course', compact('course', 'sections'));
+    }
+
+    public function admission()
+    {
+        $user = Auth::user();
+
+        $provinces = Province::all();
+        $districts = $this->districts->getByProvince($user?->province_id);
+        $wards = $this->wards->getByDistrict($user?->district_id);
+
+        return view('frontend.pages.admission', compact('provinces', 'districts', 'wards'));
     }
 
 }

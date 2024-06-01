@@ -204,7 +204,7 @@
                             </div><!-- end shop-cart -->
 
                             <div class="nav-right-button">
-                                <a href="admission.html" class="btn theme-btn d-none d-lg-inline-block"><i
+                                <a href="{{ route('admission') }}" class="btn theme-btn d-none d-lg-inline-block"><i
                                         class="la la-user-plus mr-1"></i> Admission</a>
                             </div><!-- end nav-right-button -->
                         </div><!-- end menu-wrapper -->
