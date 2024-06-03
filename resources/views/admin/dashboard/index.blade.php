@@ -100,13 +100,17 @@
                                                 <td>{{ $instructor->email }}</td>
                                                 <td>{{ formatDate($instructor->created_at) }}</td>
                                                 <td>
-                                                    <label class="custom-switch d-block mr-4">
-                                                        <input type="checkbox" name="custom-switch-checkbox"
-                                                            class="custom-switch-input change-status-user"
-                                                            id="customSwitch{{ $instructor->id }}"
-                                                            {{ $instructor->status == 1 ? 'checked' : '' }}>
-                                                        <span class="custom-switch-indicator"></span>
-                                                    </label>
+
+                                                    <a href="{{ route('admin.accounts.change-status') }}"
+                                                        class="btn btn-danger cancel-user" data-id="{{ $instructor->id }}">
+                                                        <i class="fas fa-xmark"></i>
+                                                    </a>
+
+                                                    <a href="{{ route('admin.accounts.change-status') }}"
+                                                        class="btn btn-success confirm-user"
+                                                        data-id="{{ $instructor->id }}">
+                                                        <i class="fas fa-check"></i>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         @empty
@@ -146,21 +150,31 @@
                                             <tr>
                                                 <td>
                                                     <img src="{{ $course->image }}" alt="{{ $course->title }}"
-                                                        class="img-fluid" style="width: 150px">
+                                                        class="img-fluid" style="width: 100px">
                                                 </td>
-                                                <td>{{ $course->title }}</td>
+                                                <td>{{ $course->name }}</td>
                                                 <td>{{ $course->instructor->name }}</td>
                                                 <td>{{ formatDate($course->created_at) }}</td>
-                                                <<td>
-                                                    <label class="custom-switch d-block mr-4">
+                                                <td>
+                                                    <a href="{{ route('admin.courses.change-status') }}"
+                                                        class="btn btn-danger cancel-course" data-id="{{ $course->id }}">
+                                                        <i class="fas fa-xmark"></i>
+                                                    </a>
+
+                                                    <a href="{{ route('admin.courses.change-status') }}"
+                                                        class="btn btn-success confirm-course"
+                                                        data-id="{{ $course->id }}">
+                                                        <i class="fas fa-check"></i>
+                                                    </a>
+                                                    {{-- <label class="custom-switch d-block mr-4">
                                                         <input type="checkbox" name="custom-switch-checkbox"
                                                             class="custom-switch-input change-status-course"
                                                             id="customSwitch{{ $course->id }}"
                                                             data-id="{{ $course->id }}"
                                                             {{ $course->status == 1 ? 'checked' : '' }}>
                                                         <span class="custom-switch-indicator"></span>
-                                                    </label>
-                                                    </td>
+                                                    </label> --}}
+                                                </td>
                                             </tr>
                                         @empty
                                             <tr>
@@ -184,34 +198,6 @@
                     </div>
                     <div class="card-body">
                         <canvas id="statistical" height="182"></canvas>
-
-                        {{-- <div class="statistic-details mt-sm-4">
-                            <div class="statistic-details-item">
-                                <span class="text-muted"><span class="text-primary"><i class="fas fa-caret-up"></i></span>
-                                    7%</span>
-                                <div class="detail-value">$243</div>
-                                <div class="detail-name">Today's Sales</div>
-                            </div>
-                            <div class="statistic-details-item">
-                                <span class="text-muted"><span class="text-danger"><i class="fas fa-caret-down"></i></span>
-                                    23%</span>
-                                <div class="detail-value">$2,902</div>
-                                <div class="detail-name">This Week's Sales</div>
-                            </div>
-                            <div class="statistic-details-item">
-                                <span class="text-muted"><span class="text-primary"><i
-                                            class="fas fa-caret-up"></i></span>9%</span>
-                                <div class="detail-value">$12,821</div>
-                                <div class="detail-name">This Month's Sales</div>
-                            </div>
-                            <div class="statistic-details-item">
-                                <span class="text-muted"><span class="text-primary"><i
-                                            class="fas fa-caret-up"></i></span>
-                                    19%</span>
-                                <div class="detail-value">$92,142</div>
-                                <div class="detail-name">This Year's Sales</div>
-                            </div>
-                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -246,85 +232,152 @@
 
 @push('scripts')
     <script>
-        $(document).ready(function() {
-            $('body').on('click', '.change-status-user', function() {
-                let id = $(this).attr('id').replace('customSwitch', '')
-                let status = $(this).prop('checked') == true ? 1 : 0
-
-                Swal.fire({
-                    title: 'Thông Báo',
-                    text: 'Xác nhận thay đổi trạng thái người dùng này?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Xác Nhận',
-                    cancelButtonText: 'Hủy',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            type: 'GET',
-                            dataType: 'json',
-                            url: '{{ route('admin.accounts.change-status') }}',
-                            data: {
-                                'status': status,
-                                'id': id
-                            },
-                            success: function(data) {
-                                location.reload()
+        $('body').on('click', '.cancel-user', function(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'Thông báo!',
+                text: 'Bạn không chấp nhận tài khoản này?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Đồng Ý',
+                cancelButtonText: 'Hủy',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: 'GET',
+                        dataType: 'json',
+                        url: '{{ route('admin.accounts.change-status') }}',
+                        data: {
+                            'status': 2,
+                            'id': $(this).data('id'),
+                        },
+                        success: function(data) {
+                            if (data.status == 'success') {
+                                location.reload();
+                            } else {
+                                console.log(data)
                             }
-                        })
-                    } else {
-                        $('#customSwitch' + id).prop('checked', !status)
-                    }
-                })
-            })
-        })
-    </script>
-
-    <script>
-        $(document).ready(function() {
-            $('.change-status-course').change(function() {
-                var status = $(this).prop('checked') == true ? 1 : 0;
-                var course_id = $(this).data('id');
-
-                Swal.fire({
-                    title: 'Thông báo!',
-                    text: 'Xác nhận thay đổi trạng thái?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Đồng Ý',
-                    cancelButtonText: 'Hủy',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            type: 'GET',
-                            dataType: 'json',
-                            url: '{{ route('admin.courses.change-status') }}',
-                            data: {
-                                'status': status,
-                                'course_id': course_id,
-                            },
-                            success: function(data) {
-                                if (data.status == 'success') {
-                                    location.reload();
-                                } else {
-                                    console.log(data)
-                                }
-                            },
-                            error: function(data) {
-                                console.log(data);
-                            }
-                        });
-                    } else {
-                        //reset checkbox
-                        $(this).prop('checked', !status);
-                    }
-                });
+                        },
+                        error: function(data) {
+                            console.log(data);
+                        }
+                    });
+                }
             });
         });
+
+        $('body').on('click', '.confirm-user', function(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'Thông báo!',
+                text: 'Xác nhận tài khoản này?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Đồng Ý',
+                cancelButtonText: 'Hủy',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: 'GET',
+                        dataType: 'json',
+                        url: '{{ route('admin.accounts.change-status') }}',
+                        data: {
+                            'status': 1,
+                            'id': $(this).data('id'),
+                        },
+                        success: function(data) {
+                            if (data.status == 'success') {
+                                location.reload();
+                            } else {
+                                console.log(data)
+                            }
+                        },
+                        error: function(data) {
+                            console.log(data);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+
+    <script>
+        $('body').on('click', '.cancel-course', function(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'Thông báo!',
+                text: 'Từ chối xác thực khoá học này?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Đồng Ý',
+                cancelButtonText: 'Hủy',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: 'GET',
+                        dataType: 'json',
+                        url: this.href,
+                        data: {
+                            'status': 2,
+                            'course_id': $(this).data('id'),
+                        },
+                        success: function(data) {
+                            if (data.status == 'success') {
+                                location.reload();
+                            } else {
+                                console.log(data)
+                            }
+                        },
+                        error: function(data) {
+                            console.log(data);
+                        }
+                    });
+                }
+            });
+        })
+
+        $('body').on('click', '.confirm-course', function(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'Thông báo!',
+                text: 'Xác nhận khoá học này?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Đồng Ý',
+                cancelButtonText: 'Hủy',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: 'GET',
+                        dataType: 'json',
+                        url: this.href,
+                        data: {
+                            'status': 1,
+                            'course_id': $(this).data('id'),
+                        },
+                        success: function(data) {
+                            if (data.status == 'success') {
+                                location.reload();
+                            } else {
+                                console.log(data)
+                            }
+                        },
+                        error: function(data) {
+                            console.log(data);
+                        }
+                    });
+                }
+            });
+        })
     </script>
 
     <script>

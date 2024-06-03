@@ -16,14 +16,14 @@
                 </div>
 
                 <div class="card-body">
-                    <form action="{{ route('admin.site') }}" method="POST" class="row">
+                    <form action="{{ route('admin.site') }}" method="POST" class="row" enctype="multipart/form-data">
                         @csrf
+                        @method('PUT')
 
                         <div class="col-12 col-md-6 mb-3">
                             <img src="{{ $settings->logo }}" alt="Logo" class="prev_logo img-fluid w-full">
                             <label for="logo" class="mt-2 btn btn-outline-primary">Chọn Logo</label>
                             <input type="file" name="logo" id="logo" class="d-none">
-
                         </div>
 
                         <div class="col-12 col-md-6 mb-3">
@@ -73,7 +73,7 @@
                         <div class="col-12 col-md-6 mb-3">
                             <label for="linkedin">LinkedIn</label>
                             <input type="text" name="linkedin" id="linkedin" class="form-control"
-                                value="{{ $settings->behance }}">
+                                value="{{ $settings->linkedin }}">
                         </div>
 
                         <div class="col-12 col-md-6 mb-3">
@@ -111,6 +111,13 @@
                 }
                 reader.readAsDataURL(this.files[0]);
             });
+        });
+
+        $('form').submit(function() {
+            $(this).find('button[type="submit"]').prop('disabled', true);
+            $(this).find('button[type="submit"]').html(
+                '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...'
+            );
         });
     </script>
 @endpush

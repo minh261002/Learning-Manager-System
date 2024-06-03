@@ -46,6 +46,7 @@ class CourseController extends Controller
     {
         try {
             $course = $this->course->findOrFail($request->course_id);
+
             $course->status = $request->status;
             $course->save();
 

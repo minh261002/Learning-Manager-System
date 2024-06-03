@@ -55,8 +55,10 @@
                                         <td>
                                             @if ($course->status == 1)
                                                 <span class="badge badge-success">Đã Kích Hoạt</span>
+                                            @elseif($course->status == 0)
+                                                <span class="badge badge-warning">Chưa Kích Hoạt</span>
                                             @else
-                                                <span class="badge badge-danger">Chưa Kích Hoạt</span>
+                                                <span class="badge badge-danger">Bị Từ Chối</span>
                                             @endif
                                         </td>
                                         <td>

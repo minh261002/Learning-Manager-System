@@ -182,7 +182,7 @@ class AccountController extends Controller
                 ]);
             }
 
-            if($user->role == 'instructor' ) {
+            if ($user->role == 'instructor') {
                 Notify::error('Bạn không thể xóa tài khoản người hướng dẫn!');
                 return response()->json([
                     'status' => 'error'
@@ -206,6 +206,7 @@ class AccountController extends Controller
     public function changeStatus(Request $request)
     {
         $user = User::findOrFail($request->id);
+
         $user->status = $request->status;
         $user->save();
 
